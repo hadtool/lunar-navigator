@@ -31,3 +31,22 @@
 > Готово, когда: компоненты скопированы и видны в Claude Code или задача осознанно пропущена с причиной.
 
 ---
+
+## T01 · Окружение и каркас репозитория — выполнено 2026-11-13 18:48 UTC
+- Что сделано: `.gitignore` (data/raw/, кэши Python, .venv, .directory); папки по структуре из CLAUDE.md (src/lunarnav/, pipeline/, app/, tests/, data/raw/, data/processed/, docs/, tasks/) — в src/lunarnav/ только `__init__.py`, модулей решения нет. Python: системный 3.14.7 подошёл, все зависимости встали из готовых колёс (`--only-binary :all:`), окружение 3.12 не понадобилось. Зависимости записаны в pyproject.toml (`requires-python >= 3.12`, pytest — в группе dev), точные версии зафиксированы в uv.lock: numpy 2.5.4, scipy 1.18.1, pandas 3.1.1, pyarrow 26.0.1, rasterio 1.5.2 (GDAL 3.12.2), pyproj 3.8.0 (PROJ 9.8.1), skyfield 1.55, spiceypy 8.4.0, requests 2.34.2, streamlit 1.67.0, plotly 7.1.0. Созданы docs/SOURCES.md, docs/ASSUMPTIONS.md (на английском) и шаблон docs/ENGINEERING_INPUTS.md (на русском, для инженера; все значения пустые). Сверх списка из задачи в шаблон добавлены поля без значений: азимут неподвижной панели, прочие потери генерации, заряд в момент посадки, правило видимости Земли, что стоит на мачте, длительность миссии. Минимальный README.md (нужен сборщику пакета; полный — в T16). Приватный репозиторий создан через `gh`: https://github.com/hadtool/lunar-navigator. Запуск: `uv sync`, затем `uv run pytest`.
+- Файлы: .gitignore, pyproject.toml, uv.lock, README.md, src/lunarnav/__init__.py, tests/test_environment.py, docs/SOURCES.md, docs/ASSUMPTIONS.md, docs/ENGINEERING_INPUTS.md, app/.gitkeep, pipeline/.gitkeep, data/processed/.gitkeep
+- Как проверено: `.venv/bin/python -c "import rasterio, pyproj, skyfield, spiceypy, streamlit"` — проходит; `uv run pytest -q` — 12 passed (импорт каждой зависимости и пакета lunarnav); `gh repo view` — visibility PRIVATE; `git ls-remote origin` — main на d322838.
+- Проверка инженера: не нужна (но инженеру пора заполнять docs/ENGINEERING_INPUTS.md)
+- Коммит: d322838
+
+Исходная задача:
+> Оценка: 30 мин · Проверка инженера: нет
+> Что сделать:
+> - `git init`, `.gitignore` (data/raw/, кэши Python, .venv). Папки по структуре из CLAUDE.md.
+> - Python: попробуй системный 3.14. Если rasterio, pyproj или spiceypy не ставятся из готовых пакетов, создай окружение на 3.12 через uv (`uv venv --python 3.12`).
+> - Зависимости: numpy, scipy, pandas, pyarrow, rasterio, pyproj, skyfield, spiceypy, requests, streamlit, plotly, pytest. Зафиксируй их в pyproject.toml.
+> - Создай docs/SOURCES.md, docs/ASSUMPTIONS.md и шаблон docs/ENGINEERING_INPUTS.md с полями для инженера: тип и площадь панелей, КПД панелей, ёмкость батареи, допустимая глубина разряда, КПД заряда и разряда, нагрузка днём и ночью, удельная энергия батареи (Вт·ч/кг), запас по углу для связи с Землёй, параметры радиолинии, список высот мачты.
+> - Создай приватный репозиторий на GitHub (через `gh`, если он установлен и авторизован, иначе я создам вручную) и запушь, чтобы инженер видел код и графики.
+> Готово, когда: `python -c "import rasterio, pyproj, skyfield, spiceypy, streamlit"` проходит, `pytest` запускается, первый коммит запушен.
+
+---
