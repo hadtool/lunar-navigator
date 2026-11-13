@@ -1,0 +1,25 @@
+# Large raw data (terrain, kernels, API samples) — never committed; see docs/SOURCES.md
+data/raw/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+build/
+dist/
+
+# Environments
+.venv/
+
+# Local / OS / editor
+.directory
+.DS_Store
+.idea/
+.vscode/
+.streamlit/secrets.toml
+.claude/settings.local.json
