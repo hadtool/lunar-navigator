@@ -21,6 +21,12 @@ TERRAIN_FILES = {
     "Site01_final_adj_5mpp_surf.tif": 5.0,
     "Site23_final_adj_5mpp_surf.tif": 5.0,
     "DM2_final_adj_5mpp_surf.tif": 5.0,
+    "Site04_final_adj_5mpp_surf.tif": 5.0,
+    "Site07_final_adj_5mpp_surf.tif": 5.0,
+    "Site11_final_adj_5mpp_surf.tif": 5.0,
+    "Site06_final_adj_5mpp_surf.tif": 5.0,
+    "Site20v2_final_adj_5mpp_surf.tif": 5.0,
+    "Haworth_final_adj_5mpp_surf.tif": 5.0,
 }
 
 # Loose sanity bound only (catches wrong units such as km, or a raw radius instead of a

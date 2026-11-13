@@ -68,6 +68,12 @@ filling empty pixels.
 | `Site01_final_adj_5mpp_surf.tif` | Site01: Connecting ridge | https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/Site01/Site01_final_adj_5mpp_surf.tif | 40980810 | 2020-06-05 | 2026-11-13 | `3ba7b97cb00a2bcf21189c3aeb535f65afc21207154ab9f0d43c5bdc1f7e747e` |
 | `Site23_final_adj_5mpp_surf.tif` | Site23: Malapert massif | https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/Site23/Site23_final_adj_5mpp_surf.tif | 70586804 | 2020-06-12 | 2026-11-13 | `12d280a59cd7580415f6bada638d0abe025ce6727541fddf68d5dc371a6c94cf` |
 | `DM2_final_adj_5mpp_surf.tif` | DM2: Nobile rim 2 | https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/DM2/DM2_final_adj_5mpp_surf.tif | 64025607 | 2021-02-08 | 2026-11-13 | `d88677c21633683061117db0a577f0510e0948fe9db315d13be28782407ff604` |
+| `Site04_final_adj_5mpp_surf.tif` | Site04: Shackleton rim | https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/Site04/Site04_final_adj_5mpp_surf.tif | 40980806 | 2020-06-05 | 2026-11-13 | `38ff70dbdf2f066c2cfa94a646c3a59d653ce7f6b4528b15fc1b43ee397ce758` |
+| `Site07_final_adj_5mpp_surf.tif` | Site07: Peak near Shackleton | https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/Site07/Site07_final_adj_5mpp_surf.tif | 40980808 | 2020-06-05 | 2026-11-13 | `38aaee10bb4da4d63e7427aa1ca25c79bdbc649d212079a04990e135462091f8` |
+| `Site11_final_adj_5mpp_surf.tif` | Site11: de Gerlache rim | https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/Site11/Site11_final_adj_5mpp_surf.tif | 40980806 | 2020-06-05 | 2026-11-13 | `58f3372c35bbd6baf38ffd5633c1c96b59bd89dbd252150581d12893a43136e5` |
+| `Site06_final_adj_5mpp_surf.tif` | Site06: Nobile rim 1 | https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/Site06/Site06_final_adj_5mpp_surf.tif | 64025603 | 2021-02-12 | 2026-11-13 | `cca17e8067601dd659b583f889204db6bce685bc30c60a9e62427a8bce36b03d` |
+| `Site20v2_final_adj_5mpp_surf.tif` | Site20v2: Leibnitz beta plateau (v2) | https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/Site20v2/Site20v2_final_adj_5mpp_surf.tif | 108192905 | 2022-08-03 | 2026-11-13 | `0e96c40987c0814eadd4f94f85dacbb33bcab5388dd0b1dc99dc59bf987f072f` |
+| `Haworth_final_adj_5mpp_surf.tif` | Haworth | https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/Haworth/Haworth_final_adj_5mpp_surf.tif | 142123767 | 2020-11-25 | 2026-11-13 | `387fd6e99bca266f4982f7256c4c185921105313882b4c2eee5b5ff1ef75016b` |
 
 Properties read from the files (5 m/pixel, plain uncompressed GeoTIFF, no overviews, no nodata pixels):
 
@@ -76,14 +82,18 @@ Properties read from the files (5 m/pixel, plain uncompressed GeoTIFF, no overvi
 | `Site01_final_adj_5mpp_surf.tif` | 3200 x 3200 (16 x 16 km) | -19000 .. -3000 | -20000 .. -4000 | -89.4632, 222.5104 | -523.2 .. 1959.5 |
 | `Site23_final_adj_5mpp_surf.tif` | 4200 x 4200 (21 x 21 km) | -11000 .. 10000 | 111000 .. 132000 | -85.9948, 359.7642 | 902.0 .. 5173.6 |
 | `DM2_final_adj_5mpp_surf.tif` | 4000 x 4000 (20 x 20 km) | 147000 .. 167000 | 85000 .. 105000 | -83.9540, 58.8221 | -1430.0 .. 1817.6 |
+| `Site04_final_adj_5mpp_surf.tif` | 3200 x 3200 (16.0 x 16.0 km) | -9000 .. 7000 | -15000 .. 1000 | -89.7668, 188.1301 | -2847.9 .. 1805.1 |
+| `Site07_final_adj_5mpp_surf.tif` | 3200 x 3200 (16.0 x 16.0 km) | 22000 .. 38000 | -28000 .. -12000 | -88.8110, 123.6901 | -418.9 .. 1648.7 |
+| `Site11_final_adj_5mpp_surf.tif` | 3200 x 3200 (16.0 x 16.0 km) | -45000 .. -29000 | 7000 .. 23000 | -88.6834, 292.0679 | -805.2 .. 1816.0 |
+| `Site06_final_adj_5mpp_surf.tif` | 4000 x 4000 (20.0 x 20.0 km) | 74000 .. 94000 | 100000 .. 120000 | -85.4381, 37.3667 | 859.6 .. 6800.1 |
+| `Site20v2_final_adj_5mpp_surf.tif` | 5200 x 5200 (26.0 x 26.0 km) | 60000 .. 86000 | 105000 .. 131000 | -85.4266, 31.7428 | 1330.2 .. 6787.7 |
+| `Haworth_final_adj_5mpp_surf.tif` | 5960 x 5960 (29.8 x 29.8 km) | -52900 .. -23100 | 75600 .. 105400 | -86.7639, 337.2230 | -1642.9 .. 2842.2 |
 
 The centre coordinates are the centres of the rasters, computed with pyproj from the file
 CRS; they are not landing-site coordinates.
 
-Other 5 m site models available in the same product and not downloaded yet (surface files of
-41-142 MB each): Site04 (Shackleton rim), Site06 (Nobile rim 1), Site07 (Peak near
-Shackleton), Site11 (de Gerlache rim), Site20 and Site20v2 (Leibnitz beta plateau), Site42,
-Haworth, Shoemaker, DM1, LM1-LM8, NPA-NPD, SL2, SL3.
+Other 5 m site models available in the same product and not downloaded: Site20 (older
+version of Leibnitz beta plateau), Site42, Shoemaker, DM1, LM1-LM8, NPA-NPD, SL2, SL3.
 
 ## Ephemerides and kernels
 
