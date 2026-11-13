@@ -48,12 +48,20 @@ def test_every_site_matches_schema(document: dict) -> None:
         assert site["role"] in ROLES
         dem = site.get("pgda_5m_dem")
         assert dem is None or dem.startswith("https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/")
+        assert site["approximate"] or site["role"] != "candidate"
 
 
 def test_required_sites_are_present(document: dict) -> None:
     ids = {site["id"] for site in document["sites"]}
     assert {"connecting_ridge", "leibnitz_beta_plateau", "malapert_massif", "haworth",
             "nobile_rim_2", "im2_athena", "apollo_11"} <= ids
+
+
+def test_all_nine_artemis3_2024_regions_are_present(document: dict) -> None:
+    regions = {site["id"] for site in document["sites"] if site["artemis3_2024_candidate_region"]}
+    assert regions == {"peak_near_cabeus_b", "haworth", "malapert_massif", "mons_mouton_plateau",
+                       "mons_mouton", "nobile_rim_1", "nobile_rim_2", "de_gerlache_rim_2",
+                       "slater_plain"}
 
 
 def test_polar_candidates_lie_inside_regional_dem(document: dict) -> None:

@@ -112,6 +112,66 @@
       "role": "candidate"
     },
     {
+      "id": "peak_near_cabeus_b",
+      "name": "Peak near Cabeus B",
+      "lat_deg": -83.5759,
+      "lon_east_deg": 290.9243,
+      "approximate": true,
+      "coordinate_basis": "Centroid (mean in polar stereographic X/Y) of the 5 candidate landing sites labelled 'PCB' in the dataset of Wueller et al. (2026); a region centre, not a selected landing point and not an official NASA coordinate.",
+      "source_url": "https://doi.org/10.5281/zenodo.17084058",
+      "pgda_5m_dem": null,
+      "artemis3_2024_candidate_region": true,
+      "role": "candidate"
+    },
+    {
+      "id": "mons_mouton_plateau",
+      "name": "Mons Mouton Plateau",
+      "lat_deg": -84.5341,
+      "lon_east_deg": 30.6556,
+      "approximate": true,
+      "coordinate_basis": "Centroid (mean in polar stereographic X/Y) of the 11 candidate landing sites labelled 'MMP' in the dataset of Wueller et al. (2026); a region centre, not a selected landing point and not an official NASA coordinate.",
+      "source_url": "https://doi.org/10.5281/zenodo.17084058",
+      "pgda_5m_dem": null,
+      "artemis3_2024_candidate_region": true,
+      "role": "candidate"
+    },
+    {
+      "id": "mons_mouton",
+      "name": "Mons Mouton",
+      "lat_deg": -85.3988,
+      "lon_east_deg": 31.1804,
+      "approximate": true,
+      "coordinate_basis": "Centroid (mean in polar stereographic X/Y) of the 10 candidate landing sites labelled 'MMO' in the dataset of Wueller et al. (2026); a region centre, not a selected landing point and not an official NASA coordinate.",
+      "source_url": "https://doi.org/10.5281/zenodo.17084058",
+      "pgda_5m_dem": null,
+      "artemis3_2024_candidate_region": true,
+      "role": "candidate"
+    },
+    {
+      "id": "de_gerlache_rim_2",
+      "name": "de Gerlache Rim 2",
+      "lat_deg": -88.1737,
+      "lon_east_deg": 291.2134,
+      "approximate": true,
+      "coordinate_basis": "Centroid (mean in polar stereographic X/Y) of the 7 candidate landing sites labelled 'dGR2' in the dataset of Wueller et al. (2026); a region centre, not a selected landing point and not an official NASA coordinate.",
+      "source_url": "https://doi.org/10.5281/zenodo.17084058",
+      "pgda_5m_dem": null,
+      "artemis3_2024_candidate_region": true,
+      "role": "candidate"
+    },
+    {
+      "id": "slater_plain",
+      "name": "Slater Plain",
+      "lat_deg": -87.207,
+      "lon_east_deg": 126.6062,
+      "approximate": true,
+      "coordinate_basis": "Centroid (mean in polar stereographic X/Y) of the 11 candidate landing sites labelled 'SP' in the dataset of Wueller et al. (2026); a region centre, not a selected landing point and not an official NASA coordinate.",
+      "source_url": "https://doi.org/10.5281/zenodo.17084058",
+      "pgda_5m_dem": null,
+      "artemis3_2024_candidate_region": true,
+      "role": "candidate"
+    },
+    {
       "id": "im2_athena",
       "name": "IM-2 Athena landing site (Mons Mouton)",
       "lat_deg": -84.7906,

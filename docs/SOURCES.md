@@ -152,9 +152,34 @@ LPSC 2026 abstract, https://ntrs.nasa.gov/citations/20250011660, which cites the
 release of 28 Oct 2024. Neither document gives coordinates of the regions. Four of the nine
 have a PGDA 5 m raster of the same name and are in `sites.json` with the raster centre
 (flag `artemis3_2024_candidate_region`); the raster footprint is not the official region
-boundary. The other five (Peak near Cabeus B, Mons Mouton Plateau, Mons Mouton, de Gerlache
-Rim 2, Slater Plain) are not in the list because no citable coordinates were found; the
-IM-2 site lies on Mons Mouton.
+boundary.
+
+The other five (Peak near Cabeus B, Mons Mouton Plateau, Mons Mouton, de Gerlache Rim 2,
+Slater Plain) are located with a peer-reviewed open dataset, not an official NASA coordinate:
+Wueller et al., 2026, "Complementary Data for Wueller et al. (2026): Assessing Potential
+Landing Sites with Favorable Illumination and Accessible, Potentially Volatile-Rich
+Permanently Shadowed Regions within Artemis Candidate Landing Regions", Zenodo,
+https://doi.org/10.5281/zenodo.17084058 (CC BY 4.0; paper: JGR Planets 131(3), e2025JE009434,
+https://doi.org/10.1029/2025JE009434). File `Landing_Sites.zip` (11852963 bytes, retrieved
+2026-11-13), shapefile `LandingSites` with 130 candidate landing sites, attributes
+`Landing_Re` (region code), `Latitude`, `Longitude`. For each region the coordinate in
+`sites.json` is the centroid of its sites, averaged in polar stereographic X/Y:
+
+| Region (code) | Sites | Centroid lat, east lon | Largest distance of a site from the centroid |
+|---|---|---|---|
+| Peak near Cabeus B (PCB) | 5 | -83.5759, 290.9243 | 9.8 km |
+| Mons Mouton Plateau (MMP) | 11 | -84.5341, 30.6556 | 31.8 km |
+| Mons Mouton (MMO) | 10 | -85.3988, 31.1804 | 11.4 km |
+| de Gerlache Rim 2 (dGR2) | 7 | -88.1737, 291.2134 | 9.7 km |
+| Slater Plain (SP) | 11 | -87.2070, 126.6062 | 10.3 km |
+
+A centroid can fall on terrain that is not itself a suitable landing point, most of all for
+Mons Mouton Plateau, whose sites are spread over tens of kilometres. The shapefile CRS is a
+south polar stereographic projection on the 1737.4 km sphere ("GCS_Moon", D_Moon_2000); it
+does not name the ME or PA system, ME is assumed. The Mons Mouton centroid lies about 1.6 km
+from the centre of the PGDA Leibnitz Beta Plateau raster: both entries describe the same
+massif. The same dataset also holds per-site counts of sunlit days for 2025-2032, a possible
+independent comparison for our illumination results.
 
 ## Published values used for validation
 
