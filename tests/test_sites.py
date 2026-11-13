@@ -48,7 +48,9 @@ def test_every_site_matches_schema(document: dict) -> None:
         assert site["role"] in ROLES
         dem = site.get("pgda_5m_dem")
         assert dem is None or dem.startswith("https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/")
-        assert site["approximate"] or site["role"] != "candidate"
+        if site.get("wueller2026_site") is not None:
+            assert "zenodo.17084058" in site["source_url"]
+            assert site["approximate"] is False
 
 
 def test_required_sites_are_present(document: dict) -> None:

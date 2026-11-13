@@ -6,14 +6,15 @@
     {
       "id": "connecting_ridge",
       "name": "Connecting Ridge",
-      "lat_deg": -89.4632,
-      "lon_east_deg": 222.5104,
-      "approximate": true,
-      "coordinate_basis": "Centre of the PGDA 5 m/pixel LOLA DEM raster 'Site01' (computed from the raster bounds); a region centre, not a selected landing point.",
-      "source_url": "https://pgda.gsfc.nasa.gov/products/78",
+      "lat_deg": -89.4441,
+      "lon_east_deg": 222.709,
+      "approximate": false,
+      "coordinate_basis": "Candidate landing site 'CR06' (region code CR) from the dataset of Wueller et al. (2026): among the 9 sites of the region, the one with the most sunlit days in their model summed over 2027-2029. A site proposed in a peer-reviewed study, not a NASA-selected landing point.",
+      "source_url": "https://doi.org/10.5281/zenodo.17084058",
       "pgda_5m_dem": "https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/Site01/Site01_final_adj_5mpp_surf.tif",
       "artemis3_2024_candidate_region": false,
-      "role": "candidate"
+      "role": "candidate",
+      "wueller2026_site": "CR06"
     },
     {
       "id": "shackleton_rim",
@@ -25,31 +26,34 @@
       "source_url": "https://pgda.gsfc.nasa.gov/products/78",
       "pgda_5m_dem": "https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/Site04/Site04_final_adj_5mpp_surf.tif",
       "artemis3_2024_candidate_region": false,
-      "role": "candidate"
+      "role": "candidate",
+      "wueller2026_site": null
     },
     {
       "id": "peak_near_shackleton",
       "name": "Peak near Shackleton",
-      "lat_deg": -88.811,
-      "lon_east_deg": 123.6901,
-      "approximate": true,
-      "coordinate_basis": "Centre of the PGDA 5 m/pixel LOLA DEM raster 'Site07' (computed from the raster bounds); a region centre, not a selected landing point.",
-      "source_url": "https://pgda.gsfc.nasa.gov/products/78",
+      "lat_deg": -88.8113,
+      "lon_east_deg": 123.554,
+      "approximate": false,
+      "coordinate_basis": "Candidate landing site '007' (region code PNS) from the dataset of Wueller et al. (2026): among the 6 sites of the region, the one with the most sunlit days in their model summed over 2027-2029. A site proposed in a peer-reviewed study, not a NASA-selected landing point.",
+      "source_url": "https://doi.org/10.5281/zenodo.17084058",
       "pgda_5m_dem": "https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/Site07/Site07_final_adj_5mpp_surf.tif",
       "artemis3_2024_candidate_region": false,
-      "role": "candidate"
+      "role": "candidate",
+      "wueller2026_site": "007"
     },
     {
       "id": "de_gerlache_rim",
       "name": "de Gerlache Rim",
-      "lat_deg": -88.6834,
-      "lon_east_deg": 292.0679,
-      "approximate": true,
-      "coordinate_basis": "Centre of the PGDA 5 m/pixel LOLA DEM raster 'Site11' (computed from the raster bounds); a region centre, not a selected landing point.",
-      "source_url": "https://pgda.gsfc.nasa.gov/products/78",
+      "lat_deg": -88.6744,
+      "lon_east_deg": 291.772,
+      "approximate": false,
+      "coordinate_basis": "Candidate landing site '011' (region code dGR1) from the dataset of Wueller et al. (2026): among the 6 sites of the region, the one with the most sunlit days in their model summed over 2027-2029. A site proposed in a peer-reviewed study, not a NASA-selected landing point.",
+      "source_url": "https://doi.org/10.5281/zenodo.17084058",
       "pgda_5m_dem": "https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/Site11/Site11_final_adj_5mpp_surf.tif",
       "artemis3_2024_candidate_region": false,
-      "role": "candidate"
+      "role": "candidate",
+      "wueller2026_site": "011"
     },
     {
       "id": "leibnitz_beta_plateau",
@@ -61,115 +65,125 @@
       "source_url": "https://pgda.gsfc.nasa.gov/products/78",
       "pgda_5m_dem": "https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/Site20v2/Site20v2_final_adj_5mpp_surf.tif",
       "artemis3_2024_candidate_region": false,
-      "role": "candidate"
+      "role": "candidate",
+      "wueller2026_site": null
     },
     {
       "id": "malapert_massif",
       "name": "Malapert Massif",
-      "lat_deg": -85.9948,
-      "lon_east_deg": 359.7642,
-      "approximate": true,
-      "coordinate_basis": "Centre of the PGDA 5 m/pixel LOLA DEM raster 'Site23' (computed from the raster bounds); a region centre, not a selected landing point.",
-      "source_url": "https://pgda.gsfc.nasa.gov/products/78",
+      "lat_deg": -85.9919,
+      "lon_east_deg": 2.0564,
+      "approximate": false,
+      "coordinate_basis": "Candidate landing site 'MMA_K2023' (region code MMA) from the dataset of Wueller et al. (2026): among the 5 sites of the region, the one with the most sunlit days in their model summed over 2027-2029. A site proposed in a peer-reviewed study, not a NASA-selected landing point.",
+      "source_url": "https://doi.org/10.5281/zenodo.17084058",
       "pgda_5m_dem": "https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/Site23/Site23_final_adj_5mpp_surf.tif",
       "artemis3_2024_candidate_region": true,
-      "role": "candidate"
+      "role": "candidate",
+      "wueller2026_site": "MMA_K2023"
     },
     {
       "id": "haworth",
       "name": "Haworth",
-      "lat_deg": -86.7639,
-      "lon_east_deg": 337.223,
-      "approximate": true,
-      "coordinate_basis": "Centre of the PGDA 5 m/pixel LOLA DEM raster 'Haworth' (computed from the raster bounds); a region centre, not a selected landing point.",
-      "source_url": "https://pgda.gsfc.nasa.gov/products/78",
+      "lat_deg": -87.0499,
+      "lon_east_deg": 335.7598,
+      "approximate": false,
+      "coordinate_basis": "Candidate landing site 'HW06' (region code HW) from the dataset of Wueller et al. (2026): among the 11 sites of the region, the one with the most sunlit days in their model summed over 2027-2029. A site proposed in a peer-reviewed study, not a NASA-selected landing point.",
+      "source_url": "https://doi.org/10.5281/zenodo.17084058",
       "pgda_5m_dem": "https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/Haworth/Haworth_final_adj_5mpp_surf.tif",
       "artemis3_2024_candidate_region": true,
-      "role": "candidate"
+      "role": "candidate",
+      "wueller2026_site": "HW06"
     },
     {
       "id": "nobile_rim_1",
       "name": "Nobile Rim 1",
-      "lat_deg": -85.4381,
-      "lon_east_deg": 37.3667,
-      "approximate": true,
-      "coordinate_basis": "Centre of the PGDA 5 m/pixel LOLA DEM raster 'Site06' (computed from the raster bounds); a region centre, not a selected landing point.",
-      "source_url": "https://pgda.gsfc.nasa.gov/products/78",
+      "lat_deg": -85.295,
+      "lon_east_deg": 36.9168,
+      "approximate": false,
+      "coordinate_basis": "Candidate landing site 'NR101' (region code NR1) from the dataset of Wueller et al. (2026): among the 9 sites of the region, the one with the most sunlit days in their model summed over 2027-2029. A site proposed in a peer-reviewed study, not a NASA-selected landing point.",
+      "source_url": "https://doi.org/10.5281/zenodo.17084058",
       "pgda_5m_dem": "https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/Site06/Site06_final_adj_5mpp_surf.tif",
       "artemis3_2024_candidate_region": true,
-      "role": "candidate"
+      "role": "candidate",
+      "wueller2026_site": "NR101"
     },
     {
       "id": "nobile_rim_2",
       "name": "Nobile Rim 2",
-      "lat_deg": -83.954,
-      "lon_east_deg": 58.8221,
-      "approximate": true,
-      "coordinate_basis": "Centre of the PGDA 5 m/pixel LOLA DEM raster 'DM2' (computed from the raster bounds); a region centre, not a selected landing point.",
-      "source_url": "https://pgda.gsfc.nasa.gov/products/78",
+      "lat_deg": -83.6185,
+      "lon_east_deg": 59.0568,
+      "approximate": false,
+      "coordinate_basis": "Candidate landing site 'NR205' (region code NR2) from the dataset of Wueller et al. (2026): among the 9 sites of the region, the one with the most sunlit days in their model summed over 2027-2029. A site proposed in a peer-reviewed study, not a NASA-selected landing point.",
+      "source_url": "https://doi.org/10.5281/zenodo.17084058",
       "pgda_5m_dem": "https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/DM2/DM2_final_adj_5mpp_surf.tif",
       "artemis3_2024_candidate_region": true,
-      "role": "candidate"
+      "role": "candidate",
+      "wueller2026_site": "NR205"
     },
     {
       "id": "peak_near_cabeus_b",
       "name": "Peak near Cabeus B",
-      "lat_deg": -83.5759,
-      "lon_east_deg": 290.9243,
-      "approximate": true,
-      "coordinate_basis": "Centroid (mean in polar stereographic X/Y) of the 5 candidate landing sites labelled 'PCB' in the dataset of Wueller et al. (2026); a region centre, not a selected landing point and not an official NASA coordinate.",
+      "lat_deg": -83.6317,
+      "lon_east_deg": 292.3661,
+      "approximate": false,
+      "coordinate_basis": "Candidate landing site 'PCB02' (region code PCB) from the dataset of Wueller et al. (2026): among the 5 sites of the region, the one with the most sunlit days in their model summed over 2027-2029. A site proposed in a peer-reviewed study, not a NASA-selected landing point.",
       "source_url": "https://doi.org/10.5281/zenodo.17084058",
       "pgda_5m_dem": null,
       "artemis3_2024_candidate_region": true,
-      "role": "candidate"
+      "role": "candidate",
+      "wueller2026_site": "PCB02"
     },
     {
       "id": "mons_mouton_plateau",
       "name": "Mons Mouton Plateau",
-      "lat_deg": -84.5341,
-      "lon_east_deg": 30.6556,
-      "approximate": true,
-      "coordinate_basis": "Centroid (mean in polar stereographic X/Y) of the 11 candidate landing sites labelled 'MMP' in the dataset of Wueller et al. (2026); a region centre, not a selected landing point and not an official NASA coordinate.",
+      "lat_deg": -84.6863,
+      "lon_east_deg": 20.8866,
+      "approximate": false,
+      "coordinate_basis": "Candidate landing site 'MMP04' (region code MMP) from the dataset of Wueller et al. (2026): among the 11 sites of the region, the one with the most sunlit days in their model summed over 2027-2029. A site proposed in a peer-reviewed study, not a NASA-selected landing point.",
       "source_url": "https://doi.org/10.5281/zenodo.17084058",
       "pgda_5m_dem": null,
       "artemis3_2024_candidate_region": true,
-      "role": "candidate"
+      "role": "candidate",
+      "wueller2026_site": "MMP04"
     },
     {
       "id": "mons_mouton",
       "name": "Mons Mouton",
-      "lat_deg": -85.3988,
-      "lon_east_deg": 31.1804,
-      "approximate": true,
-      "coordinate_basis": "Centroid (mean in polar stereographic X/Y) of the 10 candidate landing sites labelled 'MMO' in the dataset of Wueller et al. (2026); a region centre, not a selected landing point and not an official NASA coordinate.",
+      "lat_deg": -85.416,
+      "lon_east_deg": 31.8506,
+      "approximate": false,
+      "coordinate_basis": "Candidate landing site 'MMO01' (region code MMO) from the dataset of Wueller et al. (2026): among the 10 sites of the region, the one with the most sunlit days in their model summed over 2027-2029. A site proposed in a peer-reviewed study, not a NASA-selected landing point.",
       "source_url": "https://doi.org/10.5281/zenodo.17084058",
-      "pgda_5m_dem": null,
+      "pgda_5m_dem": "https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/Site20v2/Site20v2_final_adj_5mpp_surf.tif",
       "artemis3_2024_candidate_region": true,
-      "role": "candidate"
+      "role": "candidate",
+      "wueller2026_site": "MMO01"
     },
     {
       "id": "de_gerlache_rim_2",
       "name": "de Gerlache Rim 2",
-      "lat_deg": -88.1737,
-      "lon_east_deg": 291.2134,
-      "approximate": true,
-      "coordinate_basis": "Centroid (mean in polar stereographic X/Y) of the 7 candidate landing sites labelled 'dGR2' in the dataset of Wueller et al. (2026); a region centre, not a selected landing point and not an official NASA coordinate.",
+      "lat_deg": -88.45,
+      "lon_east_deg": 292.1409,
+      "approximate": false,
+      "coordinate_basis": "Candidate landing site 'dGR2_K2023' (region code dGR2) from the dataset of Wueller et al. (2026): among the 7 sites of the region, the one with the most sunlit days in their model summed over 2027-2029. A site proposed in a peer-reviewed study, not a NASA-selected landing point.",
       "source_url": "https://doi.org/10.5281/zenodo.17084058",
-      "pgda_5m_dem": null,
+      "pgda_5m_dem": "https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/Site11/Site11_final_adj_5mpp_surf.tif",
       "artemis3_2024_candidate_region": true,
-      "role": "candidate"
+      "role": "candidate",
+      "wueller2026_site": "dGR2_K2023"
     },
     {
       "id": "slater_plain",
       "name": "Slater Plain",
-      "lat_deg": -87.207,
-      "lon_east_deg": 126.6062,
-      "approximate": true,
-      "coordinate_basis": "Centroid (mean in polar stereographic X/Y) of the 11 candidate landing sites labelled 'SP' in the dataset of Wueller et al. (2026); a region centre, not a selected landing point and not an official NASA coordinate.",
+      "lat_deg": -87.073,
+      "lon_east_deg": 126.131,
+      "approximate": false,
+      "coordinate_basis": "Candidate landing site 'SP06' (region code SP) from the dataset of Wueller et al. (2026): among the 11 sites of the region, the one with the most sunlit days in their model summed over 2027-2029. A site proposed in a peer-reviewed study, not a NASA-selected landing point.",
       "source_url": "https://doi.org/10.5281/zenodo.17084058",
       "pgda_5m_dem": null,
       "artemis3_2024_candidate_region": true,
-      "role": "candidate"
+      "role": "candidate",
+      "wueller2026_site": "SP06"
     },
     {
       "id": "im2_athena",
@@ -181,7 +195,8 @@
       "source_url": "https://www.lroc.asu.edu/images/1408",
       "pgda_5m_dem": null,
       "artemis3_2024_candidate_region": false,
-      "role": "landed_mission"
+      "role": "landed_mission",
+      "wueller2026_site": null
     },
     {
       "id": "apollo_11",
@@ -193,7 +208,8 @@
       "source_url": "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunar_sites.html",
       "pgda_5m_dem": null,
       "artemis3_2024_candidate_region": false,
-      "role": "validation_only"
+      "role": "validation_only",
+      "wueller2026_site": null
     }
   ]
 }

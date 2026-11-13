@@ -150,7 +150,8 @@ longitude in the mean Earth / polar axis (ME) system; pages retrieved 2026-11-13
 
 | Sites | Coordinate source | Precision |
 |---|---|---|
-| Connecting Ridge, Shackleton Rim, Peak near Shackleton, de Gerlache Rim, Leibnitz Beta Plateau, Malapert Massif, Haworth, Nobile Rim 1, Nobile Rim 2 | Centre of the corresponding PGDA 5 m raster (Site01, Site04, Site07, Site11, Site20v2, Site23, Haworth, Site06, DM2), computed with pyproj from the raster bounds read over HTTP. Site names from https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/README | Approximate: region centre, not a landing point |
+| Twelve polar candidates (table below) | A specific candidate landing site from the open dataset of Wueller et al. (2026), see below | Specific point proposed in a study; not NASA-selected |
+| Shackleton Rim, Leibnitz Beta Plateau | Centre of the PGDA 5 m raster (Site04, Site20v2), computed with pyproj from the raster bounds. Site names from https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/README. No matching region in the Wueller dataset | Approximate: region centre, not a landing point |
 | IM-2 Athena | LROC featured image "IM-2 Athena Seen Obliquely", https://www.lroc.asu.edu/images/1408: lander at 84.7906 S, 29.1957 E. (Intended site per https://www.lroc.asu.edu/images/1401: -84.78, 29.13 E.) The LROC page does not state the frame explicitly; ME is assumed. | Located in images |
 | Apollo 11 Lunar Module | NSSDC "Lunar Landing Sites", https://nssdc.gsfc.nasa.gov/planetary/lunar/lunar_sites.html: 0.67416 N, 23.47314 E, ME/polar axis system, DE421, after Wagner et al., 2017, Icarus 283, 92-103 | Located in images |
 
@@ -160,36 +161,47 @@ Mouton, Nobile Rim 1, Nobile Rim 2, de Gerlache Rim 2, Slater Plain. Source: Geo
 "Artemis III Site Selection Update: Downselection From Thirteen to Nine Candidate Regions",
 LPSC 2026 abstract, https://ntrs.nasa.gov/citations/20250011660, which cites the NASA news
 release of 28 Oct 2024. Neither document gives coordinates of the regions. Four of the nine
-have a PGDA 5 m raster of the same name and are in `sites.json` with the raster centre
-(flag `artemis3_2024_candidate_region`); the raster footprint is not the official region
-boundary.
+have a PGDA 5 m raster of the same name. None of the official documents gives a landing point.
 
-The other five (Peak near Cabeus B, Mons Mouton Plateau, Mons Mouton, de Gerlache Rim 2,
-Slater Plain) are located with a peer-reviewed open dataset, not an official NASA coordinate:
+Site coordinates therefore come from a peer-reviewed open dataset, not from NASA:
 Wueller et al., 2026, "Complementary Data for Wueller et al. (2026): Assessing Potential
 Landing Sites with Favorable Illumination and Accessible, Potentially Volatile-Rich
 Permanently Shadowed Regions within Artemis Candidate Landing Regions", Zenodo,
 https://doi.org/10.5281/zenodo.17084058 (CC BY 4.0; paper: JGR Planets 131(3), e2025JE009434,
 https://doi.org/10.1029/2025JE009434). File `Landing_Sites.zip` (11852963 bytes, retrieved
-2026-11-13), shapefile `LandingSites` with 130 candidate landing sites, attributes
-`Landing_Re` (region code), `Latitude`, `Longitude`. For each region the coordinate in
-`sites.json` is the centroid of its sites, averaged in polar stereographic X/Y:
+2026-11-13), shapefile `LandingSites`: 130 candidate landing sites in 16 regions, attributes
+`Landing_Re` (region code), `Name`, `Latitude`, `Longitude`, and per-year counts of sunlit
+days (`SunDays25` .. `Sundays32`) and of days with Sun and Earth (`SunEarth..`).
 
-| Region (code) | Sites | Centroid lat, east lon | Largest distance of a site from the centroid |
-|---|---|---|---|
-| Peak near Cabeus B (PCB) | 5 | -83.5759, 290.9243 | 9.8 km |
-| Mons Mouton Plateau (MMP) | 11 | -84.5341, 30.6556 | 31.8 km |
-| Mons Mouton (MMO) | 10 | -85.3988, 31.1804 | 11.4 km |
-| de Gerlache Rim 2 (dGR2) | 7 | -88.1737, 291.2134 | 9.7 km |
-| Slater Plain (SP) | 11 | -87.2070, 126.6062 | 10.3 km |
+Selection rule (decided with the team on 2026-11-13): for each region, take the site with
+the most sunlit days in the Wueller model summed over 2027-2029 (our analysis window); ties
+are broken by the most Sun-and-Earth days over the same years, then by the lowest site ID.
+This deliberately picks well-lit points, so the list is not a neutral sample of each region.
+Several sites share the same counts (31, 17, 18), which looks like the full length of the
+modelled window; how the counts are defined must be read in the paper before they are used
+for validation.
 
-A centroid can fall on terrain that is not itself a suitable landing point, most of all for
-Mons Mouton Plateau, whose sites are spread over tens of kilometres. The shapefile CRS is a
-south polar stereographic projection on the 1737.4 km sphere ("GCS_Moon", D_Moon_2000); it
-does not name the ME or PA system, ME is assumed. The Mons Mouton centroid lies about 1.6 km
-from the centre of the PGDA Leibnitz Beta Plateau raster: both entries describe the same
-massif. The same dataset also holds per-site counts of sunlit days for 2025-2032, a possible
-independent comparison for our illumination results.
+| Site in `sites.json` | Wueller site | Sites in region | Lat, east lon | Sunlit days 2027, 2028, 2029 (Wueller) | PGDA 5 m raster containing the point | Shift from the previous region centre |
+|---|---|---|---|---|---|---|
+| Connecting Ridge | CR06 | 9 | -89.4441, 222.7090 | 31, 18, 18 | Site01 | 0.6 km |
+| Peak near Shackleton | 007 | 6 | -88.8113, 123.5540 | 31, 17, 18 | Site07 | 0.1 km |
+| de Gerlache Rim | 011 | 6 | -88.6744, 291.7720 | 31, 17, 18 | Site11 | 0.3 km |
+| Malapert Massif | MMA_K2023 | 5 | -85.9919, 2.0564 | 31, 17, 18 | Site23 | 4.9 km |
+| Haworth | HW06 | 11 | -87.0499, 335.7598 | 30, 17, 18 | Haworth | 9.0 km |
+| Nobile Rim 1 | NR101 | 9 | -85.2950, 36.9168 | 31, 17, 18 | Site06 | 4.5 km |
+| Nobile Rim 2 | NR205 | 9 | -83.6185, 59.0568 | 3, 20, 12 | DM2 | 10.2 km |
+| Peak near Cabeus B | PCB02 | 5 | -83.6317, 292.3661 | 8, 13, 13 | none | 5.2 km |
+| Mons Mouton Plateau | MMP04 | 11 | -84.6863, 20.8866 | 8, 14, 15 | none | 28.2 km |
+| Mons Mouton | MMO01 | 10 | -85.4160, 31.8506 | 31, 17, 18 | Site20v2 | 1.7 km |
+| de Gerlache Rim 2 | dGR2_K2023 | 7 | -88.4500, 292.1409 | 20, 17, 17 | Site11 | 8.4 km |
+| Slater Plain | SP06 | 11 | -87.0730, 126.1310 | 20, 9, 10 | none | 4.1 km |
+
+The mapping of PGDA site names to Wueller region codes (CR, PNS, dGR1, MMA, HW, NR1, NR2) is
+ours, by name. The shapefile CRS is a south polar stereographic projection on the 1737.4 km
+sphere ("GCS_Moon", D_Moon_2000); it does not name the ME or PA system, ME is assumed. The
+Mons Mouton site lies inside the PGDA Leibnitz Beta Plateau raster: both entries describe the
+same massif. Nobile Rim 2 (NR205) is close to the edge of the DM2 raster, so the 5 m model
+covers its surroundings only partly.
 
 ## Published values used for validation
 
