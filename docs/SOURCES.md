@@ -87,7 +87,51 @@ Haworth, Shoemaker, DM1, LM1-LM8, NPA-NPD, SL2, SL3.
 
 ## Ephemerides and kernels
 
-_To be filled in T03: Horizons sample query, planetary ephemeris, lunar orientation kernels._
+### JPL Horizons sample (independent check)
+
+File `data/raw/horizons_sample.txt` (not committed, 14662 bytes, retrieved 2026-11-13 19:09 UTC):
+two responses of the Horizons API (version 1.2), Sun first, then Earth.
+
+Endpoint: `https://ssd.jpl.nasa.gov/api/horizons.api` (documentation:
+https://ssd-api.jpl.nasa.gov/doc/horizons.html). Parameters:
+
+```
+format=text  COMMAND='10' (Sun) or '399' (Earth)  OBJ_DATA='NO'  MAKE_EPHEM='YES'
+EPHEM_TYPE='OBSERVER'  CENTER='coord@301'  COORD_TYPE='GEODETIC'
+SITE_COORD='222.5104,-89.4632,1.9448'   (east longitude deg, latitude deg, height km)
+START_TIME='2027-01-01 00:00'  STOP_TIME='2027-01-02 00:00'  STEP_SIZE='1 h'
+QUANTITIES='4'  APPARENT='AIRLESS'  ANG_FORMAT='DEG'  CSV_FORMAT='YES'
+```
+
+The site is the centre of the Site01 (Connecting ridge) 5 m raster with its DEM height; it is
+a test point, not a landing site. What the response header states: ephemeris source DE441;
+centre frame "MEAN_ME (high precision)"; centre radii 1737.4 km (sphere), so the height is
+measured above the same sphere as the LOLA heights; no refraction. Output columns are
+apparent azimuth and elevation of the target centre in degrees, 25 hourly rows per target.
+First row (2027-01-01 00:00 UTC): Sun azimuth 40.612702, elevation 1.421435; Earth azimuth
+144.641343, elevation -6.686183.
+
+### SPICE kernels (local calculation)
+
+All from the NAIF generic kernels archive, https://naif.jpl.nasa.gov/pub/naif/generic_kernels/,
+downloaded 2026-11-13 to `data/raw/kernels/` (not committed). All load in spiceypy 8.4.0
+(CSPICE N0067); both SPK files also open in skyfield 1.55.
+
+| File | Path under generic_kernels/ | Size (bytes) | Content | SHA-256 |
+|---|---|---|---|---|
+| `de440s.bsp` | spk/planets/ | 32726016 | Planetary ephemeris DE440 (short span); Moon coverage 1849-12-26 to 2150-01-21 | `c1c7feeab882263fc493a9d5a5b2ddd71b54826cdf65d8d17a76126b260a49f2` |
+| `de421.bsp` | spk/planets/a_old_versions/ | 16790528 | Planetary ephemeris DE421; Moon coverage 1899-07-29 to 2053-10-08 | `08b20db2ae22488650641c5a9033e5bfda4b1c4b440cfeaf20f621cfa18ecdb3` |
+| `moon_pa_de440_200625.bpc` | pck/ | 12863488 | Lunar orientation, principal-axis frame of DE440 (frame 31008), 1549-12-31 to 2650-01-24 | `60cd55aa401ea2ea97360636f567554bfe4e37bb829f901b4460a455dfaf783f` |
+| `moon_pa_de421_1900-2050.bpc` | pck/ | 1770496 | Lunar orientation, principal-axis frame of DE421 (frame 31006), 1900-01-01 to 2050-12-31 | `656f90616403d75a75f0cd6c8830fc5b44f8cb4facb5ccb8915e752b397520cf` |
+| `moon_de440_250416.tf` | fk/satellites/ | 19478 | Frame kernel: MOON_PA_DE440, MOON_ME_DE440_ME421 | `a47c71e9c9f33796bdafb2c9d69a7ee447b6016ecad80f71cd6f3e479f9cf768` |
+| `moon_080317.tf` | fk/satellites/ | 21437 | Frame kernel: MOON_PA_DE421, MOON_ME_DE421 | `78732477b96f9863e7b0d65bcee3c22b8707ca5ed0db56d1173319cb2e8c7993` |
+| `pck00011.tpc` | pck/ | 131226 | Body radii and IAU orientation constants | `3dff7b1dbeceaa01f25467767d3fa25816051c85d162d1edf04acb310ee28bb1` |
+| `naif0012.tls` | lsk/ | 5257 | Leap seconds | `678e32bdb5a744117a467cd9601cd6b373f0e9bc9bbde1371d5eee39600a039b` |
+
+Two complete sets are available: DE421 (`de421.bsp` + `moon_pa_de421_1900-2050.bpc` +
+`moon_080317.tf`, frame `MOON_ME_DE421`, the frame of the LOLA terrain) and DE440
+(`de440s.bsp` + `moon_pa_de440_200625.bpc` + `moon_de440_250416.tf`, frame
+`MOON_ME_DE440_ME421`). Which set the ephemeris module uses is decided in T05.
 
 ## Landing sites
 
