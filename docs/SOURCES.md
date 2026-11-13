@@ -135,7 +135,26 @@ Two complete sets are available: DE421 (`de421.bsp` + `moon_pa_de421_1900-2050.b
 
 ## Landing sites
 
-_To be filled in T04: source of every site coordinate._
+Site list: `data/sites.json` (committed). All coordinates are planetocentric latitude and east
+longitude in the mean Earth / polar axis (ME) system; pages retrieved 2026-11-13.
+
+| Sites | Coordinate source | Precision |
+|---|---|---|
+| Connecting Ridge, Shackleton Rim, Peak near Shackleton, de Gerlache Rim, Leibnitz Beta Plateau, Malapert Massif, Haworth, Nobile Rim 1, Nobile Rim 2 | Centre of the corresponding PGDA 5 m raster (Site01, Site04, Site07, Site11, Site20v2, Site23, Haworth, Site06, DM2), computed with pyproj from the raster bounds read over HTTP. Site names from https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/README | Approximate: region centre, not a landing point |
+| IM-2 Athena | LROC featured image "IM-2 Athena Seen Obliquely", https://www.lroc.asu.edu/images/1408: lander at 84.7906 S, 29.1957 E. (Intended site per https://www.lroc.asu.edu/images/1401: -84.78, 29.13 E.) The LROC page does not state the frame explicitly; ME is assumed. | Located in images |
+| Apollo 11 Lunar Module | NSSDC "Lunar Landing Sites", https://nssdc.gsfc.nasa.gov/planetary/lunar/lunar_sites.html: 0.67416 N, 23.47314 E, ME/polar axis system, DE421, after Wagner et al., 2017, Icarus 283, 92-103 | Located in images |
+
+Artemis III candidate regions. The latest official list found is the nine regions announced
+on 28 October 2024: Peak near Cabeus B, Haworth, Malapert Massif, Mons Mouton Plateau, Mons
+Mouton, Nobile Rim 1, Nobile Rim 2, de Gerlache Rim 2, Slater Plain. Source: George et al.,
+"Artemis III Site Selection Update: Downselection From Thirteen to Nine Candidate Regions",
+LPSC 2026 abstract, https://ntrs.nasa.gov/citations/20250011660, which cites the NASA news
+release of 28 Oct 2024. Neither document gives coordinates of the regions. Four of the nine
+have a PGDA 5 m raster of the same name and are in `sites.json` with the raster centre
+(flag `artemis3_2024_candidate_region`); the raster footprint is not the official region
+boundary. The other five (Peak near Cabeus B, Mons Mouton Plateau, Mons Mouton, de Gerlache
+Rim 2, Slater Plain) are not in the list because no citable coordinates were found; the
+IM-2 site lies on Mons Mouton.
 
 ## Published values used for validation
 

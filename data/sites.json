@@ -1,0 +1,139 @@
+{
+  "frame": "MOON_ME (mean Earth / polar axis, DE421)",
+  "reference_radius_m": 1737400.0,
+  "notes": "Latitude is planetocentric, longitude is east-positive in 0-360 degrees. 'approximate': true means the coordinate is the centre of a region, not a specific landing point. Surface heights are not stored here; they are read from the LOLA terrain.",
+  "sites": [
+    {
+      "id": "connecting_ridge",
+      "name": "Connecting Ridge",
+      "lat_deg": -89.4632,
+      "lon_east_deg": 222.5104,
+      "approximate": true,
+      "coordinate_basis": "Centre of the PGDA 5 m/pixel LOLA DEM raster 'Site01' (computed from the raster bounds); a region centre, not a selected landing point.",
+      "source_url": "https://pgda.gsfc.nasa.gov/products/78",
+      "pgda_5m_dem": "https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/Site01/Site01_final_adj_5mpp_surf.tif",
+      "artemis3_2024_candidate_region": false,
+      "role": "candidate"
+    },
+    {
+      "id": "shackleton_rim",
+      "name": "Shackleton Rim",
+      "lat_deg": -89.7668,
+      "lon_east_deg": 188.1301,
+      "approximate": true,
+      "coordinate_basis": "Centre of the PGDA 5 m/pixel LOLA DEM raster 'Site04' (computed from the raster bounds); a region centre, not a selected landing point.",
+      "source_url": "https://pgda.gsfc.nasa.gov/products/78",
+      "pgda_5m_dem": "https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/Site04/Site04_final_adj_5mpp_surf.tif",
+      "artemis3_2024_candidate_region": false,
+      "role": "candidate"
+    },
+    {
+      "id": "peak_near_shackleton",
+      "name": "Peak near Shackleton",
+      "lat_deg": -88.811,
+      "lon_east_deg": 123.6901,
+      "approximate": true,
+      "coordinate_basis": "Centre of the PGDA 5 m/pixel LOLA DEM raster 'Site07' (computed from the raster bounds); a region centre, not a selected landing point.",
+      "source_url": "https://pgda.gsfc.nasa.gov/products/78",
+      "pgda_5m_dem": "https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/Site07/Site07_final_adj_5mpp_surf.tif",
+      "artemis3_2024_candidate_region": false,
+      "role": "candidate"
+    },
+    {
+      "id": "de_gerlache_rim",
+      "name": "de Gerlache Rim",
+      "lat_deg": -88.6834,
+      "lon_east_deg": 292.0679,
+      "approximate": true,
+      "coordinate_basis": "Centre of the PGDA 5 m/pixel LOLA DEM raster 'Site11' (computed from the raster bounds); a region centre, not a selected landing point.",
+      "source_url": "https://pgda.gsfc.nasa.gov/products/78",
+      "pgda_5m_dem": "https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/Site11/Site11_final_adj_5mpp_surf.tif",
+      "artemis3_2024_candidate_region": false,
+      "role": "candidate"
+    },
+    {
+      "id": "leibnitz_beta_plateau",
+      "name": "Leibnitz Beta Plateau",
+      "lat_deg": -85.4266,
+      "lon_east_deg": 31.7428,
+      "approximate": true,
+      "coordinate_basis": "Centre of the PGDA 5 m/pixel LOLA DEM raster 'Site20v2' (computed from the raster bounds); a region centre, not a selected landing point.",
+      "source_url": "https://pgda.gsfc.nasa.gov/products/78",
+      "pgda_5m_dem": "https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/Site20v2/Site20v2_final_adj_5mpp_surf.tif",
+      "artemis3_2024_candidate_region": false,
+      "role": "candidate"
+    },
+    {
+      "id": "malapert_massif",
+      "name": "Malapert Massif",
+      "lat_deg": -85.9948,
+      "lon_east_deg": 359.7642,
+      "approximate": true,
+      "coordinate_basis": "Centre of the PGDA 5 m/pixel LOLA DEM raster 'Site23' (computed from the raster bounds); a region centre, not a selected landing point.",
+      "source_url": "https://pgda.gsfc.nasa.gov/products/78",
+      "pgda_5m_dem": "https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/Site23/Site23_final_adj_5mpp_surf.tif",
+      "artemis3_2024_candidate_region": true,
+      "role": "candidate"
+    },
+    {
+      "id": "haworth",
+      "name": "Haworth",
+      "lat_deg": -86.7639,
+      "lon_east_deg": 337.223,
+      "approximate": true,
+      "coordinate_basis": "Centre of the PGDA 5 m/pixel LOLA DEM raster 'Haworth' (computed from the raster bounds); a region centre, not a selected landing point.",
+      "source_url": "https://pgda.gsfc.nasa.gov/products/78",
+      "pgda_5m_dem": "https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/Haworth/Haworth_final_adj_5mpp_surf.tif",
+      "artemis3_2024_candidate_region": true,
+      "role": "candidate"
+    },
+    {
+      "id": "nobile_rim_1",
+      "name": "Nobile Rim 1",
+      "lat_deg": -85.4381,
+      "lon_east_deg": 37.3667,
+      "approximate": true,
+      "coordinate_basis": "Centre of the PGDA 5 m/pixel LOLA DEM raster 'Site06' (computed from the raster bounds); a region centre, not a selected landing point.",
+      "source_url": "https://pgda.gsfc.nasa.gov/products/78",
+      "pgda_5m_dem": "https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/Site06/Site06_final_adj_5mpp_surf.tif",
+      "artemis3_2024_candidate_region": true,
+      "role": "candidate"
+    },
+    {
+      "id": "nobile_rim_2",
+      "name": "Nobile Rim 2",
+      "lat_deg": -83.954,
+      "lon_east_deg": 58.8221,
+      "approximate": true,
+      "coordinate_basis": "Centre of the PGDA 5 m/pixel LOLA DEM raster 'DM2' (computed from the raster bounds); a region centre, not a selected landing point.",
+      "source_url": "https://pgda.gsfc.nasa.gov/products/78",
+      "pgda_5m_dem": "https://pgda.gsfc.nasa.gov/data/LOLA_5mpp/DM2/DM2_final_adj_5mpp_surf.tif",
+      "artemis3_2024_candidate_region": true,
+      "role": "candidate"
+    },
+    {
+      "id": "im2_athena",
+      "name": "IM-2 Athena landing site (Mons Mouton)",
+      "lat_deg": -84.7906,
+      "lon_east_deg": 29.1957,
+      "approximate": false,
+      "coordinate_basis": "Position of the Athena lander located in LROC NAC images after the 6 March 2025 landing (CLPS IM-2).",
+      "source_url": "https://www.lroc.asu.edu/images/1408",
+      "pgda_5m_dem": null,
+      "artemis3_2024_candidate_region": false,
+      "role": "landed_mission"
+    },
+    {
+      "id": "apollo_11",
+      "name": "Apollo 11 Lunar Module (Tranquility Base)",
+      "lat_deg": 0.67416,
+      "lon_east_deg": 23.47314,
+      "approximate": false,
+      "coordinate_basis": "Lunar Module position from LRO images (Wagner et al., 2017, Icarus 283, 92-103), Mean Earth/Polar Axis system, DE421.",
+      "source_url": "https://nssdc.gsfc.nasa.gov/planetary/lunar/lunar_sites.html",
+      "pgda_5m_dem": null,
+      "artemis3_2024_candidate_region": false,
+      "role": "validation_only"
+    }
+  ]
+}
