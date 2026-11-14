@@ -92,3 +92,51 @@ the observer above it. The 0 m values depend on pixel-level slopes at the noise 
 5 m models (docs/ASSUMPTIONS.md, A6 and A7). The gain from a mast is the subject of the mast
 trade-off and has no published counterpart in this comparison; it rests on the 5 m models
 being right at the scale of tens of metres.
+
+## Power model: worked example for the engineer's review (T08)
+
+Script: `pipeline/power_example.py --site connecting_ridge --month 2027-03 --mast 2`;
+numbers: `data/processed/validation/power_example_connecting_ridge_2027-03_h2.json`;
+figure: `docs/figures/power_example_connecting_ridge_2027-03_h2.png`.
+
+**All power-system numbers in this example are placeholders (docs/ASSUMPTIONS.md, A14).** The
+example shows how the model works; it says nothing about a real lander.
+
+Inputs: Connecting Ridge, panel and observer 2 m above the surface, 1-31 March 2027, 1 h
+steps (744 steps). Tracking vertical panel 1.0 m2 at 30 %, battery 1000 Wh, usable down to
+20 % state of charge, charge and discharge efficiency 0.95, full at the start, load 100 W
+while any part of the Sun is visible and 20 W otherwise.
+
+| Quantity | Value |
+|---|---|
+| Hours with any part of the Sun visible | 511 of 744 |
+| Mean visible share of the solar disc | 50.92 % |
+| Longest night | 126 h, from 2027-03-17 13:00 UTC |
+| Peak generation | 414.7 W |
+| Energy the panel could deliver | 156 226 Wh |
+| Energy asked by the loads | 55 760 Wh |
+| Generation not used because the battery was full | 105 076 Wh |
+| Load not supplied because the battery was empty | 4 231 Wh |
+| Verdict with the 1000 Wh battery | does not survive; first below 20 % at 2027-03-03 05:00 UTC |
+| Smallest battery that survives the month | 3 899 Wh (26.0 kg at 150 Wh/kg) |
+
+Checks that can be repeated by hand:
+
+- Peak generation: 1361 W/m2 x 0.30 x 1.0 m2 = 408.3 W at 1 au with the Sun on the horizon.
+  In March 2027 the Sun is 0.9895 to 0.9992 au away and between -1.55 and -0.07 deg in
+  elevation (the observer on a ridge sees slightly below the horizontal), so the factor
+  is at most 1 / 0.9895^2 = 1.021, i.e. 417 W; the model gives 414.7 W.
+- Loads: 511 h x 100 W + 233 h x 20 W = 55 760 Wh, as in the table.
+- Required battery: the deepest deficit starts when the battery is last full, 2027-03-17
+  09:00 UTC, and ends 2027-03-22 22:00 UTC. It consists of 126 night hours at 20 W / 0.95
+  = 2 652.6 Wh and 7 dusk and dawn hours in which the 100 W day load exceeds the generation,
+  466.9 Wh net. Total 3 119.5 Wh; divided by the usable share 0.8 this is 3 899.4 Wh. A
+  simulation with 3 900 Wh survives with a minimum state of charge of 20.01 %, one with
+  3 800 Wh falls to 17.91 %.
+
+Questions for the engineer: (1) the placeholder values in A14; (2) the rule "day load whenever
+any part of the Sun is visible" (A15), which costs 467 Wh here; (3) whether the simplifications
+in A16 are acceptable, in particular a heater load that does not depend on temperature.
+
+Speed: a three-year hourly series (26 280 steps) is simulated in 13 ms and the required
+capacity is found in about 1 ms, so the app can recompute on every slider move.

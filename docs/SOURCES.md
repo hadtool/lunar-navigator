@@ -276,6 +276,17 @@ The `_COG.TIF` links on the product page returned an HTML page instead of a file
 2026-11-14, so the plain GeoTIFFs were downloaded. The comparison and its result are in
 docs/VALIDATION.md.
 
+### Physical constants of the power model (T08)
+
+| Constant | Value | Source |
+|---|---|---|
+| Total solar irradiance at 1 au | 1361 W/m2 | IAU 2015 Resolution B3, nominal total solar irradiance; measured value 1360.8 +- 0.5 W/m2 at solar minimum in Kopp & Lean (2011), Geophys. Res. Lett. 38, L01706, doi:10.1029/2010GL045777 |
+| Astronomical unit | 149597870700 m | IAU 2012 Resolution B2 (exact by definition) |
+
+The Sun-site distance comes from the ephemeris module, so the irradiance follows the
+Earth-Moon system around its orbit: over 2027-2029 the distance at Connecting Ridge is
+0.9807 to 1.0193 au (our calculation), which changes the power by +4.0 % to -3.8 %.
+
 ## Development tooling (not part of the solution)
 
 | Component | Source | Version | Retrieved (UTC) | Notes |
