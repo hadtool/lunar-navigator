@@ -248,9 +248,33 @@ for 20:17:40 UTC at the Lunar Module position, height 0: Sun elevation 10.7035 d
 
 Body radii for angular sizes: `pck00011.tpc` (Sun 695700 km, Earth equatorial 6378.1366 km).
 
-### Illumination (T07)
+### Illumination and Earth visibility (T07)
 
-_To be filled in T07._
+Published maps of the LOLA team, method of Mazarico et al. (2011, Icarus 211, 1066-1081,
+doi:10.1016/j.icarus.2010.10.030), release 2016-08. Product page:
+https://pgda.gsfc.nasa.gov/products/69 (PGDA "Lunar Polar Illumination"); PDS originals and
+labels: http://imbrium.mit.edu/EXTRAS/ILLUMINATION/ . Stored in `data/raw/illumination/`
+(not committed), used only by `pipeline/validate_illumination.py`.
+
+| File | URL | Size (bytes) | Server Last-Modified | Downloaded (UTC) | SHA-256 |
+|---|---|---|---|---|---|
+| `AVGVISIB_85S_060M_201608.TIF` | https://pgda.gsfc.nasa.gov/data/MoonIllumination/AVGVISIB_85S_060M_201608.TIF | 33994464 | 2025-03-20 | 2026-11-14 | `ccf67d4f39e0a970c111196da7d6551ffcf50d075470b93067fb3904c0b05806` |
+| `AVGVISIB_85S_060M_201608_EARTH.TIF` | https://pgda.gsfc.nasa.gov/data/MoonIllumination/AVGVISIB_85S_060M_201608_EARTH.TIF | 24862958 | not recorded | 2026-11-14 | `d71dc5adfff653e0e924e0a4cbf03795b996caa30b4ace3d5843a70a5ab2f3d2` |
+
+Properties read from the files: 5058 x 5058 pixels, 60 m/pixel, extent X and Y from -151740
+to +151740 m, the same south polar stereographic projection as the terrain, int16 with scale
+factor 0.00004 (value = DN x 0.00004, between 0 and 1). The PDS label
+(`AVGVISIB_85S_060M_201608.LBL`) gives the frame "MEAN EARTH/POLAR AXIS OF DE421" and the
+definition: the values "indicate the percentage of timesteps where each pixel was sunlit (by
+any fraction of the solar disc)", computed on the elevation map `LDEM_85S_060M`. The product
+page states that the maps are averages "over hourly timesteps spanning 18.6 years" and that
+for the Earth map "the Earth is considered visible if any part of its disc is not obscured".
+The start date of the 18.6 years is not given on the page or in the label. Largest value in
+the solar map: 0.884.
+
+The `_COG.TIF` links on the product page returned an HTML page instead of a file on
+2026-11-14, so the plain GeoTIFFs were downloaded. The comparison and its result are in
+docs/VALIDATION.md.
 
 ## Development tooling (not part of the solution)
 
