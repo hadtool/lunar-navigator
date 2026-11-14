@@ -263,3 +263,55 @@ definition of "levels off" (A20); (3) the day-load rule (A15), which changes the
 20 m by 1.2 kWh at Malapert Massif; (4) whether a year of operation (A21) is the right case for
 sizing, or a mission window; (5) the mass of a 5, 10 and 20 m mast, to compare with the battery
 mass it saves.
+
+## Landing-date search (T11)
+
+Script: `pipeline/landing_windows.py --site <site> --mast 2` (default: landing days 2027-01-01 to
+2028-12-31, one landing at 00:00 UTC per day); tables:
+`data/processed/windows/landing_<site>_h2_2027-01-01_2029-01-01.csv` (one row per landing day)
+and `.json` (inputs and the five best days); figures:
+`docs/figures/landing_calendar_<site>_h2_2027-01-01_2029-01-01.png` (calendar) and
+`docs/figures/landing_timeline_<site>_h2_2027-01-01_2029-01-01.png` (hourly Sun and Earth with
+the best missions, and the battery margin per landing day).
+
+**Placeholders: the power system (A14, battery 1000 Wh), the mission length of 14 days and the
+battery full at landing (A23), the link rule (A12).** The pattern over the calendar comes from
+the terrain and the ephemeris; which days pass depends on the placeholder battery.
+
+| | Connecting Ridge, 2 m | Malapert Massif, 2 m |
+|---|---|---|
+| Landing days that survive 14 days | 378 of 731 | 233 of 731 |
+| Days with the best possible score (battery never below full, Earth in view all 14 days) | 11 | 40 |
+| Five best landing days (A22) | 2027-08-16, 2027-12-30, 2028-07-08, 2028-08-04, 2028-08-31 | 2027-01-10, 2027-08-15, 2027-09-11, 2027-10-08, 2027-11-04 |
+| Time: ephemeris / visibility / calendar of 731 missions | 0.8 / 0.08 / 0.5 s | 0.5 / 0.06 / 0.3 s |
+
+Reading:
+
+- **Season.** At Connecting Ridge no landing between 2027-02-05 and 2027-07-16 survives with the
+  placeholder battery, nor between 2028-01-24 and 2028-07-04: the southern winter of the Moon,
+  when the Sun stands north of the lunar equator (+1.547 deg on 2027-04-27, A21). The failing
+  season comes 12 days earlier in 2028 because the cycle of the Sun's latitude is shorter than a
+  calendar year (344.5 to 348.8 days in our ephemeris).
+- **Two failing runs without any night, caused by the placeholder load rule (A15).** Missions
+  landing 2027-08-01 to 08-14 and 2028-12-15 to 12-28 have the Sun in view for all 336 h, yet
+  the battery empties. In the mission landing 2027-08-01, for 28 h in a row only a sliver of the
+  Sun is visible (15.9 % of the disc on average): the panel gives 63 W on average while the 100 W
+  day load is drawn, and the battery needs 1,362 Wh. If the day load were drawn only while the
+  panel covers it, the same mission would need 19 Wh (2028-12-15: 30 h, 2,038 Wh against 39 Wh).
+  These runs are an effect of the load rule, not of the terrain; see the open question in A15.
+- **Why the five best days.** All five have the same score at both sites: Sun and Earth in view
+  for the whole mission and the battery never below full; the ranking then takes the earliest
+  non-overlapping ones (A22). The timeline shows why exactly these days: every grey band lies
+  inside an unbroken orange (Sun) block and inside one blue (Earth) block. The Earth is the
+  narrow constraint. At Connecting Ridge an Earth window lasts 336 to 339 h (T09), almost
+  exactly one 14-day mission, so the mission must start within hours of the Earth rising: only
+  17 landing days of the two years keep the Earth in view all the time; 12 of them also have the
+  Sun in view all the time and 11 keep the battery full. At Malapert Massif the windows last 404
+  to 415 h, which leaves about three days of slack each month: 101 days keep the Earth in view
+  all the time and 40 score best.
+- **What the ranking does not see.** How far above the terrain the Sun and the Earth stand during
+  the mission (a margin against terrain-model errors), and the landing itself; see A22.
+
+Questions for the engineer (no review is required for T11, but the inputs are shared): the
+mission length (`mission_duration_days`) and whether the ranking order of A22 (survival, then
+battery margin, then Earth link) matches the mission's priorities.

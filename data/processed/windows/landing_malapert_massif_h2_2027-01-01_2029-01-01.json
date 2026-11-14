@@ -1,0 +1,119 @@
+{
+ "task": "T11 landing-date search",
+ "site": "malapert_massif",
+ "site_name": "Malapert Massif",
+ "mast_height_m": 2.0,
+ "landing_days_utc": [
+  "2027-01-01",
+  "2028-12-31"
+ ],
+ "mission_days": 14.0,
+ "series_utc": [
+  "2027-01-01T00",
+  "2029-01-14T00"
+ ],
+ "landings": 731,
+ "surviving_landings": 233,
+ "placeholder_keys": {
+  "mission": [
+   "mission_duration_days"
+  ],
+  "power": [
+   "panel_type",
+   "panel_area_m2",
+   "panel_efficiency",
+   "panel_fixed_azimuth_deg",
+   "panel_losses",
+   "battery_capacity_wh",
+   "battery_max_dod",
+   "battery_charge_efficiency",
+   "battery_discharge_efficiency",
+   "battery_specific_energy_wh_per_kg",
+   "battery_initial_soc",
+   "load_day_w",
+   "load_night_w"
+  ],
+  "comm": [
+   "comm_earth_disk_rule",
+   "comm_elevation_margin_deg"
+  ]
+ },
+ "power_system": {
+  "panel_area_m2": 1.0,
+  "panel_efficiency": 0.3,
+  "battery_capacity_wh": 1000.0,
+  "load_day_w": 100.0,
+  "load_night_w": 20.0,
+  "panel_type": "tracking",
+  "panel_fixed_azimuth_rad": 0.0,
+  "panel_losses": 0.0,
+  "battery_max_dod": 0.8,
+  "battery_charge_efficiency": 0.95,
+  "battery_discharge_efficiency": 0.95,
+  "battery_initial_soc": 1.0,
+  "battery_specific_energy_wh_per_kg": 150.0
+ },
+ "comm": {
+  "rule": "centre",
+  "margin_deg": 0.0
+ },
+ "ranking": "survives, then highest lowest state of charge, then highest Earth-link share, then earlier date; missions of the chosen dates do not overlap (docs/ASSUMPTIONS.md, A22)",
+ "best": [
+  {
+   "rank": 1,
+   "landing_utc": "2027-01-10",
+   "survives": true,
+   "min_soc_pct": 100.0,
+   "earth_pct": 100.0,
+   "sunlit_pct": 100.0,
+   "longest_night_h": 0.0,
+   "sun_and_earth_pct": 100.0
+  },
+  {
+   "rank": 2,
+   "landing_utc": "2027-08-15",
+   "survives": true,
+   "min_soc_pct": 100.0,
+   "earth_pct": 100.0,
+   "sunlit_pct": 100.0,
+   "longest_night_h": 0.0,
+   "sun_and_earth_pct": 100.0
+  },
+  {
+   "rank": 3,
+   "landing_utc": "2027-09-11",
+   "survives": true,
+   "min_soc_pct": 100.0,
+   "earth_pct": 100.0,
+   "sunlit_pct": 100.0,
+   "longest_night_h": 0.0,
+   "sun_and_earth_pct": 100.0
+  },
+  {
+   "rank": 4,
+   "landing_utc": "2027-10-08",
+   "survives": true,
+   "min_soc_pct": 100.0,
+   "earth_pct": 100.0,
+   "sunlit_pct": 100.0,
+   "longest_night_h": 0.0,
+   "sun_and_earth_pct": 100.0
+  },
+  {
+   "rank": 5,
+   "landing_utc": "2027-11-04",
+   "survives": true,
+   "min_soc_pct": 100.0,
+   "earth_pct": 100.0,
+   "sunlit_pct": 100.0,
+   "longest_night_h": 0.0,
+   "sun_and_earth_pct": 100.0
+  }
+ ],
+ "timing": {
+  "ephemeris_s": 0.61,
+  "visibility_s": 0.06,
+  "calendar_s": 0.35,
+  "total_s": 1.03
+ }
+}
