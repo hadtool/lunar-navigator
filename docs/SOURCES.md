@@ -49,9 +49,23 @@ but horizon calculation reads long profiles around every site and local reads ar
 do not depend on the network during the hackathon.
 
 Not downloaded: `LDEM_80S_20MPP_ADJ.TIF` (20 m/pixel, 2.6 GB per the product page). The 40 m
-model is used for the far horizon and the 5 m site models for the near field. The same
-product also offers `LDEM_60S_240MPP_ADJ.TIF` (60-90 S, 240 m/pixel, 210 MB per the product
-page) for terrain beyond 80 S; whether it is needed is tracked as a separate task.
+model is used for the far horizon and the 5 m site models for the near field.
+
+### Terrain north of 80 S (check only) - PGDA product 90
+
+| File | URL | Size (bytes) | Server Last-Modified | Downloaded (UTC) | SHA-256 |
+|---|---|---|---|---|---|
+| `LDEM_60S_240MPP_ADJ.TIF` | https://pgda.gsfc.nasa.gov/data/LOLA_20mpp/LDEM_60S_240MPP_ADJ.TIF | 218961039 | 2023-07-07 | 2026-11-13 | `3f9663257b63022f2b0d5a623482ff3cadddceb91594a4e4ca14a94d8cec8b34` |
+
+Properties read from the file: 7760 x 7760 pixels, 240 m/pixel, extent X and Y from -931200
+to +931200 m (60-90 S), same projection, float32, no nodata pixels, height range -9127.1 to
++7024.8 m. Agreement with the 40 m model at 20000 random points inside the 40 m extent:
+mean difference 0.05 m, standard deviation 3.0 m.
+
+This file is not used to produce results. It was used once (T19) to test whether terrain
+outside the 40 m model can rise above the horizon of our sites; it cannot, see assumption A5
+in docs/ASSUMPTIONS.md. `pipeline/build_horizons.py --with-240m` adds it as a third layer if
+a site farther from the pole is ever added.
 
 ### Site models (near horizon) - PGDA product 78
 
@@ -205,7 +219,38 @@ covers its surroundings only partly.
 
 ## Published values used for validation
 
-_To be filled in T05 and T07._
+### Ephemeris module (T05)
+
+Horizons reference tables: `tests/data/horizons_<site>_<sun|earth>.txt` (committed, unmodified
+API responses, retrieved 2026-11-13 by `pipeline/fetch_horizons_reference.py`). Same endpoint
+and settings as the sample query above, with `QUANTITIES='4,13,20'` (azimuth and elevation,
+angular diameter, range) and `TIME_DIGITS='SECONDS'`.
+
+| Site | SITE_COORD (east lon deg, lat deg, height km) | Times (UTC) |
+|---|---|---|
+| connecting_ridge (Wueller CR06) | 222.7090, -89.4441, 1.9557 | 2027-01-01 00:00 to 2029-11-01, step 45 d, 24 rows |
+| malapert_massif (Wueller MMA_K2023) | 2.0564, -85.9919, 5.1694 | 2027-01-01 06:00 to 2029-11-01, step 45 d, 24 rows |
+| apollo_11 (Lunar Module) | 23.47314, 0.67416, 0 | 1969-07-20 20:17:40 and 20:18:40 |
+
+Heights of the two polar sites are LOLA heights read from `LDEM_80S_40MPP_ADJ.TIF`.
+
+Result of the comparison (our SPICE calculation minus Horizons, largest angular separation):
+Sun 0.000001 deg and Earth 0.000026 deg at both polar sites; Apollo 11: Sun 0.0002 deg,
+Earth 0.00003 deg. The task limit is 0.01 deg.
+
+Apollo 11 published value: NASA SP-4029 "Apollo by the Numbers", Apollo 11 summary,
+https://www.nasa.gov/wp-content/uploads/static/history/SP-4029/Apollo_11a_Summary.htm :
+"The planned launch window for Apollo 11 extended to 17:54:00 GMT to take advantage of a sun
+elevation angle on the lunar surface of 10.8 deg", and the landing time 20:17:39 GMT on
+20 July 1969. This is the planned Sun elevation, not a measurement at touchdown. Our result
+for 20:17:40 UTC at the Lunar Module position, height 0: Sun elevation 10.7035 deg, azimuth
+88.8055 deg (Horizons: 10.7033, 88.8055).
+
+Body radii for angular sizes: `pck00011.tpc` (Sun 695700 km, Earth equatorial 6378.1366 km).
+
+### Illumination (T07)
+
+_To be filled in T07._
 
 ## Development tooling (not part of the solution)
 

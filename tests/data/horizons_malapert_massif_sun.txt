@@ -1,0 +1,161 @@
+API VERSION: 1.2
+API SOURCE: NASA/JPL Horizons API
+
+
+
+*******************************************************************************
+Ephemeris / API_USER Fri Nov 13 11:30:27 2026 Pasadena, USA      / Horizons    
+*******************************************************************************
+Target body name: Sun (10)                        {source: DE441}
+Center body name: Moon (301)                      {source: DE441}
+Center-site name: (user defined site below)
+*******************************************************************************
+Start time      : A.D. 2027-Jan-01 06:00:00.0000 UT      
+Stop  time      : A.D. 2029-Nov-01 06:00:00.0000 UT      
+Step-size       : 64800 minutes
+*******************************************************************************
+Target pole/equ : IAU_SUN                         {East-longitude positive}
+Target radii    : 695700.0, 695700.0, 695700.0 km {Equator_a, b, pole_c}       
+Center geodetic : 2.0564, -85.9919, 5.1694        {E-lon(deg),Lat(deg),Alt(km)}
+Center cylindric: 2.0564, 121.80125, -1738.3074   {E-lon(deg),Dxy(km),Dz(km)}
+Center pole/equ : MEAN_ME (high precision)        {East-longitude positive}
+Center radii    : 1737.4, 1737.4, 1737.4 km       {Equator_a, b, pole_c}       
+Target primary  : Sun
+Vis. interferer : EARTH (R_eq= 6378.137) km       {source: DE441}
+Rel. light bend : Sun, EARTH                      {source: DE441}
+Rel. lght bnd GM: 1.3271E+11, 3.9860E+05 km^3/s^2                              
+Atmos refraction: NO (AIRLESS)
+RA format       : DEG
+Time format     : CAL 
+Calendar mode   : Mixed Julian/Gregorian
+EOP file        : eop.261112.p270208                                           
+EOP coverage    : DATA-BASED 1962-JAN-20 TO 2026-NOV-12. PREDICTS-> 2027-FEB-07
+Units conversion: 1 au= 149597870.700 km, c= 299792.458 km/s, 1 day= 86400.0 s 
+Table cut-offs 1: Elevation (-90.0deg=NO ),Airmass     n.a.    , Daylight (NO )
+Table cut-offs 2: Solar elongation (  0.0,180.0=NO ),Local Hour Angle( 0.0=NO )
+Table cut-offs 3: RA/DEC angular rate (     0.0=NO )                           
+Table format    : Comma Separated Values (spreadsheet)
+**********************************************************************************************
+ Date__(UT)__HR:MN:SS, , ,Azi_(a-app), Elev_(a-app),  Ang-diam,             delta,     deldot,
+**********************************************************************************************
+$$SOE
+ 2027-Jan-01 06:00:00,*,i, 257.977519,     0.176034,  1952.492,  0.98257118535815, -0.9035734,
+ 2027-Feb-15 06:00:00,*,i,  70.528728,     1.213026,  1941.482,  0.98814324247573,  1.2722576,
+ 2027-Apr-01 06:00:00,*,i, 242.930720,    -3.078586,  1922.252,  0.99802842019259, -0.2967468,
+ 2027-May-16 06:00:00,*,i,  53.500123,     0.861885,  1894.680,  1.01255193267990,  1.1254852,
+ 2027-Jun-30 06:00:00,*,i, 224.018912,    -3.773533,  1889.839,  1.01514599042165, -0.6810202,
+ 2027-Aug-14 06:00:00,*,i,  33.854006,     3.605759,  1889.530,  1.01531162260730,  0.1870044,
+ 2027-Sep-28 06:00:00,*,i, 204.646060,    -2.378415,  1918.415,  1.00002461923485, -0.9219885,
+ 2027-Nov-12 06:00:00,*,i,  16.369496,     5.376713,  1933.364,  0.99229246695707, -0.0817751,
+ 2027-Dec-27 06:00:00,*,i, 189.069011,    -3.240157,  1955.872,  0.98087340300919, -0.2136766,
+ 2028-Feb-10 06:00:00,*,i,   1.828720,     3.504213,  1939.770,  0.98901552318892,  0.3827746,
+ 2028-Mar-26 06:00:00, ,i, 173.951559,    -5.415986,  1928.172,  0.99496455623760,  0.5321681,
+ 2028-May-10 06:00:00,*,i, 345.106628,     2.465326,  1895.354,  1.01219177888845,  0.1560348,
+ 2028-Jun-24 06:00:00,*,i, 155.178627,    -4.212797,  1891.692,  1.01415124580430,  0.4388989,
+ 2028-Aug-08 06:00:00,*,i, 325.313860,     3.964243,  1887.872,  1.01620338566865, -0.7351928,
+ 2028-Sep-22 06:00:00,*,i, 135.839590,    -1.452537,  1914.560,  1.00203834132787,  0.2069796,
+ 2028-Nov-06 06:00:00,*,i, 307.557899,     3.835564,  1931.994,  0.99299583103140, -1.1026250,
+ 2028-Dec-21 06:00:00,*,i, 120.024291,    -1.613500,  1952.672,  0.98248049710731,  0.6430553,
+ 2029-Feb-04 06:00:00,*,i, 293.165269,     0.725670,  1944.250,  0.98673666861816, -0.6270587,
+ 2029-Mar-21 06:00:00,*,i, 105.003595,    -2.565697,  1927.918,  0.99509546518816,  1.3162075,
+ 2029-May-05 06:00:00,*,i, 276.709292,    -0.738250,  1901.999,  1.00865593486438, -0.4776757,
+ 2029-Jun-19 06:00:00,*,i,  86.630606,     0.025912,  1888.217,  1.01601777269727,  1.1008657,
+ 2029-Aug-03 06:00:00,*,i, 256.902796,     0.058091,  1891.396,  1.01431018555060, -1.1008765,
+ 2029-Sep-17 06:00:00,*,i,  67.340592,     3.085855,  1906.539,  1.00625413941955,  0.3739927,
+ 2029-Nov-01 06:00:00,*,i, 238.965769,    -0.920065,  1934.727,  0.99159321052556, -1.3079361,
+$$EOE
+**********************************************************************************************
+Column meaning:
+ 
+TIME
+
+  Times PRIOR to 1962 are UT1, a mean-solar time closely related to the
+prior but now-deprecated GMT. Times AFTER 1962 are in UTC, the current
+civil or "wall-clock" time-scale. UTC is kept within 0.9 seconds of UT1
+using integer leap-seconds for 1972 and later years.
+
+  Conversion from the internal Barycentric Dynamical Time (TDB) of solar
+system dynamics to the non-uniform civil UT time-scale requested for output
+has not been determined for UTC times after the next July or January 1st.
+Therefore, the last known leap-second is used as a constant over future
+intervals.
+
+  Time tags refer to the UT time-scale conversion from TDB on Earth
+regardless of observer location within the solar system, although clock
+rates may differ due to the local gravity field and no analog to "UT"
+may be defined for that location.
+
+  Any 'b' symbol in the 1st-column denotes a B.C. date. First-column blank
+(" ") denotes an A.D. date.
+ 
+CALENDAR SYSTEM
+
+  Mixed calendar mode was active such that calendar dates after AD 1582-Oct-15
+(if any) are in the modern Gregorian system. Dates prior to 1582-Oct-5 (if any)
+are in the Julian calendar system, which is automatically extended for dates
+prior to its adoption on 45-Jan-1 BC.  The Julian calendar is useful for
+matching historical dates. The Gregorian calendar more accurately corresponds
+to the Earth's orbital motion and seasons. A "Gregorian-only" calendar mode is
+available if such physical events are the primary interest.
+
+  NOTE: "n.a." in output means quantity "not available" at the print-time.
+ 
+SOLAR PRESENCE (OBSERVING SITE)
+  Time tag is followed by a blank, then a solar-presence symbol:
+
+       '*'  Daylight (solar upper-limb on or above apparent horizon)
+       ' '  Night OR body-centered ephemeris
+
+INTERFERING BODY PRESENCE (OBSERVING SITE)
+  The solar-presence symbol is immediately followed by an "interfering body"
+presence symbol.
+
+       'i'  Upper-limb of interfering body on or above apparent horizon
+       ' '  Upper-limb of interfering body below apparent horizon OR body
+              centered ephemeris.
+
+  An "interfering body" is the largest other body in the immediate
+planet/satellite system, potentially compromising visual observations due to
+its brightness. Any such body is identified in the print-out header.
+ 
+ 'Azi_(a-app), Elev_(a-app),' =
+  Airless apparent azimuth and elevation of target center. Compensated
+for light-time, the gravitational deflection of light, stellar aberration,
+precession and nutation. Azimuth is measured clockwise from north:
+
+  North(0) -> East(90) -> South(180) -> West(270) -> North (360)
+
+Elevation angle is with respect to a plane perpendicular to the reference
+surface local zenith direction. TOPOCENTRIC ONLY.  Units: DEGREES
+ 
+ 'Ang-diam,' =
+   The equatorial angular width of the target body full disk, if it were fully
+illuminated and visible to the observer. If the target body diameter is unknown
+"n.a." is output.
+
+   Units: ARCSECONDS
+ 
+ 'delta,     deldot,' =
+   Apparent range ("delta", light-time aberrated) and range-rate ("delta-dot")
+of the target center relative to the observer. A positive "deldot" means the
+target center is moving away from the observer, negative indicates movement
+toward the observer.  Units: AU and KM/S
+
+Computations by ...
+
+    Solar System Dynamics Group, Horizons On-Line Ephemeris System
+    4800 Oak Grove Drive, Jet Propulsion Laboratory
+    Pasadena, CA  91109   USA
+
+    General site: https://ssd.jpl.nasa.gov/
+    Mailing list: https://ssd.jpl.nasa.gov/email_list.html
+    System news : https://ssd.jpl.nasa.gov/horizons/news.html
+    User Guide  : https://ssd.jpl.nasa.gov/horizons/manual.html
+    Connect     : browser        https://ssd.jpl.nasa.gov/horizons/app.html#/x
+                  API            https://ssd-api.jpl.nasa.gov/doc/horizons.html
+                  command-line   telnet ssd.jpl.nasa.gov 6775
+                  e-mail/batch   https://ssd.jpl.nasa.gov/ftp/ssd/horizons_batch.txt
+                  scripts        https://ssd.jpl.nasa.gov/ftp/ssd/SCRIPTS
+    Inquiries   : Jon.D.Giorgini@jpl.nasa.gov
+
+**********************************************************************************************

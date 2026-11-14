@@ -7,8 +7,63 @@ fills them in.
 
 | ID | Assumption | Value | Where it is used | Why / effect on results | Status |
 |---|---|---|---|---|---|
-| _none yet_ | | | | | |
+| A1 | The Moon is a sphere of radius 1737.4 km; the local vertical of a site is the radial direction | 1737400 m | `ephemeris`, later `horizon` | Same reference sphere as the LOLA heights and as JPL Horizons ("Center radii 1737.4, 1737.4, 1737.4 km"), so heights and elevations are consistent. Elevation angles are relative to the horizontal plane of the sphere, not to the local terrain slope | Fixed |
+| A2 | Light time and stellar aberration are evaluated at the Moon's centre and the site vector is subtracted afterwards (parallax is exact) | - | `ephemeris` | Makes one ephemeris evaluation per time serve all sites. Measured effect: agreement with Horizons stays within 0.00003 deg for polar sites and 0.0002 deg for Apollo 11 (see docs/SOURCES.md) | Fixed |
+| A3 | Relativistic light bending is not modelled | - | `ephemeris` | Horizons applies it; the difference is inside the agreement quoted in A2 | Fixed |
+| A4 | Angular radii use the equatorial radii of the Sun and the Earth from `pck00011.tpc`; the Earth is treated as a disc of that radius | Sun 695700 km, Earth 6378.1366 km | `ephemeris`, later `visibility` | Earth's polar flattening (about 0.3 %) changes its apparent radius by less than 0.003 deg | Fixed |
+| A5 | Terrain outside the 40 m regional model (a square of +-304 km around the pole, about 80 S at the middle of each side) is ignored | - | `horizon`, `pipeline/build_horizons.py` | Tested in T19 with the 240 m model of 60-90 S as an extra layer and rays of 500 km: for all 15 polar sites and mast heights 2 m and 20 m the horizon did not change in any of the 720 azimuths. For the three sites nearest to the edge (Peak near Cabeus B, Nobile Rim 2, Malapert Massif, 20 m mast) the outside terrain stays at least 0.61 deg below the horizon. The farthest terrain point that defines a horizon is 256 km away (Malapert Massif, 20 m mast), inside the default ray length of 300 km. The check must be repeated for any new site north of about 84 S | Verified for the current site list |
+| A6 | Terrain between pixel centres is interpolated bilinearly; the rasters are taken at face value | - | `horizon` | The 5 m `*_surf.tif` models fill pixels without laser returns by interpolation (PGDA README), so their real resolution is coarser than 5 m in places. The PGDA error and count maps are not used. Features smaller than the real data spacing (boulders, small craters) are absent from the horizon | Fixed; limitation |
+| A7 | An observer height of 0 m means a point exactly on the DEM surface | - | `horizon`, mast trade-off | The horizon is then set by terrain one or two pixels away (median distance 10-50 m for most sites with a 5 m model), i.e. by pixel-level slopes that are at the noise level of the model. Results for 0 m are shown but should not be read as the performance of a real lander; 2 m is the lowest height we consider meaningful | Engineer to confirm |
+| A8 | Sites without a 5 m model (Peak near Cabeus B, Mons Mouton Plateau, Slater Plain, IM-2 Athena) use the 40 m model from the first sample at 40 m | - | `horizon` | Their near field is smoother than at sites with a 5 m model, so they react less to mast height. Differences between the two groups at mast heights of a few metres partly reflect the terrain model, not the terrain | Limitation |
+| A9 | Each of the 720 azimuth bins (0.5 deg) takes the maximum over 4 rays; the radial step is one pixel of the finest model up to 1000 pixels and 0.1 % of the distance beyond | - | `horizon` | A peak between two bin centres is picked up by the bin it lies in; the sampling is finite, so this is not a strict upper bound. Measured: 8 rays instead of 4 change the mean horizon of Connecting Ridge at 2 m by 0.002 deg, and a radial step of one pixel everywhere changes no azimuth by more than 0.002 deg (Connecting Ridge, Haworth, 40 m model, 150 km). `HorizonProfile.elevation_at` returns the value of the bin that contains the azimuth. The radial step can place a ridge edge late by at most one step (0.1 % of its distance); for a ridge 5 km above the observer at 100 km this lowers its elevation by about 0.005 deg | Fixed |
+| A10 | The lander itself, its shadow, dust and local rocks are not modelled | - | `horizon`, `visibility` | Only terrain in the LOLA models blocks the Sun or the Earth | Limitation |
 
 ## Reference frames
 
-_To be filled in T03/T05: lunar frame used (MOON_ME, DE421) and the size of the ME-PA difference._
+Site coordinates and the LOLA terrain are in the lunar mean Earth / polar axis (ME) frame of
+DE421 (`MOON_ME`). The ephemeris module uses the DE440 kernel set and the SPICE frame
+`MOON_ME_DE440_ME421`, which is the DE440 lunar orientation rotated to the DE421 ME frame.
+
+Measured with the kernels in `data/raw/kernels/` over 2027-2029 (37 epochs, 30-day step):
+
+| Compared frames | Largest rotation | Displacement on the surface |
+|---|---|---|
+| `MOON_ME_DE440_ME421` vs `MOON_ME_DE421` (frame we use vs frame of LOLA) | 0.051 arcsec | 0.43 m |
+| `MOON_ME_DE440_ME421` vs `MOON_PA_DE440` (ME vs principal axes) | 103.9 arcsec | 875 m |
+
+Consequences: the frame we use and the LOLA frame agree far below the 5 m terrain pixel, so
+no correction is applied. Mixing ME and PA coordinates would move a site by almost 900 m,
+which matters near the pole; coordinates from sources that do not name their frame (LROC
+IM-2 position, Wueller et al. dataset) are assumed to be ME, see docs/SOURCES.md. JPL
+Horizons reports "MEAN_ME (high precision)" for lunar surface sites and DE441 as the
+ephemeris; our DE440-based results agree with it to 0.00003 deg at the polar test sites.
+
+## Horizon versus observer height (measured, T06)
+
+Mean terrain horizon over all azimuths and, in brackets, the median distance of the terrain
+point that defines it, from `data/processed/horizons/` (rays of 300 km):
+
+| Site | Near-field model | 0 m | 2 m | 5 m | 10 m | 20 m |
+|---|---|---|---|---|---|---|
+| connecting_ridge | 5 m | +0.21 deg (0.03 km) | -0.87 deg (0.16 km) | -1.55 deg (0.24 km) | -2.03 deg (44 km) | -2.19 deg (60 km) |
+| shackleton_rim | 5 m | +13.08 deg (4.60 km) | +12.56 deg (4.94 km) | +12.37 deg (4.94 km) | +12.22 deg (4.94 km) | +11.98 deg (4.94 km) |
+| peak_near_shackleton | 5 m | +0.55 deg (0.04 km) | -0.87 deg (0.17 km) | -1.43 deg (36 km) | -1.87 deg (43 km) | -1.95 deg (57 km) |
+| de_gerlache_rim | 5 m | +0.42 deg (0.05 km) | -0.74 deg (0.18 km) | -1.24 deg (37 km) | -1.69 deg (61 km) | -1.97 deg (85 km) |
+| leibnitz_beta_plateau | 5 m | +1.92 deg (0.27 km) | +1.55 deg (0.29 km) | +1.09 deg (0.37 km) | +0.46 deg (0.39 km) | -0.59 deg (0.45 km) |
+| malapert_massif | 5 m | +2.71 deg (0.02 km) | -0.89 deg (0.10 km) | -1.96 deg (0.21 km) | -2.54 deg (2.59 km) | -2.91 deg (53 km) |
+| haworth | 5 m | +0.59 deg (0.03 km) | -0.23 deg (50 km) | -0.40 deg (64 km) | -0.49 deg (66 km) | -0.63 deg (66 km) |
+| nobile_rim_1 | 5 m | +0.17 deg (0.01 km) | -1.39 deg (0.46 km) | -1.88 deg (1.44 km) | -2.21 deg (2.89 km) | -2.69 deg (12 km) |
+| nobile_rim_2 | 5 m | +2.05 deg (0.18 km) | +1.40 deg (3.25 km) | +1.26 deg (3.91 km) | +1.11 deg (8.96 km) | +0.84 deg (14 km) |
+| peak_near_cabeus_b | 40 m | +2.81 deg (0.44 km) | +2.05 deg (0.64 km) | +1.57 deg (2.20 km) | +1.32 deg (2.38 km) | +1.03 deg (2.70 km) |
+| mons_mouton_plateau | 40 m | +2.39 deg (1.36 km) | +2.20 deg (1.40 km) | +2.00 deg (1.46 km) | +1.75 deg (1.72 km) | +1.41 deg (2.40 km) |
+| mons_mouton | 5 m | -0.39 deg (0.03 km) | -1.17 deg (2.09 km) | -1.42 deg (2.30 km) | -1.77 deg (2.58 km) | -2.22 deg (13 km) |
+| de_gerlache_rim_2 | 5 m | +5.19 deg (0.01 km) | -0.23 deg (0.04 km) | -1.55 deg (51 km) | -1.67 deg (102 km) | -1.70 deg (105 km) |
+| slater_plain | 40 m | +0.26 deg (0.04 km) | -0.82 deg (9.84 km) | -0.95 deg (25 km) | -0.97 deg (25 km) | -1.02 deg (25 km) |
+| im2_athena | 40 m | +1.26 deg (10 km) | +1.17 deg (13 km) | +1.09 deg (13 km) | +0.97 deg (14 km) | +0.78 deg (14 km) |
+
+Reading: at ridge-top sites a mast of a few metres lifts the observer above terrain that is
+only tens to hundreds of metres away, and the horizon drops by 1-2 deg; this is the effect
+the mast trade-off relies on, and it depends on the 5 m models being right at that scale
+(A6, A7). Shackleton Rim is the centre of the PGDA raster, which lies inside the crater: its
+horizon is the crater wall about 5 km away and a mast does not help. Leibnitz Beta Plateau
+is also a raster centre, not a chosen landing point.
