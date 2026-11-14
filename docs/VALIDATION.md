@@ -167,3 +167,99 @@ the windows are longer than at Connecting Ridge.
 
 Questions for the engineer: the visibility rule (centre, whole disc or any part), the margin
 in degrees, and the radio parameters if a link budget is wanted.
+
+## Mast-height trade-off for the engineer's review (T10)
+
+Script: `pipeline/mast_tradeoff.py` (default: Connecting Ridge, Malapert Massif and Haworth,
+calendar year 2027, 1 h steps); table: `data/processed/mast/mast_tradeoff_2027-01-01_2028-01-01.csv`
+(all columns, one row per site and height) with the inputs and the levelling-off heights in the
+`.json` file next to it; figure: `docs/figures/mast_tradeoff_2027-01-01_2028-01-01.png`.
+
+**The power system (A14), the link rule (A12), the list of heights and what the mast carries
+(A19) are placeholders.** The trends with height come from the terrain and the ephemeris; the
+battery sizes and masses are an illustration of the method, not data of a real lander. The
+panel and the antenna sit at the top of the mast. Window and initial state: A21.
+
+| Site | Mast, m | Sun visible, % | Mean visible disc, % | Longest night, h | Earth in view, % | Longest Earth gap, h | Battery needed, Wh | Battery mass, kg |
+|---|---|---|---|---|---|---|---|---|
+| Connecting Ridge | 0 | 53.4 | 47.0 | 2077 | 48.0 | 341 | 93,746 | 625.0 |
+| Connecting Ridge | 2 | 79.1 | 73.1 | 302 | 50.9 | 320 | 11,608 | 77.4 |
+| Connecting Ridge | 5 | 93.6 | 89.2 | 143 | 50.9 | 320 | 4,702 | 31.3 |
+| Connecting Ridge | 10 | 95.1 | 92.2 | 77 | 50.9 | 320 | 3,326 | 22.2 |
+| Connecting Ridge | 20 | 95.9 | 92.9 | 69 | 50.9 | 320 | 3,188 | 21.3 |
+| Malapert Massif | 0 | 21.3 | 17.9 | 2063 | 52.3 | 316 | 86,489 | 576.6 |
+| Malapert Massif | 2 | 70.3 | 64.9 | 446 | 62.7 | 250 | 12,228 | 81.5 |
+| Malapert Massif | 5 | 81.6 | 79.0 | 303 | 71.5 | 194 | 8,510 | 56.7 |
+| Malapert Massif | 10 | 85.5 | 82.7 | 261 | 79.6 | 143 | 7,084 | 47.2 |
+| Malapert Massif | 20 | 86.9 | 84.0 | 261 | 89.1 | 87 | 8,070 | 53.8 |
+| Haworth | 0 | 43.8 | 36.1 | 3883 | 45.8 | 357 | 115,953 | 773.0 |
+| Haworth | 2 | 62.5 | 55.9 | 384 | 48.9 | 338 | 16,828 | 112.2 |
+| Haworth | 5 | 63.3 | 57.4 | 382 | 49.6 | 336 | 15,586 | 103.9 |
+| Haworth | 10 | 64.6 | 58.9 | 382 | 50.3 | 330 | 15,284 | 101.9 |
+| Haworth | 20 | 67.4 | 61.1 | 381 | 51.3 | 322 | 14,285 | 95.2 |
+
+"Sun visible" counts the hours with any part of the solar disc above the terrain horizon (A12);
+"Battery needed" is the smallest capacity that keeps the state of charge above 20 % for the
+whole year (none of the nights or gaps touches the edge of the window). The 0 m rows are an
+observer on the surface of the terrain model, whose horizon is set by pixel-scale slopes (A7):
+nights of 86 to 162 days there are not those of a real lander, so the figure starts at 2 m and
+the conclusions count the gain from 2 m.
+
+### Reading
+
+1. **Hypothesis "a few metres of height markedly reduce the shadows near the pole": confirmed for
+   the two sites on raised terrain, not for Haworth.** From 2 to 5 m the time with sunlight grows
+   by 14.4 points at Connecting Ridge and 11.3 points at Malapert Massif, which is 86 % and 68 %
+   of the whole gain from 2 to 20 m. The longest night shrinks from 302 h to 143 h and from 446 h
+   to 303 h. At these sites the horizon at 2 m is set by terrain 0.1 to 0.2 km away (median,
+   docs/ASSUMPTIONS.md, table "Horizon versus observer height"), which a few metres of height
+   clear. At Haworth the horizon is set by terrain about 50 km away already at 2 m, and a 20 m mast
+   adds only 4.9 points of sunlight and shortens the longest night by 3 h.
+2. **Where the gain levels off (A20): 10 m at Connecting Ridge and Malapert Massif** for the time
+   with sunlight, the mean visible share of the disc, the longest night and the battery needed:
+   10 m gives 95 % (Connecting Ridge) and 92 % (Malapert Massif) of the sunlight gain from 2 to
+   20 m. From 10 to 20 m Connecting Ridge gains 0.8 points of sunlight and 8 h of the longest night.
+   Haworth formally levels off at 20 m, but only because its small gain grows roughly in
+   proportion to the height; it does not level off within 20 m and is not large at any height.
+3. **Battery mass a mast saves (placeholder power system):** from 2 to 10 m, 8,282 Wh (55.2 kg) at
+   Connecting Ridge and 5,144 Wh (34.3 kg) at Malapert Massif; from 2 to 20 m, 2,543 Wh (17.0 kg)
+   at Haworth. The mass of the mast itself is not modelled and has to be compared with these
+   numbers.
+4. **Earth in line of sight reacts differently:** at Malapert Massif, on the Earth-facing side,
+   the mast keeps adding: 62.7 % at 2 m, 79.6 % at 10 m and 89.1 % at 20 m, with the longest gap
+   falling from 250 h to 87 h, so for the link the gain has not levelled off at 20 m. At
+   Connecting Ridge the Earth time does not change from 2 to 20 m (50.9 %): the Earth rises and
+   sets at azimuths 134 to 141 deg behind terrain 134 to 140 km away, too far for a few metres
+   to matter. A visible Earth is not yet a closed link (A17).
+5. **A taller mast needs a larger battery at Malapert Massif: 8,070 Wh at 20 m against 7,084 Wh
+   at 10 m, although there is more sunlight.** This comes from the placeholder load rule (A15),
+   not from the terrain. Breakdown of the deepest deficit at 20 m (2027-03-05 18:00 to 03-15 15:00
+   UTC, 237 h): 174 night hours, 3,663 Wh; 49 hours in which only a thin sliver of the Sun is
+   visible, the 100 W day load is drawn and the panel gives less than that, 3,436 Wh; 14 hours of
+   recharge, -643 Wh; in total 6,456 Wh, divided by the usable share 0.8 this is 8,070 Wh. At
+   10 m the deepest deficit is a plain night in May (below). Check with a different rule (not part
+   of the model): if the day load is drawn only while the panel covers it, Malapert Massif needs
+   6,895 Wh at 10 m and 6,894 Wh at 20 m, and the levelling-off heights of all three sites stay
+   the same. The engineer's choice of the load rule therefore matters for the battery numbers,
+   not for the conclusion about the height.
+6. **"Longest night" alone does not size the battery.** At Connecting Ridge with 2 m the deepest
+   deficit lasts 540 h (2027-04-28 14:00 to 05-21 02:00 UTC) and contains three nights of 302, 21
+   and 151 h; the partial days between them do not refill the battery. The battery column comes
+   from the full simulation (T08), not from the longest night.
+
+Check that can be repeated by hand: Malapert Massif with 10 m, deepest deficit 2027-05-02 23:00 to
+2027-05-13 23:00 UTC (264 h). 261 night hours at 20 W / 0.95 = 5,494.7 Wh plus 3 dusk and dawn
+hours in which the day load exceeds the generation, 172 Wh net, together 5,667 Wh; divided by
+0.8 this is 7,084 Wh, as in the table. The deepest deficits of all three sites at 2 to 10 m fall
+between 3 April and 21 May 2027, around 2027-04-27, when the Sun reaches its northernmost
+latitude in the lunar frame, +1.547 deg (A21).
+
+Speed: the ephemeris for the year (8760 steps) takes 0.3 s, the five heights of one site 0.2 s
+(visibility, link windows, battery simulation and required capacity), the whole run below 1 s
+plus loading.
+
+Questions for the engineer: (1) the list of heights and what the mast carries (A19); (2) the 90 %
+definition of "levels off" (A20); (3) the day-load rule (A15), which changes the battery needed at
+20 m by 1.2 kWh at Malapert Massif; (4) whether a year of operation (A21) is the right case for
+sizing, or a mission window; (5) the mass of a 5, 10 and 20 m mast, to compare with the battery
+mass it saves.

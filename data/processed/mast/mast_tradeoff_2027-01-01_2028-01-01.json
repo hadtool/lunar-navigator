@@ -1,0 +1,103 @@
+{
+ "task": "T10 mast-height trade-off",
+ "window_utc": [
+  "2027-01-01T00",
+  "2028-01-01T00"
+ ],
+ "step_hours": 1.0,
+ "samples": 8760,
+ "mast_heights_m": [
+  0.0,
+  2.0,
+  5.0,
+  10.0,
+  20.0
+ ],
+ "mast_carries": "both",
+ "placeholder_keys": {
+  "mast": [
+   "mast_heights_m",
+   "mast_carries"
+  ],
+  "power": [
+   "panel_type",
+   "panel_area_m2",
+   "panel_efficiency",
+   "panel_fixed_azimuth_deg",
+   "panel_losses",
+   "battery_capacity_wh",
+   "battery_max_dod",
+   "battery_charge_efficiency",
+   "battery_discharge_efficiency",
+   "battery_specific_energy_wh_per_kg",
+   "battery_initial_soc",
+   "load_day_w",
+   "load_night_w"
+  ],
+  "comm": [
+   "comm_earth_disk_rule",
+   "comm_elevation_margin_deg"
+  ]
+ },
+ "power_system": {
+  "panel_area_m2": 1.0,
+  "panel_efficiency": 0.3,
+  "battery_capacity_wh": 1000.0,
+  "load_day_w": 100.0,
+  "load_night_w": 20.0,
+  "panel_type": "tracking",
+  "panel_fixed_azimuth_rad": 0.0,
+  "panel_losses": 0.0,
+  "battery_max_dod": 0.8,
+  "battery_charge_efficiency": 0.95,
+  "battery_discharge_efficiency": 0.95,
+  "battery_initial_soc": 1.0,
+  "battery_specific_energy_wh_per_kg": 150.0
+ },
+ "comm": {
+  "rule": "centre",
+  "margin_deg": 0.0
+ },
+ "levelling_off": {
+  "definition": "lowest height that gives 90% of the largest gain among the listed heights, gain counted from the lowest height >= 2 m (docs/ASSUMPTIONS.md, A7, A20)",
+  "by_site": {
+   "connecting_ridge": {
+    "sunlit_pct": 10.0,
+    "mean_sun_fraction_pct": 10.0,
+    "longest_night_h": 10.0,
+    "required_capacity_wh": 10.0,
+    "earth_pct": 20.0,
+    "longest_earth_gap_h": null
+   },
+   "malapert_massif": {
+    "sunlit_pct": 10.0,
+    "mean_sun_fraction_pct": 10.0,
+    "longest_night_h": 10.0,
+    "required_capacity_wh": 10.0,
+    "earth_pct": 20.0,
+    "longest_earth_gap_h": 20.0
+   },
+   "haworth": {
+    "sunlit_pct": 20.0,
+    "mean_sun_fraction_pct": 20.0,
+    "longest_night_h": 20.0,
+    "required_capacity_wh": 20.0,
+    "earth_pct": 20.0,
+    "longest_earth_gap_h": 20.0
+   }
+  }
+ },
+ "horizons_computed_now": {},
+ "timing": {
+  "ephemeris_s": 0.34,
+  "connecting_ridge_s": 0.24,
+  "malapert_massif_s": 0.24,
+  "haworth_s": 0.24,
+  "total_s": 1.11
+ },
+ "notes": [
+  "0 m is an observer on the terrain-model surface; its horizon is set by pixel-scale slopes (A7).",
+  "Power-system values marked as placeholders are not data of a real lander (A14).",
+  "The mast's own mass and shadow are not modelled; weigh the battery mass saved against them."
+ ]
+}
