@@ -140,3 +140,30 @@ in A16 are acceptable, in particular a heater load that does not depend on tempe
 
 Speed: a three-year hourly series (26 280 steps) is simulated in 13 ms and the required
 capacity is found in about 1 ms, so the app can recompute on every slider move.
+
+## Earth contact windows: worked example for the engineer's review (T09)
+
+Script: `pipeline/comms_example.py` (default: 120 days from 2027-01-01, observer 2 m above the
+surface); tables: `data/processed/validation/comms_windows_<site>_h2.csv`; timelines:
+`docs/figures/comms_timeline_<site>_h2.png`.
+
+**The link rule is a placeholder (docs/ASSUMPTIONS.md, A12): centre of the Earth's disc above
+the terrain horizon, margin 0 deg.** A window is line of sight only (A17); no link budget is
+computed because the radio parameters are not filled in (A18).
+
+| Quantity | Connecting Ridge | Malapert Massif |
+|---|---|---|
+| Earth in line of sight, share of the 2880 h | 48.6 % | 60.0 % |
+| Complete windows inside the period | 4, of 336 to 339 h | 4, of 404 to 415 h |
+| Longest gap | 319 h, from 2027-01-23 22:00 UTC | 250 h, from 2027-01-25 09:00 UTC |
+| Earth distance over the period | 357 198 to 406 760 km | 357 064 to 406 626 km |
+
+Plausibility: the Earth rises and sets once per libration cycle, so one window and one gap
+together last about 27 days: successive windows start 653 to 657 h apart at Connecting Ridge
+and 652 to 654 h apart at Malapert Massif, and the period of the Moon's libration in latitude
+(the draconic month, 27.21 days) is 653 h. Malapert
+Massif is 4 deg from the pole on the Earth-facing side, so the Earth stands higher there and
+the windows are longer than at Connecting Ridge.
+
+Questions for the engineer: the visibility rule (centre, whole disc or any part), the margin
+in degrees, and the radio parameters if a link budget is wanted.
