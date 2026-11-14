@@ -1,7 +1,78 @@
 # Validation
 
-How the results were checked against independent sources. Numbers in this file are outputs
-of the scripts named in each section; nothing is typed in by hand from memory.
+How the results were checked against independent sources, what is still uncertain, and how
+large the effects are. Numbers in this file are outputs of the scripts and tests named in each
+section; nothing is typed in by hand from memory. Assumptions are numbered A1-A23 in
+docs/ASSUMPTIONS.md; sources and checksums are in docs/SOURCES.md.
+
+## Summary
+
+| What is checked | Reference | Result | Where |
+|---|---|---|---|
+| Directions of the Sun and the Earth | JPL Horizons, two polar sites x 24 times in 2027-2029 | largest difference 0.000026 deg (task limit 0.01 deg) | `tests/test_ephemeris.py` |
+| Sun elevation at the Apollo 11 landing | JPL Horizons; NASA SP-4029 (planned 10.8 deg) | 10.7035 deg (Horizons 10.7033 deg) | `tests/test_ephemeris.py` |
+| Terrain horizon geometry | horizon dip on a smooth sphere; a single ridge of known size | relative 1e-4; 0.0002 rad (0.011 deg) | `tests/test_horizon.py` |
+| Horizon on real terrain | the summit of Malapert Massif seen from Connecting Ridge, 135 km away | on the horizon within 0.01 deg of its computed elevation | `tests/test_horizon_real.py` |
+| Terrain beyond the 40 m model | LOLA 240 m model, rays to 500 km | no azimuth changes for 15 sites; margin at least 0.66 deg | A5 |
+| Sun and Earth visibility over 18.6 years | published LOLA maps (PGDA product 69), 36 pixels at 4 sites | mean difference -2.68 / -0.82 points, RMS 9.24 / 2.59 points (Sun / Earth) | section below |
+| Visible share of a disc | circular-segment formula | within 0.001 | `tests/test_visibility.py` |
+| Battery sizing | simulation with the computed capacity; hand calculation | survives with it, fails below it; hand check matches | power section below, `tests/test_power.py` |
+| Earth contact windows | period of the lunar libration in latitude (653 h) | windows repeat every 652 to 657 h | contact-window section below |
+| Precomputed data of the app | a fresh SPICE run | identical to the last bit | `tests/test_store.py` |
+| Whole app | Streamlit AppTest, no kernels, no terrain | 6 pages open, demo scenario, reruns below 2 s | `tests/test_app.py` |
+
+Not yet done: the visual comparison of a horizon panorama with LROC QuickMap or Moon Trek
+(task T06, to be done by a team member in a browser) and the engineer's review of the power,
+link and mast examples below.
+
+## Sun and Earth directions versus JPL Horizons (T05)
+
+Our ephemeris (`lunarnav.ephemeris`: SPICE, DE440 kernels, lunar mean-Earth frame aligned with
+the LOLA terrain, light time and stellar aberration) was compared with JPL Horizons observer
+tables for points on the lunar surface (Horizons uses DE441 and the same 1737.4 km sphere). The
+unmodified Horizons responses are committed in `tests/data/horizons_*.txt`.
+
+| Site | Times | Largest difference, Sun | Largest difference, Earth |
+|---|---|---|---|
+| Connecting Ridge (89.44 S) and Malapert Massif (85.99 S) | 24 each, 2027-01-01 to 2029-11-01, every 45 days | 0.000001 deg | 0.000026 deg |
+| Apollo 11 Lunar Module | 1969-07-20 20:17:40 and 20:18:40 UTC | 0.0002 deg | 0.00003 deg |
+
+The test requires 0.0005 deg, twenty times tighter than the task limit of 0.01 deg, and a
+separate test shows that a calculation without stellar aberration fails it, so the tolerance
+does test the corrections.
+
+Plausibility near the pole (2027, Connecting Ridge): the Sun's elevation never exceeds
+90 deg - |latitude| + 1.6 deg (the lunar equator is tilted about 1.5 deg to the ecliptic) and the
+Earth swings through about +-7 deg around the horizon without going round the sky.
+
+## Apollo 11 (T05)
+
+At the Lunar Module position (0.67416 N, 23.47314 E; NSSDC after Wagner et al., 2017) at
+20:17:40 UTC on 1969-07-20 our Sun elevation is 10.7035 deg at azimuth 88.8055 deg; JPL
+Horizons gives 10.7033 deg and 88.8055 deg. The published value, 10.8 deg (NASA SP-4029, Apollo 11
+summary), is the Sun elevation for which the launch window was planned, not a measurement at
+touchdown; the test therefore allows 0.3 deg against it and 0.0005 deg against Horizons.
+
+## Terrain horizon (T06)
+
+- **Smooth sphere.** For an observer h metres above a sphere without relief the horizon must dip
+  by acos(R / (R + h)), about sqrt(2h/R), at a distance of sqrt(2Rh): reproduced to a relative
+  1e-4 in angle and 2 % in distance for several heights (`tests/test_horizon.py`).
+- **Single ridge.** A ridge of known height and distance gives the angle expected from exact
+  spherical geometry within 0.0002 rad, never more, and at the expected distance; a ridge in the
+  east appears at azimuth 90 deg (the azimuth convention); a narrow peak between two bin centres
+  is caught by the sub-rays.
+- **Real terrain.** From Connecting Ridge the summit of Malapert Massif, the highest pixel of its
+  5 m model, lies 130 to 140 km away; the cached horizon in its direction equals the summit's
+  computed elevation within 0.01 deg at mast heights of 2, 10 and 20 m (`tests/test_horizon_real.py`). The
+  Earth seen from Connecting Ridge rises and sets near azimuth 137 deg, as expected for a site at
+  222.7 deg east longitude.
+- **Sampling.** Eight rays per bin instead of four change the mean horizon of Connecting Ridge
+  (2 m) by 0.002 deg, and a radial step of one pixel everywhere changes no azimuth by more than
+  0.002 deg (A9). Terrain beyond the 40 m model does not reach the horizon at any of the 15 sites
+  (A5).
+- **Reproducibility.** Rebuilding all 75 horizons from the raw terrain gives byte-for-byte the
+  committed files (T12).
 
 ## Illumination and Earth visibility versus the published LOLA maps (T07)
 
@@ -54,9 +125,11 @@ Correlation between our 36 Sun values and the published ones: 0.75.
 - The Sun statistic is very sensitive to position on these ridges: inside one 3 x 3 patch the
   published map itself varies by 22 to 60 points, i.e. by more than our difference from it. A
   site value therefore cannot be expected to agree better than several points with any map
-  of a different resolution. The Earth swings about +-7 deg around the horizon while the Sun
-  stays within about +-1.5 deg of it, so the same horizon error changes the Sun statistic
-  several times more than the Earth statistic; this matches the tighter Earth agreement.
+  of a different resolution. The Sun moves in a narrower band around the horizontal plane than
+  the Earth (its elevation never exceeds 90 deg - |latitude| + 1.6 deg: 2.2 deg at Connecting
+  Ridge, 2.9 deg at de Gerlache Rim, 4.6 deg at Haworth and 5.6 deg at Malapert Massif, while the
+  Earth swings through about +-7 deg), so the same horizon error moves the Sun statistic more
+  than the Earth statistic; this matches the tighter Earth agreement.
 - The close agreement at the exact site position of Connecting Ridge and de Gerlache Rim
   (0.3 points) is partly luck, as the pixel-by-pixel spread shows.
 
@@ -315,3 +388,34 @@ Reading:
 Questions for the engineer (no review is required for T11, but the inputs are shared): the
 mission length (`mission_duration_days`) and whether the ranking order of A22 (survival, then
 battery margin, then Earth link) matches the mission's priorities.
+
+## Sources of uncertainty
+
+Ordered roughly by size of effect on the app's answers. Where a number is given it was measured
+in this project; the others are named but not quantified.
+
+| Source | Effect | Size | Assumption |
+|---|---|---|---|
+| Power-system values | Every verdict and battery size depends on the lander; the defaults are placeholders | not a model error: replace by the engineer's values | A14 |
+| Day-load rule | Hours with a thin sliver of Sun count as "day" (100 W load) | turns a 19 Wh mission into 1362 Wh (T11); +1.2 kWh at Malapert Massif, 20 m (T10) | A15 |
+| Terrain model near the site | Horizons a few metres up are set by terrain tens to hundreds of metres away, at the edge of what the 5 m models resolve | 0 m versus 2 m: 50.8 % versus 77.9 % of time with Sun at Connecting Ridge (18.6 years); results at 0 m are not used | A6, A7 |
+| Sites without a 5 m model | Smoother near field, weaker reaction to a mast | not quantified | A8 |
+| Terrain model resolution in general | Point statistics on ridges change by tens of points within 180 m | the published map varies by 22 to 60 points inside one 3 x 3 pixel patch; our difference to it: 9.24 points RMS (Sun) | T07 |
+| Analysis period | Statistics depend on the years averaged | 2027-2029 versus 18.6 years: +0.6 to +2.2 points (Sun), +1.3 to +1.5 points (Earth) | T07 |
+| Time step of 1 h | Each end of a night, gap or window is uncertain by up to one step | +-1 h per end | A13 |
+| Horizon sampling | Finite rays and steps | about 0.002 deg | A9 |
+| Terrain beyond 80 S | Not included | none at the current sites (margin at least 0.66 deg) | A5 |
+| Ephemeris and frames | Directions of the Sun and the Earth | 0.00003 deg versus Horizons; our frame and the LOLA frame differ by 0.43 m on the surface | A1-A4 |
+| Moon as a sphere of 1737.4 km | Heights and the local vertical refer to the sphere, as in LOLA and Horizons | consistent with both references; deviations of the local vertical not quantified | A1 |
+| Disc model | Uniform discs: no limb darkening of the Sun, no phase of the Earth, no light reflected by terrain | not quantified | A11 |
+| Earth link | Line of sight only: no ground-station schedule, relay or link closure (unless radio parameters are given) | window lengths are upper limits for a direct link | A17, A18 |
+| Not modelled at all | Dust, temperatures and heaters, the lander's own shadow, boulders smaller than the terrain data | not quantified | A10, A16 |
+
+## Automated tests
+
+`uv run pytest -q` runs 275 tests (2026-11-14, all passing): ephemeris against the committed
+Horizons tables and Apollo 11, horizons on synthetic and real terrain, disc fractions and window
+statistics, energy balance and exact battery sizing against simulation, contact windows on a
+synthetic libration, the mast trade-off and landing-date search on synthetic series with known
+answers, the precomputed data against a fresh SPICE run, and the Streamlit app on all pages with
+the SPICE kernels and the terrain rasters disabled.

@@ -76,6 +76,9 @@ st.markdown(
   different terrain models (docs/VALIDATION.md).
 - Synthetic tests: horizon dip on a smooth sphere, a single ridge, disc fractions against the segment formula,
   energy balance and battery sizing against simulation; more than 250 automated tests.
+
+The full validation report, with every number, its source and the sources of uncertainty ranked by size, is in
+the expander **Validation report** at the bottom of this page.
 """
 )
 
