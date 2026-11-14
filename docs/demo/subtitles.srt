@@ -1,0 +1,27 @@
+1
+00:00:00,000 --> 00:00:04,500
+Will this lander survive at this lunar south-pole site, on these dates?
+
+2
+00:00:04,500 --> 00:00:09,500
+Real LOLA terrain horizon; Sun and Earth from NASA SPICE, checked with JPL Horizons.
+
+3
+00:00:09,500 --> 00:00:13,000
+Pick a site: Malapert Massif, an Artemis III region.
+
+4
+00:00:13,000 --> 00:00:17,500
+Hour-by-hour battery: with 1 kWh it does not survive 2027.
+
+5
+00:00:17,500 --> 00:00:21,500
+With 20 kWh it survives. The minimum is 12.2 kWh.
+
+6
+00:00:21,500 --> 00:00:26,000
+A 10 m mast cuts the battery needed from 12.2 to 7.1 kWh.
+
+7
+00:00:26,000 --> 00:00:30,000
+Find the best landing days. Lander values are placeholders.
