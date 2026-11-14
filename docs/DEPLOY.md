@@ -28,8 +28,8 @@ numpy, pandas, pyarrow, spiceypy, версии как в `uv.lock`).
 3. Deploy. Первая сборка ставит зависимости из `app/requirements.txt` (файл рядом с точкой входа
    имеет приоритет).
 4. Проверка (условие «Готово» T14): открыть ссылку в приватном окне браузера без входа, пройти
-   все шесть страниц и демо-сценарий: Malapert Massif → Power («Does not survive») → ёмкость
-   20 000 Вт·ч («Survives»).
+   все шесть страниц и демо-сценарий: Malapert Massif → Power («Does not survive» на 2 м) → мачта
+   10 м («Survives»).
 
 ## Hugging Face Spaces (запасной вариант)
 

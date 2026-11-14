@@ -85,15 +85,17 @@ the expander **Validation report** at the bottom of this page.
 st.header("Limits: read before using a verdict")
 st.markdown(
     """
-- **Placeholders.** Until the team's engineer fills in docs/ENGINEERING_INPUTS.md, the lander power system, the
-  Earth link rule, the mast heights and the mission length are placeholder values (docs/ASSUMPTIONS.md, A12, A14,
-  A19, A23). The app marks them; verdicts made with them illustrate the method only.
+- **Unconfirmed lander values.** Battery, night load and cell efficiency follow a NASA reference lander (2022) and
+  a solar-cell datasheet; panel area, day load, the Earth link rule, the mast heights and the mission length are
+  placeholders (docs/ASSUMPTIONS.md, A12, A14, A19, A23). The team's engineer has not confirmed them yet; the app
+  marks them and verdicts made with them illustrate the method.
 - **A visible Sun is not yet power and a visible Earth is not yet a link.** Not modelled: dust, temperatures and
   heaters, the lander's own shadow, ground-station schedules, relay satellites.
 - **Terrain.** Only terrain in the LOLA models blocks the view; boulders and features smaller than the real data
   spacing are absent. Results for an observer at 0 m depend on pixel-scale slopes and are not those of a real lander.
-- **Load rule.** The day load is drawn whenever any part of the Sun is visible. This placeholder rule has the
-  largest single effect found: hours with a thin sliver of Sun can drain the battery (docs/VALIDATION.md, T10 and T11).
+- **Day-mode rule.** By default the lander uses its day load only while the panel covers it; with the other rule
+  (day load whenever any part of the Sun is visible) hours with a thin sliver of Sun can drain the battery
+  (docs/VALIDATION.md, T10 and T11). The choice is still to be confirmed by the engineer (A15).
 """
 )
 

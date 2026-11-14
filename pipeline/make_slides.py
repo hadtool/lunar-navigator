@@ -115,19 +115,20 @@ def main() -> None:
     footer(fig, 3)
     figures.append(fig)
 
+    malapert10 = mast.loc[("malapert_massif", 10.0)]
     fig = slide("Does the lander survive?",
-                f"Malapert Massif, panel 2 m above the surface, year 2027 (placeholder lander)")
-    picture(fig, SHOTS / "02a_power_does_not_survive.png", (0.03, 0.17, 0.46, 0.6), "1 000 Wh battery: does not survive",
-            crop=(0.215, 0.33, 0.985, 1.0))
-    picture(fig, SHOTS / "02b_power_survives.png", (0.51, 0.17, 0.46, 0.6), "About 20 000 Wh: survives",
-            crop=(0.215, 0.33, 0.985, 1.0))
-    fig.text(0.05, 0.08, f"Smallest battery that survives the year: {malapert2['required_capacity_wh']:,.0f} Wh "
-             f"({malapert2['required_battery_mass_kg']:.0f} kg at 150 Wh/kg), solved exactly from the hourly energy "
-             "balance.", fontsize=13, color=INK)
+                "Malapert Massif, year 2027, 20 kWh battery (default lander, not confirmed by our engineer)")
+    picture(fig, SHOTS / "02a_power_does_not_survive.png", (0.03, 0.17, 0.46, 0.6), "Panel and antenna at 2 m: does not survive",
+            crop=(0.215, 0.45, 0.985, 0.99))
+    picture(fig, SHOTS / "02b_power_survives.png", (0.51, 0.17, 0.46, 0.6), "On a 10 m mast: survives",
+            crop=(0.215, 0.45, 0.985, 0.99))
+    fig.text(0.05, 0.08, f"Smallest battery that survives the year: {malapert2['required_capacity_wh']:,.0f} Wh at 2 m, "
+             f"{malapert10['required_capacity_wh']:,.0f} Wh on a 10 m mast — solved exactly from the hourly energy balance.",
+             fontsize=13, color=INK)
     footer(fig, 4)
     figures.append(fig)
 
-    fig = slide("A few metres of mast", "Mast trade-off, year 2027, placeholder lander")
+    fig = slide("A few metres of mast", "Mast trade-off, year 2027, default lander")
     bullets(fig, [
         f"Connecting Ridge, 2 m → 10 m: sunlight {ridge2['sunlit_pct']:.1f} % → {ridge10['sunlit_pct']:.1f} %, "
         f"longest night {ridge2['longest_night_h']:.0f} h → {ridge10['longest_night_h']:.0f} h, battery "
@@ -153,20 +154,20 @@ def main() -> None:
         fig.text(0.05, y, name, fontsize=14, color=INK, fontweight="bold", va="top")
         fig.text(0.5, y, use, fontsize=14, color=SECOND, va="top")
         y -= 0.095
-    fig.text(0.05, 0.13, "Every file, URL and checksum: docs/SOURCES.md · full validation: docs/VALIDATION.md · 275 tests",
+    fig.text(0.05, 0.13, "Every file, URL and checksum: docs/SOURCES.md · full validation: docs/VALIDATION.md · 287 tests",
              fontsize=12, color=SECOND)
     footer(fig, 6)
     figures.append(fig)
 
     fig = slide("Limits and next steps")
     bullets(fig, [
-        "Lander values are placeholders until our engineer sets them; the app marks them everywhere.",
+        "Lander values follow a NASA reference lander and a cell datasheet or are placeholders; our engineer has not "
+        "confirmed them yet, and the app marks them.",
         "A visible Sun is not yet power and a visible Earth is not yet a radio link.",
         "Not modelled: dust, temperatures and heaters, the lander's shadow, station schedules, relays, boulders.",
-        "Next: the engineer's power and link values, a mode switch by available power instead of 'Sun visible', "
-        "thermal loads, ground-station visibility.",
+        "Next: the engineer's values (panel area, day load, radio link), thermal loads, ground-station visibility.",
     ], width=80)
-    fig.text(0.05, 0.16, "Try it: Malapert Massif → Power → battery slider. Code: github.com/hadtool/lunar-navigator",
+    fig.text(0.05, 0.16, "Try it: Malapert Massif → Power → mast 10 m. Code: github.com/hadtool/lunar-navigator",
              fontsize=14, color=ACCENT)
     footer(fig, 7)
     figures.append(fig)

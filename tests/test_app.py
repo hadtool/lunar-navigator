@@ -5,6 +5,7 @@ import re
 import time
 from pathlib import Path
 
+import pandas as pd
 import pytest
 from streamlit.testing.v1 import AppTest
 
@@ -53,24 +54,22 @@ def test_every_page_opens_without_errors(page: str) -> None:
 
 
 def test_demo_scenario_three_clicks() -> None:
-    """Pick a site, open the mast trade-off, give the lander a bigger battery: the verdict flips."""
+    """Pick a site, see the verdict, raise the mast: the verdict flips (year 2027, default lander)."""
     app = run_app()
     app.sidebar.selectbox[0].set_value("malapert_massif").run()  # click 1: site
     assert not app.exception
     assert app.title[0].value == "Malapert Massif"
-    app.switch_page("views/mast.py").run()  # click 2: mast trade-off
-    assert not app.exception
-    assert "Malapert Massif" in app.caption[0].value
-    assert "90 % of the gain in sunlight is reached at" in app.info[0].value
-    app.switch_page("views/power.py").run()
-    assert "Does not survive" in app.error[0].value  # placeholder 1000 Wh battery, year 2027
+    app.switch_page("views/power.py").run()  # click 2: power
+    assert "Does not survive" in app.error[0].value  # 20 kWh battery, 24.1 kWh needed at 2 m
     started = time.perf_counter()
-    app.slider(key="battery_capacity_wh").set_value(20000.0).run()  # click 3: a bigger battery
+    app.sidebar.select_slider[0].set_value(10.0).run()  # click 3: a 10 m mast
     elapsed = time.perf_counter() - started
     assert not app.exception
-    assert app.session_state.battery_capacity_wh == 20000.0
-    assert "Survives" in app.success[0].value  # 12 228 Wh are needed at 2 m (docs/VALIDATION.md, T10)
+    assert "Survives" in app.success[0].value  # 14.1 kWh needed at 10 m (docs/VALIDATION.md, T10)
     assert elapsed < 2.0, f"recomputation took {elapsed:.2f} s"
+    app.switch_page("views/mast.py").run()
+    assert not app.exception
+    assert "90 % of the gain in sunlight is reached at" in app.info[0].value
 
 
 def test_a_battery_that_no_size_can_save_is_said_so() -> None:
@@ -116,7 +115,9 @@ def test_site_and_height_change_and_numbers_match_the_library() -> None:
     generation = generation_from_track(system, track.sun, vis.sun_fraction)
     needed = required_capacity_wh(system, track.times_utc, generation, vis.sun_fraction)
     shown = next(metric for metric in app.metric if metric.label == "Battery needed")
-    assert shown.value == f"{needed:,.0f} Wh" == "15,284 Wh"  # as in the T10 table (docs/VALIDATION.md)
+    table = pd.read_csv(store.PROCESSED_DIR / "mast" / "mast_tradeoff_2027-01-01_2028-01-01.csv")
+    t10 = table[(table["site"] == "haworth") & (table["mast_height_m"] == 10.0)]["required_capacity_wh"].item()
+    assert shown.value == f"{needed:,.0f} Wh" == f"{t10:,.0f} Wh"  # as in the T10 table (docs/VALIDATION.md)
     app.sidebar.selectbox[0].set_value("connecting_ridge").run()
     app.switch_page("views/site.py").run()
     assert not app.exception

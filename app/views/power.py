@@ -17,8 +17,9 @@ st.title("Power: does the lander survive?")
 st.caption(f"{item['name']} · panel {state.mast_height_m:g} m above the surface · {common.window_label()}")
 if common.power_placeholders():
     st.warning(
-        "The starting values are **placeholders** chosen to exercise the model, not data of a real lander: "
-        "the team's engineer has not filled in docs/ENGINEERING_INPUTS.md yet (docs/ASSUMPTIONS.md, A14). "
+        "The starting values are **not confirmed by the team's engineer**: battery, depth of discharge, specific "
+        "energy and night load follow a NASA reference design of a small lunar lander (2022), the cell efficiency a "
+        "solar-cell datasheet; panel area, day load and efficiencies are placeholders (docs/ASSUMPTIONS.md, A14). "
         "Set your own lander below; every verdict is recomputed at once.",
         icon="⚠️",
     )
@@ -34,7 +35,7 @@ def slider(key: str) -> None:
     label, unit, step = spec[key]
     low, high = limits[key]
     st.slider(f"{label}, {unit}" if unit != "fraction" else f"{label} (0-1)", float(low), float(high), step=float(step),
-              format=FORMATS[unit], key=key)
+              format="%.3f" if step < 0.01 else FORMATS[unit], key=key)
 
 
 panel_col, battery_col, load_col = st.columns(3)
@@ -56,9 +57,11 @@ with load_col:
     st.markdown("**Loads**")
     for key in ("load_day_w", "load_night_w"):
         slider(key)
-    st.caption("The day load is drawn whenever any part of the Sun is visible, the night load otherwise "
-               "(docs/ASSUMPTIONS.md, A15). Not modelled: temperatures, heater control, degradation, power "
-               "limits of the battery (A16).")
+    st.radio("When the lander is in day mode", list(common.DAY_LOAD_RULES), format_func=common.DAY_LOAD_RULES.get,
+             key="day_load_rule")
+    st.caption("Under a thin sliver of Sun the panel gives little power; with the first rule the lander stays in "
+               "its night (survival) mode until the panel covers the day load (docs/ASSUMPTIONS.md, A15). Not "
+               "modelled: temperatures, heater control, degradation, power limits of the battery (A16).")
     st.button("Reset to the engineering inputs", on_click=common.reset_power)
 
 system = common.power_system()

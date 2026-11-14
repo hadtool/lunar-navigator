@@ -13,7 +13,7 @@
   "2029-01-14T00"
  ],
  "landings": 731,
- "surviving_landings": 378,
+ "surviving_landings": 731,
  "placeholder_keys": {
   "mission": [
    "mission_duration_days"
@@ -31,7 +31,8 @@
    "battery_specific_energy_wh_per_kg",
    "battery_initial_soc",
    "load_day_w",
-   "load_night_w"
+   "load_night_w",
+   "load_day_rule"
   ],
   "comm": [
    "comm_earth_disk_rule",
@@ -40,18 +41,19 @@
  },
  "power_system": {
   "panel_area_m2": 1.0,
-  "panel_efficiency": 0.3,
-  "battery_capacity_wh": 1000.0,
+  "panel_efficiency": 0.307,
+  "battery_capacity_wh": 20000.0,
   "load_day_w": 100.0,
-  "load_night_w": 20.0,
+  "load_night_w": 46.0,
   "panel_type": "tracking",
   "panel_fixed_azimuth_rad": 0.0,
   "panel_losses": 0.0,
-  "battery_max_dod": 0.8,
+  "battery_max_dod": 0.9,
   "battery_charge_efficiency": 0.95,
   "battery_discharge_efficiency": 0.95,
   "battery_initial_soc": 1.0,
-  "battery_specific_energy_wh_per_kg": 150.0
+  "battery_specific_energy_wh_per_kg": 200.0,
+  "day_load_rule": "power_covers_load"
  },
  "comm": {
   "rule": "centre",
@@ -111,9 +113,9 @@
   }
  ],
  "timing": {
-  "ephemeris_s": 0.64,
-  "visibility_s": 0.08,
-  "calendar_s": 0.46,
-  "total_s": 1.17
+  "ephemeris_s": 1.07,
+  "visibility_s": 0.14,
+  "calendar_s": 0.68,
+  "total_s": 1.9
  }
 }

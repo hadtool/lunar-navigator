@@ -37,9 +37,9 @@ loads, and Earth-link windows by a chosen rule. The smallest battery that surviv
 exactly. Everything the app needs fits in 3.6 MB; a parameter change is recomputed in well under a
 second.
 
-**Results (placeholder lander, 2027).** At Connecting Ridge a 10 m mast instead of 2 m raises the
-time with sunlight from 79.1 % to 95.1 % and cuts the battery needed for the year from 11.6 kWh to
-3.3 kWh; the gain levels off at about 10 m at ridge sites, while at Haworth a mast hardly helps. At
+**Results (default lander, 2027).** At Connecting Ridge a 10 m mast instead of 2 m raises the
+time with sunlight from 79.1 % to 95.1 % and cuts the battery needed for the year from 22.8 kWh to
+4.9 kWh; the gain levels off at about 10 m at ridge sites, while at Haworth a mast hardly helps. At
 Malapert Massif the mast also raises the time with the Earth in view from 62.7 % to 89.1 % (2 to
 20 m). The best landing days keep both the Sun and the Earth in view for a whole 14-day mission.
 
@@ -50,11 +50,12 @@ listed and every placeholder marked, before running detailed thermal and power a
 **Validation.** Sun and Earth directions agree with JPL Horizons to 0.00003°; the Sun elevation at
 the Apollo 11 landing is 10.70° (Horizons 10.70°, mission plan 10.8°); our 18.6-year visibility
 statistics agree with the published LOLA maps within 2.7 points (Sun) and 0.8 points (Earth) on
-average around four sites. 275 automated tests.
+average around four sites. 287 automated tests.
 
 **Limits.** A visible Sun is not yet power and a visible Earth is not yet a radio link; dust,
 temperatures, the lander's shadow, station schedules and relays are not modelled. The lander power
-values are placeholders until our engineer sets them.
+values follow a NASA reference lander and a solar-cell datasheet or are placeholders; our engineer
+has not confirmed them yet.
 
 **Tools.** Python, NumPy, pandas, PyArrow, rasterio, SpiceyPy (NAIF SPICE), Streamlit, Plotly,
 Matplotlib, pytest, uv; Claude Code (see AI use).

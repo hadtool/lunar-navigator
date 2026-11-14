@@ -19,7 +19,10 @@ the charge efficiency until it is full (the rest is not used); a deficit is draw
 the battery and divided by the discharge efficiency. The lander survives the window when
 the stored energy never falls below the allowed minimum (1 - depth of discharge).
 
-The load is ``load_day_w`` while the Sun is visible and ``load_night_w`` otherwise.
+The load is ``load_day_w`` in day mode and ``load_night_w`` otherwise. Day mode is chosen by
+``day_load_rule``: ``sun_visible`` — whenever any part of the Sun is visible (the first rule of
+the project); ``power_covers_load`` — only while the panel's generation covers the day load, so a
+lander stays in its night (survival) mode under a thin sliver of Sun (docs/ASSUMPTIONS.md, A15).
 
 Not modelled: temperature of the panels and of the battery, heater power as a function of
 temperature, panel degradation, shadowing by the lander itself, battery self-discharge,
@@ -48,6 +51,9 @@ AU_M = 149_597_870_700.0
 
 PANEL_TRACKING = "tracking"
 PANEL_FIXED = "fixed"
+DAY_LOAD_SUN_VISIBLE = "sun_visible"
+DAY_LOAD_POWER = "power_covers_load"
+DAY_LOAD_RULES = (DAY_LOAD_SUN_VISIBLE, DAY_LOAD_POWER)
 
 #: Placeholder values used for every key the engineer has not filled in yet. They are
 #: round numbers chosen by the programmer, not data of a real lander (docs/ASSUMPTIONS.md).
@@ -65,6 +71,7 @@ PLACEHOLDER_INPUTS: dict[str, float | str] = {
     "battery_initial_soc": 1.0,
     "load_day_w": 100.0,
     "load_night_w": 20.0,
+    "load_day_rule": DAY_LOAD_POWER,
 }
 
 
@@ -85,10 +92,13 @@ class PowerSystem:
     battery_discharge_efficiency: float = 1.0
     battery_initial_soc: float = 1.0
     battery_specific_energy_wh_per_kg: float | None = None
+    day_load_rule: str = DAY_LOAD_SUN_VISIBLE
 
     def __post_init__(self) -> None:
         if self.panel_type not in (PANEL_TRACKING, PANEL_FIXED):
             raise ValueError(f"panel_type must be '{PANEL_TRACKING}' or '{PANEL_FIXED}'")
+        if self.day_load_rule not in DAY_LOAD_RULES:
+            raise ValueError(f"day_load_rule must be one of {DAY_LOAD_RULES}")
         if self.panel_area_m2 < 0 or self.battery_capacity_wh < 0:
             raise ValueError("panel area and battery capacity must be >= 0")
         if self.load_day_w < 0 or self.load_night_w < 0:
@@ -129,17 +139,32 @@ def _panel_type(raw: str) -> str:
     raise ValueError(f"panel_type: cannot interpret '{raw}'")
 
 
+def _day_load_rule(raw: str) -> str:
+    """Day-load rule named by a free-text cell; anything ambiguous is refused."""
+    text = raw.strip().lower()
+    if text in DAY_LOAD_RULES:
+        return text
+    power = any(word in text for word in ("генерац", "покрыва", "мощност", "generation", "covers", "power"))
+    visible = any(word in text for word in ("видн", "видим", "visible"))
+    if power != visible:
+        return DAY_LOAD_POWER if power else DAY_LOAD_SUN_VISIBLE
+    raise ValueError(
+        f"load_day_rule: cannot interpret '{raw}'; write 'пока генерация покрывает дневную нагрузку' "
+        f"({DAY_LOAD_POWER}) or 'пока видна любая часть Солнца' ({DAY_LOAD_SUN_VISIBLE})"
+    )
+
+
 def default_power_system(
     inputs: Mapping[str, EngineeringValue] | None = None,
 ) -> tuple[PowerSystem, tuple[str, ...]]:
     """Power system from docs/ENGINEERING_INPUTS.md and the keys that are still placeholders.
 
-    The second item lists the keys taken from :data:`PLACEHOLDER_INPUTS`; the app shows
-    them as placeholders.
+    The second item lists the keys that the engineer has not confirmed: taken from
+    :data:`PLACEHOLDER_INPUTS`, or filled in with the ``[предложено]`` mark; the app flags them.
     """
     if inputs is None:
         inputs = load_engineering_inputs()
-    placeholders = tuple(key for key in PLACEHOLDER_INPUTS if key not in inputs)
+    placeholders = tuple(key for key in PLACEHOLDER_INPUTS if key not in inputs or inputs[key].provisional)
 
     def number(key: str) -> float:
         return inputs[key].number() if key in inputs else float(PLACEHOLDER_INPUTS[key])
@@ -159,6 +184,10 @@ def default_power_system(
         battery_discharge_efficiency=number("battery_discharge_efficiency"),
         battery_initial_soc=number("battery_initial_soc"),
         battery_specific_energy_wh_per_kg=number("battery_specific_energy_wh_per_kg"),
+        day_load_rule=(
+            _day_load_rule(inputs["load_day_rule"].raw) if "load_day_rule" in inputs
+            else str(PLACEHOLDER_INPUTS["load_day_rule"])
+        ),
     )
     return system, placeholders
 
@@ -210,9 +239,20 @@ def generation_from_track(
     return generation_w(system, sun_fraction, sun.azimuth_rad, sun.elevation_rad, sun.distance_m)
 
 
-def load_w(system: PowerSystem, sun_fraction: ArrayLike) -> NDArray[np.float64]:
-    """Load per time step: the day load while any part of the Sun is visible, else the night load."""
-    return np.where(np.asarray(sun_fraction) > 0.0, system.load_day_w, system.load_night_w).astype(np.float64)
+def load_w(
+    system: PowerSystem, sun_fraction: ArrayLike, generation_w: ArrayLike | None = None
+) -> NDArray[np.float64]:
+    """Load per time step: the day load in day mode, else the night load (see ``day_load_rule``).
+
+    ``generation_w`` (W, one value per step) is needed by the rule ``power_covers_load``.
+    """
+    if system.day_load_rule == DAY_LOAD_SUN_VISIBLE:
+        day = np.asarray(sun_fraction) > 0.0
+    else:
+        if generation_w is None:
+            raise ValueError("the day-load rule 'power_covers_load' needs the generation")
+        day = (np.asarray(generation_w, dtype=np.float64) >= system.load_day_w) & (np.asarray(sun_fraction) > 0.0)
+    return np.where(day, system.load_day_w, system.load_night_w).astype(np.float64)
 
 
 def _checked_series(
@@ -306,7 +346,7 @@ def simulate(
     after the first violation shows when the lander could recharge, not that it survived.
     """
     times, generation, fraction, step_h = _checked_series(times_utc, generation, sun_fraction)
-    load = load_w(system, fraction)
+    load = load_w(system, fraction, generation)
     flow = _battery_flow_wh(system, generation, load, step_h)
 
     capacity = system.battery_capacity_wh
@@ -375,7 +415,7 @@ def required_capacity_wh(
     headroom = system.battery_initial_soc - system.battery_min_soc
     if headroom < -1e-12:
         return float("inf")  # the battery starts below its allowed minimum
-    flow = _battery_flow_wh(system, generation, load_w(system, fraction), step_h)
+    flow = _battery_flow_wh(system, generation, load_w(system, fraction, generation), step_h)
     running = np.cumsum(flow)
     # Deficit below a battery that has been full at least once: largest drop from a running maximum.
     drop_from_peak = float(np.max(np.maximum.accumulate(running) - running))

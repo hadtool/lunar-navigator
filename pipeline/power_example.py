@@ -96,7 +96,7 @@ def run(site_id: str, month: str, mast_height_m: float) -> dict:
     axes[2].set(ylabel="Battery state\nof charge, %", ylim=(0, 105), xlabel="UTC")
     axes[2].legend(loc="lower right", fontsize=8)
     verdict = "survives" if result.survives else "does not survive"
-    marker = " (PLACEHOLDER power system)" if placeholders else ""
+    marker = " (lander values not confirmed by the engineer, A14)" if placeholders else ""
     figure.suptitle(
         f"{site_id}, {month}, panel and observer {mast_height_m:g} m above the surface: {verdict}{marker}\n"
         f"panel {system.panel_area_m2:g} m2 at {100 * system.panel_efficiency:g} %, battery "

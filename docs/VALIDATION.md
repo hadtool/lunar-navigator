@@ -195,47 +195,53 @@ Script: `pipeline/power_example.py --site connecting_ridge --month 2027-03 --mas
 numbers: `data/processed/validation/power_example_connecting_ridge_2027-03_h2.json`;
 figure: `docs/figures/power_example_connecting_ridge_2027-03_h2.png`.
 
-**All power-system numbers in this example are placeholders (docs/ASSUMPTIONS.md, A14).** The
-example shows how the model works; it says nothing about a real lander.
+**The lander values are not confirmed by the team's engineer (docs/ASSUMPTIONS.md, A14).** The
+battery (20 000 Wh, usable down to 10 %, 200 Wh/kg) and the night load (46 W) follow a NASA reference
+design of a small lunar lander (NASA GRC COMPASS, 2022), the cell efficiency (30.7 %) a solar-cell
+datasheet; the panel area (1 m2), the day load (100 W) and the charge and discharge efficiencies
+(0.95 each) are placeholders. The example shows how the model works.
 
-Inputs: Connecting Ridge, panel and observer 2 m above the surface, 1-31 March 2027, 1 h
-steps (744 steps). Tracking vertical panel 1.0 m2 at 30 %, battery 1000 Wh, usable down to
-20 % state of charge, charge and discharge efficiency 0.95, full at the start, load 100 W
-while any part of the Sun is visible and 20 W otherwise.
+Inputs: Connecting Ridge, panel and observer 2 m above the surface, 1-31 March 2027, 1 h steps (744
+steps); tracking vertical panel; battery full at the start; day mode (100 W) only while the panel
+covers the day load, otherwise the night load of 46 W (A15, rule chosen in T23).
 
 | Quantity | Value |
 |---|---|
 | Hours with any part of the Sun visible | 511 of 744 |
+| Hours in day mode (generation of at least 100 W) | 435 |
 | Mean visible share of the solar disc | 50.92 % |
 | Longest night | 126 h, from 2027-03-17 13:00 UTC |
-| Peak generation | 414.7 W |
-| Energy the panel could deliver | 156 226 Wh |
-| Energy asked by the loads | 55 760 Wh |
-| Generation not used because the battery was full | 105 076 Wh |
-| Load not supplied because the battery was empty | 4 231 Wh |
-| Verdict with the 1000 Wh battery | does not survive; first below 20 % at 2027-03-03 05:00 UTC |
-| Smallest battery that survives the month | 3 899 Wh (26.0 kg at 150 Wh/kg) |
+| Peak generation | 424.4 W |
+| Energy the panel could deliver | 159 871 Wh |
+| Energy asked by the loads | 57 714 Wh |
+| Generation not used because the battery was full | 102 781 Wh |
+| Load not supplied because the battery was empty | 0 Wh |
+| Verdict with the 20 000 Wh battery | survives; lowest state of charge 68.8 % at 2027-03-22 21:00 UTC |
+| Smallest battery that survives the month | 6 929 Wh (34.6 kg at 200 Wh/kg) |
 
 Checks that can be repeated by hand:
 
-- Peak generation: 1361 W/m2 x 0.30 x 1.0 m2 = 408.3 W at 1 au with the Sun on the horizon.
-  In March 2027 the Sun is 0.9895 to 0.9992 au away and between -1.55 and -0.07 deg in
-  elevation (the observer on a ridge sees slightly below the horizontal), so the factor
-  is at most 1 / 0.9895^2 = 1.021, i.e. 417 W; the model gives 414.7 W.
-- Loads: 511 h x 100 W + 233 h x 20 W = 55 760 Wh, as in the table.
-- Required battery: the deepest deficit starts when the battery is last full, 2027-03-17
-  09:00 UTC, and ends 2027-03-22 22:00 UTC. It consists of 126 night hours at 20 W / 0.95
-  = 2 652.6 Wh and 7 dusk and dawn hours in which the 100 W day load exceeds the generation,
-  466.9 Wh net. Total 3 119.5 Wh; divided by the usable share 0.8 this is 3 899.4 Wh. A
-  simulation with 3 900 Wh survives with a minimum state of charge of 20.01 %, one with
-  3 800 Wh falls to 17.91 %.
+- Peak generation: 1361 W/m2 x 0.307 x 1.0 m2 = 417.8 W at 1 au with the Sun on the horizon. In
+  March 2027 the Sun is 0.9895 to 0.9992 au away, so the factor is at most 1 / 0.9895^2 = 1.021,
+  i.e. 426.7 W; the model gives 424.4 W.
+- Loads: 435 h x 100 W + 309 h x 46 W = 57 714 Wh, as in the table; 76 of the 511 sunlit hours give
+  less than 100 W and stay in night mode.
+- Required battery: the deepest deficit runs from 2027-03-17 10:00 to 03-22 21:00 UTC (131 h): 126
+  night hours at 46 W / 0.95 = 6 101.1 Wh plus 5 hours of weak light in which the panel gives less
+  than the 46 W night load, 135.2 Wh net; total 6 236.2 Wh, divided by the usable share 0.9 this is
+  6 929.1 Wh. A simulation with 6 930 Wh survives with a lowest state of charge of 10.01 %, one with
+  6 850 Wh falls to 8.96 %.
 
-Questions for the engineer: (1) the placeholder values in A14; (2) the rule "day load whenever
-any part of the Sun is visible" (A15), which costs 467 Wh here; (3) whether the simplifications
-in A16 are acceptable, in particular a heater load that does not depend on temperature.
+History: with the first placeholders (1000 Wh, usable down to 20 %, 20 W at night, day load whenever
+any part of the Sun is visible) the same month needed 3 899 Wh, of which 467 Wh came from 7 dusk and
+dawn hours with the day load drawn under a sliver of Sun; that rule was replaced in T23 (A15).
 
-Speed: a three-year hourly series (26 280 steps) is simulated in 13 ms and the required
-capacity is found in about 1 ms, so the app can recompute on every slider move.
+Questions for the engineer: (1) the values in A14, in particular the panel area and the day load;
+(2) the day-mode rule (A15); (3) whether the simplifications in A16 are acceptable, in particular a
+heater load that does not depend on temperature.
+
+Speed: a three-year hourly series (26 280 steps) is simulated in 13 ms and the required capacity is
+found in about 1 ms, so the app can recompute on every slider move.
 
 ## Earth contact windows: worked example for the engineer's review (T09)
 
@@ -271,32 +277,34 @@ calendar year 2027, 1 h steps); table: `data/processed/mast/mast_tradeoff_2027-0
 (all columns, one row per site and height) with the inputs and the levelling-off heights in the
 `.json` file next to it; figure: `docs/figures/mast_tradeoff_2027-01-01_2028-01-01.png`.
 
-**The power system (A14), the link rule (A12), the list of heights and what the mast carries
-(A19) are placeholders.** The trends with height come from the terrain and the ephemeris; the
-battery sizes and masses are an illustration of the method, not data of a real lander. The
-panel and the antenna sit at the top of the mast. Window and initial state: A21.
+**The lander values are not confirmed by the team's engineer (A14), and the link rule (A12), the
+list of heights and what the mast carries (A19) are placeholders.** The trends with height come
+from the terrain and the ephemeris; the battery sizes follow the default lander of the T08 example
+(20 kWh reference battery usable down to 10 %, 46 W at night, day mode only while the panel covers
+the day load). The panel and the antenna sit at the top of the mast. Window and initial state: A21.
 
 | Site | Mast, m | Sun visible, % | Mean visible disc, % | Longest night, h | Earth in view, % | Longest Earth gap, h | Battery needed, Wh | Battery mass, kg |
 |---|---|---|---|---|---|---|---|---|
-| Connecting Ridge | 0 | 53.4 | 47.0 | 2077 | 48.0 | 341 | 93,746 | 625.0 |
-| Connecting Ridge | 2 | 79.1 | 73.1 | 302 | 50.9 | 320 | 11,608 | 77.4 |
-| Connecting Ridge | 5 | 93.6 | 89.2 | 143 | 50.9 | 320 | 4,702 | 31.3 |
-| Connecting Ridge | 10 | 95.1 | 92.2 | 77 | 50.9 | 320 | 3,326 | 22.2 |
-| Connecting Ridge | 20 | 95.9 | 92.9 | 69 | 50.9 | 320 | 3,188 | 21.3 |
-| Malapert Massif | 0 | 21.3 | 17.9 | 2063 | 52.3 | 316 | 86,489 | 576.6 |
-| Malapert Massif | 2 | 70.3 | 64.9 | 446 | 62.7 | 250 | 12,228 | 81.5 |
-| Malapert Massif | 5 | 81.6 | 79.0 | 303 | 71.5 | 194 | 8,510 | 56.7 |
-| Malapert Massif | 10 | 85.5 | 82.7 | 261 | 79.6 | 143 | 7,084 | 47.2 |
-| Malapert Massif | 20 | 86.9 | 84.0 | 261 | 89.1 | 87 | 8,070 | 53.8 |
-| Haworth | 0 | 43.8 | 36.1 | 3883 | 45.8 | 357 | 115,953 | 773.0 |
-| Haworth | 2 | 62.5 | 55.9 | 384 | 48.9 | 338 | 16,828 | 112.2 |
-| Haworth | 5 | 63.3 | 57.4 | 382 | 49.6 | 336 | 15,586 | 103.9 |
-| Haworth | 10 | 64.6 | 58.9 | 382 | 50.3 | 330 | 15,284 | 101.9 |
-| Haworth | 20 | 67.4 | 61.1 | 381 | 51.3 | 322 | 14,285 | 95.2 |
+| Connecting Ridge | 0 | 53.4 | 47.0 | 2077 | 48.0 | 341 | 177,338 | 886.7 |
+| Connecting Ridge | 2 | 79.1 | 73.1 | 302 | 50.9 | 320 | 22,773 | 113.9 |
+| Connecting Ridge | 5 | 93.6 | 89.2 | 143 | 50.9 | 320 | 7,753 | 38.8 |
+| Connecting Ridge | 10 | 95.1 | 92.2 | 77 | 50.9 | 320 | 4,853 | 24.3 |
+| Connecting Ridge | 20 | 95.9 | 92.9 | 69 | 50.9 | 320 | 4,069 | 20.3 |
+| Malapert Massif | 0 | 21.3 | 17.9 | 2063 | 52.3 | 316 | 172,862 | 864.3 |
+| Malapert Massif | 2 | 70.3 | 64.9 | 446 | 62.7 | 250 | 24,095 | 120.5 |
+| Malapert Massif | 5 | 81.6 | 79.0 | 303 | 71.5 | 194 | 16,444 | 82.2 |
+| Malapert Massif | 10 | 85.5 | 82.7 | 261 | 79.6 | 143 | 14,096 | 70.5 |
+| Malapert Massif | 20 | 86.9 | 84.0 | 261 | 89.1 | 87 | 14,095 | 70.5 |
+| Haworth | 0 | 43.8 | 36.1 | 3883 | 45.8 | 357 | 227,450 | 1137.2 |
+| Haworth | 2 | 62.5 | 55.9 | 384 | 48.9 | 338 | 30,719 | 153.6 |
+| Haworth | 5 | 63.3 | 57.4 | 382 | 49.6 | 336 | 29,723 | 148.6 |
+| Haworth | 10 | 64.6 | 58.9 | 382 | 50.3 | 330 | 28,946 | 144.7 |
+| Haworth | 20 | 67.4 | 61.1 | 381 | 51.3 | 322 | 26,949 | 134.7 |
 
 "Sun visible" counts the hours with any part of the solar disc above the terrain horizon (A12);
 "Battery needed" is the smallest capacity that keeps the state of charge above 20 % for the
-whole year (none of the nights or gaps touches the edge of the window). The 0 m rows are an
+whole year (none of the nights or gaps touches the edge of the window); the default lander's
+20 000 Wh battery is enough at 10 and 20 m at Connecting Ridge and Malapert Massif, not at 2 m. The 0 m rows are an
 observer on the surface of the terrain model, whose horizon is set by pixel-scale slopes (A7):
 nights of 86 to 162 days there are not those of a real lander, so the figure starts at 2 m and
 the conclusions count the gain from 2 m.
@@ -317,8 +325,8 @@ the conclusions count the gain from 2 m.
    20 m. From 10 to 20 m Connecting Ridge gains 0.8 points of sunlight and 8 h of the longest night.
    Haworth formally levels off at 20 m, but only because its small gain grows roughly in
    proportion to the height; it does not level off within 20 m and is not large at any height.
-3. **Battery mass a mast saves (placeholder power system):** from 2 to 10 m, 8,282 Wh (55.2 kg) at
-   Connecting Ridge and 5,144 Wh (34.3 kg) at Malapert Massif; from 2 to 20 m, 2,543 Wh (17.0 kg)
+3. **Battery mass a mast saves (default lander, 200 Wh/kg):** from 2 to 10 m, 17,920 Wh (89.6 kg)
+   at Connecting Ridge and 9,999 Wh (50.0 kg) at Malapert Massif; from 2 to 20 m, 3,770 Wh (18.9 kg)
    at Haworth. The mass of the mast itself is not modelled and has to be compared with these
    numbers.
 4. **Earth in line of sight reacts differently:** at Malapert Massif, on the Earth-facing side,
@@ -327,38 +335,33 @@ the conclusions count the gain from 2 m.
    Connecting Ridge the Earth time does not change from 2 to 20 m (50.9 %): the Earth rises and
    sets at azimuths 134 to 141 deg behind terrain 134 to 140 km away, too far for a few metres
    to matter. A visible Earth is not yet a closed link (A17).
-5. **A taller mast needs a larger battery at Malapert Massif: 8,070 Wh at 20 m against 7,084 Wh
-   at 10 m, although there is more sunlight.** This comes from the placeholder load rule (A15),
-   not from the terrain. Breakdown of the deepest deficit at 20 m (2027-03-05 18:00 to 03-15 15:00
-   UTC, 237 h): 174 night hours, 3,663 Wh; 49 hours in which only a thin sliver of the Sun is
-   visible, the 100 W day load is drawn and the panel gives less than that, 3,436 Wh; 14 hours of
-   recharge, -643 Wh; in total 6,456 Wh, divided by the usable share 0.8 this is 8,070 Wh. At
-   10 m the deepest deficit is a plain night in May (below). Check with a different rule (not part
-   of the model): if the day load is drawn only while the panel covers it, Malapert Massif needs
-   6,895 Wh at 10 m and 6,894 Wh at 20 m, and the levelling-off heights of all three sites stay
-   the same. The engineer's choice of the load rule therefore matters for the battery numbers,
-   not for the conclusion about the height.
+5. **The day-mode rule matters for the battery, not for the height.** With the first placeholder
+   rule (day load whenever any part of the Sun is visible) a taller mast needed a larger battery at
+   Malapert Massif (8,070 Wh at 20 m against 7,084 Wh at 10 m with the first placeholder lander):
+   at 20 m a thin sliver of the Sun stayed visible for 49 hours of the deepest deficit, the 100 W
+   day load was drawn and the panel gave less (3,436 Wh of the deficit). The rule chosen in T23
+   (day mode only while the panel covers the day load, A15) removes this: 14,096 Wh at 10 m and
+   14,095 Wh at 20 m. The heights where the gain levels off were the same under both rules.
 6. **"Longest night" alone does not size the battery.** At Connecting Ridge with 2 m the deepest
-   deficit lasts 540 h (2027-04-28 14:00 to 05-21 02:00 UTC) and contains three nights of 302, 21
-   and 151 h; the partial days between them do not refill the battery. The battery column comes
-   from the full simulation (T08), not from the longest night.
+   deficit lasts 537 h (2027-04-28 16:00 to 05-21 01:00 UTC) and contains three nights of 302, 21
+   and 151 h (474 h, 22,951.6 Wh) and 17 hours of weak light (562.8 Wh); the partial days between
+   them put back only 3,018.7 Wh. Total 20,495.7 Wh, divided by 0.9: 22,773 Wh, as in the table.
 
-Check that can be repeated by hand: Malapert Massif with 10 m, deepest deficit 2027-05-02 23:00 to
-2027-05-13 23:00 UTC (264 h). 261 night hours at 20 W / 0.95 = 5,494.7 Wh plus 3 dusk and dawn
-hours in which the day load exceeds the generation, 172 Wh net, together 5,667 Wh; divided by
-0.8 this is 7,084 Wh, as in the table. The deepest deficits of all three sites at 2 to 10 m fall
-between 3 April and 21 May 2027, around 2027-04-27, when the Sun reaches its northernmost
-latitude in the lunar frame, +1.547 deg (A21).
+Check that can be repeated by hand: Malapert Massif with 10 m, deepest deficit 2027-05-03 00:00 to
+2027-05-13 22:00 UTC (262 h). 261 night hours at 46 W / 0.95 = 12,637.9 Wh plus 1 hour of weak light,
+48.3 Wh net, together 12,686.2 Wh; divided by 0.9 this is 14,096 Wh, as in the table. The deepest
+deficits computed for Connecting Ridge and Malapert Massif at 2 and 10 m fall between 27 April and
+21 May 2027, around 2027-04-27, when the Sun reaches its northernmost latitude in the lunar frame,
++1.547 deg (A21).
 
 Speed: the ephemeris for the year (8760 steps) takes 0.3 s, the five heights of one site 0.2 s
 (visibility, link windows, battery simulation and required capacity), the whole run below 1 s
 plus loading.
 
 Questions for the engineer: (1) the list of heights and what the mast carries (A19); (2) the 90 %
-definition of "levels off" (A20); (3) the day-load rule (A15), which changes the battery needed at
-20 m by 1.2 kWh at Malapert Massif; (4) whether a year of operation (A21) is the right case for
-sizing, or a mission window; (5) the mass of a 5, 10 and 20 m mast, to compare with the battery
-mass it saves.
+definition of "levels off" (A20); (3) the day-mode rule (A15); (4) whether a year of operation (A21)
+is the right case for sizing, or a mission window; (5) the mass of a 5, 10 and 20 m mast, to compare
+with the battery mass it saves.
 
 ## Landing-date search (T11)
 
@@ -370,31 +373,33 @@ and `.json` (inputs and the five best days); figures:
 `docs/figures/landing_timeline_<site>_h2_2027-01-01_2029-01-01.png` (hourly Sun and Earth with
 the best missions, and the battery margin per landing day).
 
-**Placeholders: the power system (A14, battery 1000 Wh), the mission length of 14 days and the
-battery full at landing (A23), the link rule (A12).** The pattern over the calendar comes from
-the terrain and the ephemeris; which days pass depends on the placeholder battery.
+**The lander values are not confirmed by the team's engineer (A14; default lander of the T08
+example, 20 kWh battery); the mission length of 14 days and the battery full at landing (A23) and
+the link rule (A12) are placeholders.** The pattern over the calendar comes from the terrain and the
+ephemeris; which days pass depends on the battery.
 
 | | Connecting Ridge, 2 m | Malapert Massif, 2 m |
 |---|---|---|
-| Landing days that survive 14 days | 378 of 731 | 233 of 731 |
+| Landing days that survive 14 days (default lander) | 731 of 731 | 731 of 731 |
+| Lowest state of charge of any mission (allowed 10 %) | 22.8 % | 18.7 % |
 | Days with the best possible score (battery never below full, Earth in view all 14 days) | 11 | 40 |
 | Five best landing days (A22) | 2027-08-16, 2027-12-30, 2028-07-08, 2028-08-04, 2028-08-31 | 2027-01-10, 2027-08-15, 2027-09-11, 2027-10-08, 2027-11-04 |
-| Time: ephemeris / visibility / calendar of 731 missions | 0.8 / 0.08 / 0.5 s | 0.5 / 0.06 / 0.3 s |
+| Time: ephemeris / visibility / calendar of 731 missions | 1.1 / 0.14 / 0.7 s | 0.5 / 0.05 / 0.3 s |
 
 Reading:
 
-- **Season.** At Connecting Ridge no landing between 2027-02-05 and 2027-07-16 survives with the
-  placeholder battery, nor between 2028-01-24 and 2028-07-04: the southern winter of the Moon,
-  when the Sun stands north of the lunar equator (+1.547 deg on 2027-04-27, A21). The failing
-  season comes 12 days earlier in 2028 because the cycle of the Sun's latitude is shorter than a
-  calendar year (344.5 to 348.8 days in our ephemeris).
-- **Two failing runs without any night, caused by the placeholder load rule (A15).** Missions
-  landing 2027-08-01 to 08-14 and 2028-12-15 to 12-28 have the Sun in view for all 336 h, yet
-  the battery empties. In the mission landing 2027-08-01, for 28 h in a row only a sliver of the
-  Sun is visible (15.9 % of the disc on average): the panel gives 63 W on average while the 100 W
-  day load is drawn, and the battery needs 1,362 Wh. If the day load were drawn only while the
-  panel covers it, the same mission would need 19 Wh (2028-12-15: 30 h, 2,038 Wh against 39 Wh).
-  These runs are an effect of the load rule, not of the terrain; see the open question in A15.
+- **With the default lander every landing day survives a 14-day mission** at both sites; the
+  20 kWh reference battery leaves at least 22.8 % (Connecting Ridge) and 18.7 % (Malapert Massif).
+- **Season (illustration with a 5 kWh battery, `--battery-wh 5000`, files with the suffix
+  `_battery5000`).** At Connecting Ridge 514 of 731 landing days survive; the failing landing days
+  lie between 2027-03-08 and 2027-06-29 and between 2028-02-10 and 2028-06-03, with a few surviving
+  days in between: the southern winter of the Moon, when the Sun stands north of the lunar equator
+  (+1.547 deg on 2027-04-27, A21).
+- **History of the load rule.** With the first placeholders (1000 Wh, day load whenever any part of
+  the Sun is visible) missions landing 2027-08-01 to 08-14 failed without a single night: for 28 h
+  only a sliver of the Sun was visible (15.9 % of the disc), the panel gave 63 W against the 100 W
+  day load, and the mission needed 1,362 Wh. Under the rule chosen in T23 (A15) the same mission
+  needs 19 Wh.
 - **Why the five best days.** All five have the same score at both sites: Sun and Earth in view
   for the whole mission and the battery never below full; the ranking then takes the earliest
   non-overlapping ones (A22). The timeline shows why exactly these days: every grey band lies
@@ -419,8 +424,8 @@ in this project; the others are named but not quantified.
 
 | Source | Effect | Size | Assumption |
 |---|---|---|---|
-| Power-system values | Every verdict and battery size depends on the lander; the defaults are placeholders | not a model error: replace by the engineer's values | A14 |
-| Day-load rule | Hours with a thin sliver of Sun count as "day" (100 W load) | turns a 19 Wh mission into 1362 Wh (T11); +1.2 kWh at Malapert Massif, 20 m (T10) | A15 |
+| Power-system values | Every verdict and battery size depends on the lander; the defaults follow public sources (NASA reference lander, cell datasheet) or are placeholders | not a model error: replace by the engineer's values | A14 |
+| Day-mode rule | Whether a sliver of Sun puts the lander into day mode | the first rule turned a 19 Wh mission into 1362 Wh and made a 20 m mast need more battery than 10 m; the rule chosen in T23 removes both; still to be confirmed by the engineer | A15 |
 | Terrain model near the site | Horizons a few metres up are set by terrain tens to hundreds of metres away, at the edge of what the 5 m models resolve | 0 m versus 2 m: 50.8 % versus 77.9 % of time with Sun at Connecting Ridge (18.6 years); results at 0 m are not used | A6, A7 |
 | Sites without a 5 m model | Smoother near field, weaker reaction to a mast | not quantified | A8 |
 | Terrain model resolution in general | Point statistics on ridges change by tens of points within 180 m | the published map varies by 22 to 60 points inside one 3 x 3 pixel patch; our difference to it: 9.24 points RMS (Sun) | T07 |
@@ -436,9 +441,9 @@ in this project; the others are named but not quantified.
 
 ## Automated tests
 
-`uv run pytest -q` runs 275 tests (2026-11-14, all passing): ephemeris against the committed
+`uv run pytest -q` runs 287 tests (2026-11-14, all passing): ephemeris against the committed
 Horizons tables and Apollo 11, horizons on synthetic and real terrain, disc fractions and window
-statistics, energy balance and exact battery sizing against simulation, contact windows on a
+statistics, energy balance and exact battery sizing against simulation under both day-mode rules, contact windows on a
 synthetic libration, the mast trade-off and landing-date search on synthetic series with known
 answers, the precomputed data against a fresh SPICE run, and the Streamlit app on all pages with
 the SPICE kernels and the terrain rasters disabled.

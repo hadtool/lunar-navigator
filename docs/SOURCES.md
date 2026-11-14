@@ -316,6 +316,16 @@ The Sun-site distance comes from the ephemeris module, so the irradiance follows
 Earth-Moon system around its orbit: over 2027-2029 the distance at Connecting Ridge is
 0.9807 to 1.0193 au (our calculation), which changes the power by +4.0 % to -3.8 %.
 
+### Default lander values (proposed, T23 and engineering inputs)
+
+Stored in `data/raw/papers/` (not committed), retrieved 2026-11-14; the values are entered in
+docs/ENGINEERING_INPUTS.md with the mark [предложено] (not confirmed by the engineer, A14).
+
+| Document | URL | Size (bytes) | SHA-256 | Values taken |
+|---|---|---|---|---|
+| NASA GRC COMPASS team, "Overnight Power & Thermal Solutions for Lunar Landers", Survive the Night Technology Workshop, 2022 (NTRS 20220018215) | https://ntrs.nasa.gov/citations/20220018215 | 11883330 | `da6c1c46bca7c7779f03660ad5453ea2e78c628a9f0fd503843f0065f8446ef3` | "Night-time power reqt's ~ 40W", "EPS losses total ~6W" (night load 46 W); "~20 kWh capacity" Li-ion battery of LG 18650 MJ1 cells; "Use 90% DoD"; "Specific energy of ~200 Whr/kg" |
+| Spectrolab, XTJ Prime space solar cell datasheet (2016) | https://www.spectrolab.com/DataSheets/cells/XTJ_Prime_Data_Sheet_7-28-2016.pdf | 434537 | `a3b08e1042526a5d3e42b7c879942317c303fa390d48372d226b1f4e83d7b737` | 30.7 % efficiency at the beginning of life (AM0, 28 C, production average) |
+
 ## Precomputed data for the app (T12)
 
 One command rebuilds everything the app reads, from the raw terrain and the SPICE kernels:

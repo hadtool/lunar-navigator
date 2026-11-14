@@ -232,7 +232,7 @@ def figure(table: pd.DataFrame, meta: dict, path: Path) -> None:
     placeholder_power = bool(meta["placeholder_keys"]["power"])
     fig.suptitle(
         f"Mast-height trade-off, {start[:10]} to {stop[:10]} UTC (1 h steps)"
-        + ("  -  PLACEHOLDER power system, illustration only" if placeholder_power else ""),
+        + ("  -  lander values not confirmed by the engineer (A14)" if placeholder_power else ""),
         x=0.06, ha="left", fontsize=11, color=TEXT_PRIMARY,
     )
     system = meta["power_system"]
@@ -248,9 +248,9 @@ def figure(table: pd.DataFrame, meta: dict, path: Path) -> None:
     fig.text(
         0.06, 0.012,
         low_note
-        + f"Power system{' (placeholders, A14)' if placeholder_power else ''}: {panel} "
+        + f"Power system{' (not confirmed by the engineer, A14)' if placeholder_power else ''}: {panel} "
         f"{system['panel_area_m2']:g} m2 at {100 * system['panel_efficiency']:g} %, load {system['load_day_w']:g} W "
-        f"while any part of the Sun is visible and {system['load_night_w']:g} W otherwise, usable depth of discharge "
+        f"in day mode ({system['day_load_rule'].replace('_', ' ')}) and {system['load_night_w']:g} W otherwise, usable depth of discharge "
         f"{system['battery_max_dod']:g}, efficiencies {system['battery_charge_efficiency']:g} / "
         f"{system['battery_discharge_efficiency']:g}"
         + (f", battery mass at {specific:g} Wh/kg. " if specific else ", no battery mass (specific energy not given). ")

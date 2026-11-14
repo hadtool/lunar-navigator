@@ -12,16 +12,16 @@ Pick a site: Malapert Massif, an Artemis III region.
 
 4
 00:00:13,000 --> 00:00:17,500
-Hour-by-hour battery: with 1 kWh it does not survive 2027.
+Hour by hour: with a 20 kWh battery at 2 m it does not survive 2027.
 
 5
 00:00:17,500 --> 00:00:21,500
-With 20 kWh it survives. The minimum is 12.2 kWh.
+Raise panel and antenna to 10 m: it survives.
 
 6
 00:00:21,500 --> 00:00:26,000
-A 10 m mast cuts the battery needed from 12.2 to 7.1 kWh.
+A 10 m mast cuts the battery needed from 24.1 to 14.1 kWh.
 
 7
 00:00:26,000 --> 00:00:30,000
-Find the best landing days. Lander values are placeholders.
+Find the best landing days. Lander values: unconfirmed.

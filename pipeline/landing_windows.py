@@ -36,7 +36,7 @@ from matplotlib.patches import Patch, Rectangle
 from lunarnav.comms import default_comm_settings, link_mask
 from lunarnav.ephemeris import centre_ephemeris, sky_track
 from lunarnav.horizon import HorizonProfile, cache_path
-from lunarnav.power import default_power_system
+from lunarnav.power import default_power_system, with_capacity
 from lunarnav.visibility import runs, visibility
 from lunarnav.windows import best_landing_dates, default_mission_days, landing_windows
 
@@ -69,7 +69,8 @@ def iso_date(text: str) -> str:
         raise argparse.ArgumentTypeError(f"'{text}' is not a date YYYY-MM-DD") from error
 
 
-def run(site_id: str, mast_height_m: float, start: str, stop: str) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, dict]:
+def run(site_id: str, mast_height_m: float, start: str, stop: str,
+        battery_wh: float | None = None) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, dict]:
     sites = {site["id"]: site for site in build_horizons.load_sites()}
     if site_id not in sites:
         raise SystemExit(f"unknown site id {site_id}; known: {sorted(sites)}")
@@ -82,6 +83,8 @@ def run(site_id: str, mast_height_m: float, start: str, stop: str) -> tuple[pd.D
     profile = HorizonProfile.load(path)
     days, mission_placeholders = default_mission_days()
     system, power_placeholders = default_power_system()
+    if battery_wh is not None:  # an illustration with another battery, named so in the outputs
+        system = with_capacity(system, battery_wh)
     comm, comm_placeholders = default_comm_settings()
     duration_h = days * 24.0
     if abs(duration_h - round(duration_h)) > 1e-9:
@@ -126,6 +129,7 @@ def run(site_id: str, mast_height_m: float, start: str, stop: str) -> tuple[pd.D
             "comm": list(comm_placeholders),
         },
         "power_system": {key: value for key, value in system.__dict__.items()},
+        "battery_overridden_for_illustration": battery_wh is not None,
         "comm": {"rule": comm.rule, "margin_deg": float(np.rad2deg(comm.margin_rad))},
         "ranking": "survives, then highest lowest state of charge, then highest Earth-link share, then earlier date; "
                    "missions of the chosen dates do not overlap (docs/ASSUMPTIONS.md, A22)",
@@ -166,7 +170,7 @@ def _best_words(best: pd.DataFrame) -> str:
 
 
 def _title(meta: dict) -> str:
-    placeholder = "  -  PLACEHOLDER power system, illustration only" if meta["placeholder_keys"]["power"] else ""
+    placeholder = "  -  lander values not confirmed by the engineer (A14)" if meta["placeholder_keys"]["power"] else ""
     return (f"{meta['site_name']}: landing days {meta['landing_days_utc'][0]} to {meta['landing_days_utc'][1]} (UTC)\n"
             f"{meta['mission_days']:g}-day mission, panel and antenna {meta['mast_height_m']:g} m above the surface"
             f"{placeholder}")
@@ -284,12 +288,16 @@ def main() -> None:
     parser.add_argument("--mast", type=float, default=2.0, help="observer height in m (a cached horizon)")
     parser.add_argument("--start", type=iso_date, default="2027-01-01", help="first landing day (UTC)")
     parser.add_argument("--stop", type=iso_date, default="2029-01-01", help="day after the last landing day")
+    parser.add_argument("--battery-wh", type=float, default=None,
+                        help="illustration with another battery capacity (outputs get a _battery<Wh> suffix)")
     args = parser.parse_args()
 
     started = time.perf_counter()
-    table, best, hourly, meta = run(args.site, args.mast, args.start, args.stop)
+    table, best, hourly, meta = run(args.site, args.mast, args.start, args.stop, args.battery_wh)
     meta["timing"]["total_s"] = round(time.perf_counter() - started, 2)
     stem = f"{args.site}_h{args.mast:g}_{args.start}_{args.stop}"
+    if args.battery_wh is not None:
+        stem += f"_battery{args.battery_wh:g}"
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     table.to_csv(OUT_DIR / f"landing_{stem}.csv", index=False, float_format="%.4f", date_format="%Y-%m-%dT%H:%M")
     (OUT_DIR / f"landing_{stem}.json").write_text(json.dumps(meta, indent=1, default=str), encoding="utf-8")

@@ -28,7 +28,14 @@ from lunarnav.ephemeris import CentreEphemeris, SkyTrack  # noqa: E402
 from lunarnav.horizon import HorizonProfile, lat_lon_to_xy  # noqa: E402
 from lunarnav.inputs import load_engineering_inputs  # noqa: E402
 from lunarnav.mast import MIN_MEANINGFUL_HEIGHT_M, ObserverSeries, default_mast_settings  # noqa: E402
-from lunarnav.power import PANEL_FIXED, PANEL_TRACKING, PowerSystem, default_power_system  # noqa: E402
+from lunarnav.power import (  # noqa: E402
+    DAY_LOAD_POWER,
+    DAY_LOAD_SUN_VISIBLE,
+    PANEL_FIXED,
+    PANEL_TRACKING,
+    PowerSystem,
+    default_power_system,
+)
 from lunarnav.visibility import Visibility  # noqa: E402
 
 # --- look ------------------------------------------------------------------------------------
@@ -66,7 +73,7 @@ NO_BATTERY_IS_ENOUGH = "no size is enough"
 #: ("min-max (default X)") replace them.
 POWER_SLIDERS = (
     ("panel_area_m2", "Panel area", "m²", 0.1, 10.0, 0.1),
-    ("panel_efficiency", "Panel efficiency", "fraction", 0.05, 0.45, 0.01),
+    ("panel_efficiency", "Panel efficiency", "fraction", 0.05, 0.45, 0.001),
     ("panel_losses", "Other generation losses (dust, temperature, converter)", "fraction", 0.0, 0.5, 0.01),
     ("battery_capacity_wh", "Battery capacity", "Wh", 100.0, 60000.0, 100.0),
     ("battery_max_dod", "Usable depth of discharge", "fraction", 0.1, 1.0, 0.05),
@@ -77,7 +84,11 @@ POWER_SLIDERS = (
     ("load_day_w", "Load while the Sun is visible", "W", 0.0, 1000.0, 5.0),
     ("load_night_w", "Load at night (survival mode, heaters)", "W", 0.0, 500.0, 1.0),
 )
-POWER_KEYS = tuple(item[0] for item in POWER_SLIDERS) + ("panel_type", "panel_fixed_azimuth_deg")
+POWER_KEYS = tuple(item[0] for item in POWER_SLIDERS) + ("panel_type", "panel_fixed_azimuth_deg", "day_load_rule")
+DAY_LOAD_RULES = {
+    DAY_LOAD_POWER: "Day mode only while the panel covers the day load",
+    DAY_LOAD_SUN_VISIBLE: "Day mode whenever any part of the Sun is visible",
+}
 #: Widget keys that live on one page only but must survive page changes.
 PERSISTENT_KEYS = POWER_KEYS + ("mission_days", "compare_sites", "mast_carries")
 #: Values the power model accepts; ranges from the engineering inputs are clipped to them.
@@ -167,6 +178,7 @@ def _defaults() -> dict:
     values = {key: float(getattr(system, key)) for key, *_ in POWER_SLIDERS}
     values["panel_type"] = system.panel_type
     values["panel_fixed_azimuth_deg"] = float(np.rad2deg(system.panel_fixed_azimuth_rad))
+    values["day_load_rule"] = system.day_load_rule
     values["comm_rule"] = comm.rule
     values["comm_margin_deg"] = float(np.rad2deg(comm.margin_rad))
     return {"values": values, "power_placeholders": power_placeholders, "comm_placeholders": comm_placeholders}
@@ -225,6 +237,7 @@ def power_system() -> PowerSystem:
         battery_discharge_efficiency=float(state.battery_discharge_efficiency),
         battery_initial_soc=float(state.battery_initial_soc),
         battery_specific_energy_wh_per_kg=float(state.battery_specific_energy_wh_per_kg),
+        day_load_rule=state.day_load_rule,
     )
 
 
@@ -291,16 +304,17 @@ def sidebar() -> None:
                 st.caption("Defaults are placeholders (docs/ASSUMPTIONS.md, A12).")
         if power_placeholders():
             st.caption(
-                "⚠️ Lander power-system defaults are **placeholders** until the team's engineer fills in "
-                "docs/ENGINEERING_INPUTS.md (A14): survive / fail verdicts illustrate the method only."
+                "⚠️ Lander power defaults come from public NASA sources and a solar-cell datasheet where available "
+                "and are placeholders elsewhere; the team's engineer has **not confirmed** them yet (A14). "
+                "Survive / fail verdicts illustrate the method."
             )
 
 
 def power_note() -> None:
     """One line under a power result that says whose numbers these are."""
     if power_placeholders() and power_is_default():
-        st.caption("⚠️ Power system: placeholder values (docs/ASSUMPTIONS.md, A14), not data of a real lander. "
-                   "Change them on the Power page.")
+        st.caption("⚠️ Power system: default values from public sources or placeholders, not confirmed by the team's "
+                   "engineer (docs/ASSUMPTIONS.md, A14). Change them on the Power page.")
     else:
         system = power_system()
         st.caption(f"Power system set on the Power page: panel {system.panel_area_m2:g} m² at "

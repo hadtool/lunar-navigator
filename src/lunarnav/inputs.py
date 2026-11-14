@@ -15,6 +15,10 @@ Accepted value formats (decimal point or decimal comma):
 
 Fractions are written as 0..1; a value with a percent sign is refused instead of guessed.
 A cell holding only a dash, ``TBD``, ``н/д`` or ``?`` counts as empty.
+
+A source cell that contains ``[предложено]`` or ``[proposed]`` marks a value proposed from public
+sources but not yet confirmed by the engineer (:attr:`EngineeringValue.provisional`); the app
+keeps flagging such values.
 """
 
 from __future__ import annotations
@@ -51,6 +55,12 @@ class EngineeringValue:
     key: str
     raw: str
     source: str = ""
+
+    @property
+    def provisional(self) -> bool:
+        """True when the source cell marks the value as proposed and not yet confirmed."""
+        text = self.source.lower()
+        return "[предложено]" in text or "[proposed]" in text
 
     def number(self) -> float:
         """The value as a number: the default of a range, otherwise the leading number."""

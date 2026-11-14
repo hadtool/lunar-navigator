@@ -25,24 +25,26 @@ models, IM-2) and any dates in 2027-2029:
 - **Mast trade-off** — light, longest night, battery and Earth link for masts of 0-20 m.
 - **Compare sites**, **Landing windows** (calendar and the five best landing days), **Methods & data**.
 
-## What it shows (2027, placeholder lander)
+## What it shows (2027, default lander)
 
 - At Connecting Ridge a 10 m mast instead of 2 m raises the time with sunlight from 79.1 % to
-  95.1 % and cuts the battery needed for the year from 11.6 kWh to 3.3 kWh (77 kg to 22 kg). The
+  95.1 % and cuts the battery needed for the year from 22.8 kWh to 4.9 kWh (114 kg to 24 kg). The
   gain levels off at about 10 m there and at Malapert Massif; at Haworth a mast hardly helps.
 - The Earth is often the narrow constraint: at Malapert Massif a mast raises the time with the Earth
   in view from 62.7 % to 89.1 % (2 to 20 m); at Connecting Ridge the Earth sets behind terrain
   135 km away and a mast does not help.
-- The season decides the landing date: 14-day missions at Connecting Ridge fail for landings from
-  February to mid-July 2027 (southern lunar winter).
+- With a 20 kWh battery every 14-day mission at these sites survives, but a whole year at Malapert
+  Massif needs 24.1 kWh at 2 m and 14.1 kWh with a 10 m mast; with a 5 kWh battery, missions at
+  Connecting Ridge fail for landings in the southern lunar winter (March to June 2027).
 
-The lander values are **placeholders** until our engineer fills in
-[docs/ENGINEERING_INPUTS.md](docs/ENGINEERING_INPUTS.md); the app marks them.
+Lander values: battery, night load and cell efficiency follow a NASA reference lander (2022) and a
+solar-cell datasheet; panel area and day load are placeholders; our engineer has **not confirmed**
+them yet ([docs/ENGINEERING_INPUTS.md](docs/ENGINEERING_INPUTS.md)); the app marks them.
 
 ## Try it
 
-Three clicks: **Malapert Massif** → **Power** (*does not survive* with 1000 Wh) → battery slider to
-20 000 Wh (*survives*; 12 228 Wh are needed).
+Three clicks: **Malapert Massif** → **Power** (*does not survive* 2027 with the 20 kWh battery at
+2 m) → mast slider to **10 m** (*survives*; 14.1 kWh needed instead of 24.1).
 
 ```bash
 uv sync
