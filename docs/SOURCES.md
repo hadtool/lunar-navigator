@@ -217,6 +217,23 @@ Mons Mouton site lies inside the PGDA Leibnitz Beta Plateau raster: both entries
 same massif. Nobile Rim 2 (NR205) is close to the edge of the DM2 raster, so the 5 m model
 covers its surroundings only partly.
 
+### Wueller et al. (2026) illumination rasters (T22, definition only)
+
+`Illumination_Modeling.zip` from the same Zenodo record (https://zenodo.org/records/17084058/files/Illumination_Modeling.zip,
+10731432 bytes, SHA-256 `5596caddff12fc70e19df89af69fbafa83350a7b191d71ddada743862ce17c60`, retrieved 2026-11-14, stored in `data/raw/wueller2026_illumination/`, not
+committed). It holds a nested archive of GeoTIFFs per region and year (`<Region>_MaxConsecDaysOfSun_Midsummer<YYYY>GT`
+and `..._MaxConsecDaysOfSun+Earth_...`), an ArcGIS layer file and `READ_ME.txt`, which states: "The illumination
+shows the number of consecutive 12-hour time increments in the model. Therefore, to derive the number of
+consecutive illuminated days, the value must be divided by two. The values in the attribute tables have already
+been divided and indicate the number of consecutive illuminated days."
+
+So `SunDays25`..`Sundays32` of the landing-site table are the **largest number of consecutive days with sunlight
+within the "midsummer" window of each year**, sampled every 12 hours, and `SunEarth..` the same for Sun and Earth
+together. Not stated in the dataset: the dates of the midsummer windows, the illumination threshold (any part of
+the disc or more), the observer height and the terrain model. The paper (doi:10.1029/2025JE009434) could not be
+opened from our tools (publisher 403, repository refused the connection), so no comparison with our results has
+been made.
+
 ## Published values used for validation
 
 ### Ephemeris module (T05)
