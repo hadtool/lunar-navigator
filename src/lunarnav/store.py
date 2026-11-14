@@ -150,6 +150,31 @@ def load_centre_ephemeris(path: str | Path = EPHEMERIS_FILE) -> CentreEphemeris:
     )
 
 
+def centre_window(
+    centre: CentreEphemeris, start_utc: str | np.datetime64, stop_utc: str | np.datetime64
+) -> CentreEphemeris:
+    """The part of a centre ephemeris inside ``[start_utc, stop_utc)``.
+
+    A window that reaches outside the stored times is refused instead of silently shortened.
+    """
+    times = np.asarray(centre.times_utc)
+    start, stop = np.datetime64(start_utc, "ms"), np.datetime64(stop_utc, "ms")
+    step = times[1] - times[0] if times.size > 1 else np.timedelta64(0, "ms")
+    if start < times[0] or stop > times[-1] + step:
+        raise ValueError(f"window {start} .. {stop} is outside the stored ephemeris ({times[0]} .. {times[-1] + step})")
+    selected = (times >= start) & (times < stop)
+    if np.count_nonzero(selected) < 2:
+        raise ValueError("the window contains fewer than two time steps")
+    return CentreEphemeris(
+        times_utc=_read_only(times[selected]),
+        et_s=_read_only(centre.et_s[selected]),
+        sun_m=_read_only(centre.sun_m[selected]),
+        earth_m=_read_only(centre.earth_m[selected]),
+        sun_radius_m=centre.sun_radius_m,
+        earth_radius_m=centre.earth_radius_m,
+    )
+
+
 def observer(profile: HorizonProfile, centre: CentreEphemeris) -> tuple[SkyTrack, Visibility]:
     """Sky track and visibility for the observer of a horizon profile (surface plus mast)."""
     track = sky_track(profile.lat_rad, profile.lon_east_rad, profile.ground_height_m + profile.mast_height_m, centre)

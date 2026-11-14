@@ -1,14 +1,14 @@
 {
- "built_utc": "2026-11-14T17:41:12Z",
+ "built_utc": "2026-11-14T17:59:53Z",
  "command": "uv run python pipeline/build.py --skip-horizons",
  "timing": {
   "horizons": {
    "skipped": true
   },
   "horizons_s": 0.0,
-  "ephemeris_s": 1.1,
-  "metrics_s": 8.3,
-  "total_s": 9.3
+  "ephemeris_s": 1.4,
+  "metrics_s": 9.4,
+  "total_s": 10.8
  },
  "ephemeris_period_utc": [
   "2027-01-01T00:00:00.000",
@@ -87,6 +87,16 @@
   "pyarrow": "26.0.1"
  },
  "files": [
+  {
+   "path": "data/processed/basemap/south_pole_relief.json",
+   "bytes": 391,
+   "sha256": "753ab0e8b0c9fa9a71339181ee1dc42ddd328c9d6b55411f199669e94db893ba"
+  },
+  {
+   "path": "data/processed/basemap/south_pole_relief.png",
+   "bytes": 315679,
+   "sha256": "10735ae4c5194f9ce7eaad57accb8d7410a9ac7a3c45d36f9fbbf559e4106392"
+  },
   {
    "path": "data/processed/ephemeris/centre_ephemeris_hourly.parquet",
    "bytes": 1873770,
@@ -523,5 +533,5 @@
    "sha256": "444f661066dc64dcd685fe72562d7814f84cb27c3337dcc971d249aec9f7e94f"
   }
  ],
- "total_bytes": 3491563
+ "total_bytes": 3807633
 }

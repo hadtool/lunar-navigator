@@ -1,0 +1,17 @@
+{
+ "source": "LDEM_80S_40MPP_ADJ.TIF",
+ "extent_km": [
+  -220.0,
+  220.0,
+  -220.0,
+  220.0
+ ],
+ "pixel_m": 628.5714285714286,
+ "projection": "south polar stereographic, as the LOLA models; +y towards 0 E, +x towards 90 E",
+ "light": {
+  "azimuth_deg": 315.0,
+  "elevation_deg": 35.0
+ },
+ "vertical_exaggeration": 3.0,
+ "note": "backdrop only; no number in the app is read from this image"
+}

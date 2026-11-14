@@ -15,6 +15,8 @@ vouches for the files. Writes into data/processed/:
   mission landing late in 2029 fits);
 * metrics/visibility_metrics.json: visibility statistics per site, height and period
   (2027-2029 and each year);
+* basemap/south_pole_relief.png: shaded relief behind the site map of the app (backdrop only;
+  kept as it is with --skip-horizons, which needs no terrain);
 * manifest.json: what was built, with sizes, checksums, timings and the inputs used.
 
 The app reads only these files (lunarnav.store); it needs neither the terrain nor the kernels.
@@ -42,6 +44,7 @@ from lunarnav.mast import default_mast_settings
 from lunarnav.visibility import window_metrics
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+import build_basemap  # noqa: E402
 import build_horizons  # noqa: E402
 
 #: Size budget of data/processed (the files are committed for the deployed app).
@@ -168,7 +171,7 @@ def main() -> None:
                          "(or use --skip-horizons)")
     store.MANIFEST_FILE.unlink(missing_ok=True)
 
-    print(f"1/3 horizons: {len(sites)} sites x {len(mast.heights_m)} heights {list(mast.heights_m)} m")
+    print(f"1/4 horizons: {len(sites)} sites x {len(mast.heights_m)} heights {list(mast.heights_m)} m")
     started = time.perf_counter()
     if args.skip_horizons:
         timing["horizons"] = {"skipped": True}
@@ -180,13 +183,13 @@ def main() -> None:
         print(f"  note: {len(extra)} horizon files are not for the current sites and heights and were left in "
               f"place (e.g. {extra[0].name}); delete them by hand if they are not needed")
 
-    print(f"2/3 centre ephemeris {store.ANALYSIS_START} .. {store.EPHEMERIS_STOP} hourly")
+    print(f"2/4 centre ephemeris {store.ANALYSIS_START} .. {store.EPHEMERIS_STOP} hourly")
     started = time.perf_counter()
     times = np.arange(store.ANALYSIS_START, store.EPHEMERIS_STOP, np.timedelta64(1, "h"))
     store.save_centre_ephemeris(ephemeris.centre_ephemeris(times))
     timing["ephemeris_s"] = round(time.perf_counter() - started, 1)
 
-    print("3/3 visibility metrics (from the stored files, as the app reads them)")
+    print("3/4 visibility metrics (from the stored files, as the app reads them)")
     started = time.perf_counter()
     centre = store.load_centre_ephemeris()
     rows = [row for site in sites for height in mast.heights_m
@@ -205,6 +208,12 @@ def main() -> None:
         "rows": rows,
     }, separators=(",", ":")))
     timing["metrics_s"] = round(time.perf_counter() - started, 1)
+
+    if not args.skip_horizons:
+        print("4/4 basemap of the site map")
+        started = time.perf_counter()
+        build_basemap.build()
+        timing["basemap_s"] = round(time.perf_counter() - started, 1)
     timing["total_s"] = round(time.perf_counter() - total_started, 1)
 
     files = sorted(path for path in store.PROCESSED_DIR.rglob("*")
