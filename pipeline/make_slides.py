@@ -146,7 +146,7 @@ def main() -> None:
         ("NAIF SPICE kernels, DE440", "hourly apparent Sun and Earth positions"),
         ("JPL Horizons", "check: directions agree to 0.00003°; Apollo 11 Sun 10.70°"),
         ("LOLA Sun and Earth visibility maps, PGDA 69", "check: 18.6-year statistics within 2.7 / 0.8 points"),
-        ("LROC QuickMap, Moon Trek", "visual check of horizon panoramas (planned, by the team)"),
+        ("LROC WAC mosaic (as in QuickMap)", "check: horizon peaks land on Malapert, Mons Mouton, rims"),
     ]
     y = 0.72
     for name, use in rows:

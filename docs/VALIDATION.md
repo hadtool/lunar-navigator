@@ -13,6 +13,7 @@ docs/ASSUMPTIONS.md; sources and checksums are in docs/SOURCES.md.
 | Sun elevation at the Apollo 11 landing | JPL Horizons; NASA SP-4029 (planned 10.8 deg) | 10.7035 deg (Horizons 10.7033 deg) | `tests/test_ephemeris.py` |
 | Terrain horizon geometry | horizon dip on a smooth sphere; a single ridge of known size | relative 1e-4; 0.0002 rad (0.011 deg) | `tests/test_horizon.py` |
 | Horizon on real terrain | the summit of Malapert Massif seen from Connecting Ridge, 135 km away | on the horizon within 0.01 deg of its computed elevation | `tests/test_horizon_real.py` |
+| Horizon peaks versus imagery | LROC WAC south-polar mosaic (camera images, the imagery QuickMap shows); 18 peaks at 3 sites | far peaks land on massifs and crater rims; 7 of them within 0.2-0.6 km of other listed candidate sites | `pipeline/check_horizon_wac.py`, figures below |
 | Terrain beyond the 40 m model | LOLA 240 m model, rays to 500 km | no azimuth changes for 15 sites; margin at least 0.66 deg | A5 |
 | Sun and Earth visibility over 18.6 years | published LOLA maps (PGDA product 69), 36 pixels at 4 sites | mean difference -2.68 / -0.82 points, RMS 9.24 / 2.59 points (Sun / Earth) | section below |
 | Visible share of a disc | circular-segment formula | within 0.001 | `tests/test_visibility.py` |
@@ -21,9 +22,7 @@ docs/ASSUMPTIONS.md; sources and checksums are in docs/SOURCES.md.
 | Precomputed data of the app | a fresh SPICE run | identical to the last bit | `tests/test_store.py` |
 | Whole app | Streamlit AppTest, no kernels, no terrain | 6 pages open, demo scenario, reruns below 2 s | `tests/test_app.py` |
 
-Not yet done: the visual comparison of a horizon panorama with LROC QuickMap or Moon Trek
-(task T06, to be done by a team member in a browser) and the engineer's review of the power,
-link and mast examples below.
+Not yet done: the engineer's review of the power, link and mast examples below.
 
 ## Sun and Earth directions versus JPL Horizons (T05)
 
@@ -73,6 +72,30 @@ touchdown; the test therefore allows 0.3 deg against it and 0.0005 deg against H
   (A5).
 - **Reproducibility.** Rebuilding all 75 horizons from the raw terrain gives byte-for-byte the
   committed files (T12).
+- **Against imagery (visual check).** `pipeline/check_horizon_wac.py` takes the six highest peaks
+  of a horizon panorama and puts the terrain point that defines each peak (its azimuth and
+  distance) on the LROC WAC south-polar summer mosaic (Speyerer et al., 2020), i.e. on camera
+  images, not on the LOLA heights the horizon comes from. A wrong azimuth convention or wrong
+  distances would put the points on plains or crater floors. Figures:
+  `docs/figures/horizon_check_wac_connecting_ridge_h20.png`, `..._malapert_massif_h20.png`,
+  `..._haworth_h2.png`. Every far peak (beyond about 30 km) lands on a massif or a crater rim in
+  the image, and several land on other candidate sites of our list, whose coordinates come from
+  independent sources (docs/SOURCES.md):
+
+  | Seen from | Peak: azimuth, distance | Lands on (distance to the listed point) |
+  |---|---|---|
+  | Connecting Ridge, 20 m | 93.5 deg, 38 km | de Gerlache Rim (0.2 km) |
+  | Connecting Ridge, 20 m | 144.0 deg, 135 km | Malapert Massif (0.2 km) |
+  | Connecting Ridge, 20 m | 175.0 deg, 159 km | Nobile Rim 1 (0.6 km) |
+  | Connecting Ridge, 20 m | 238.0 deg, 42 km | Peak near Shackleton (0.3 km) |
+  | Malapert Massif, 20 m | 90.5 deg, 69 km | Mons Mouton (0.3 km) |
+  | Haworth, 2 m | 94.5 deg, 111 km | Leibnitz Beta Plateau / Mons Mouton massif (5.5 km) |
+  | Haworth, 2 m | 205.0 deg, 67 km | de Gerlache Rim (0.3 km) |
+
+  Candidate sites sit on the highest, best-lit summits and rims, which are exactly the features
+  that close a horizon, so this agreement is expected when the geometry is right. Peaks closer
+  than a few kilometres are below the resolution of the mosaic (474 m/pixel) and are not checked
+  this way.
 
 ## Illumination and Earth visibility versus the published LOLA maps (T07)
 

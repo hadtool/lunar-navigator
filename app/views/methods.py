@@ -58,7 +58,7 @@ st.markdown(
 | LOLA average Sun and Earth visibility maps (PGDA product 69) | independent check of our visibility statistics |
 | JPL Horizons (lunar surface sites, DE441) | independent check of the Sun and Earth directions |
 | NAIF SPICE kernels (DE440, lunar orientation, leap seconds) | Sun and Earth positions |
-| LROC QuickMap, Moon Trek | visual check of horizons (by the team) |
+| LROC WAC south-polar mosaic (the imagery of LROC QuickMap) | visual check: horizon peaks land on the real massifs and crater rims |
 | CSA Moon exploration pages | mission context |
 | Wueller et al. (2026), Zenodo dataset (CC BY 4.0) | candidate landing points inside the Artemis III regions |
 

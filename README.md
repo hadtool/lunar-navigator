@@ -60,7 +60,7 @@ The app needs no terrain or SPICE kernels: it reads precomputed files in `data/p
 | LOLA Sun and Earth visibility maps, PGDA [69](https://pgda.gsfc.nasa.gov/products/69) | Check of our visibility statistics |
 | [JPL Horizons](https://ssd.jpl.nasa.gov/horizons/) | Check of Sun and Earth directions, incl. Apollo 11 |
 | NAIF SPICE kernels (DE440) | Hourly Sun and Earth positions |
-| [LROC QuickMap](https://quickmap.lroc.asu.edu/), [Moon Trek](https://trek.nasa.gov/moon/) | Visual check of horizons — still to be done by the team |
+| LROC WAC south-polar mosaic (the imagery of [LROC QuickMap](https://quickmap.lroc.asu.edu/)) | Visual check: horizon peaks land on Malapert Massif, Mons Mouton, de Gerlache Rim, the peak near Shackleton |
 | [CSA Moon exploration](https://www.asc-csa.gc.ca/eng/astronomy/moon-exploration/) | Mission context; no number comes from it |
 
 Site points in the Artemis III regions: Wueller et al. (2026), CC BY 4.0.

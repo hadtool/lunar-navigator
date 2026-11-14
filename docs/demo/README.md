@@ -33,4 +33,3 @@ may still show the previous year's wording, so **check the 2026 guide before sub
 - Record the video along `video_script.md` and publish it with a public link.
 - Replace the placeholders `[names]` and `[link]` on slide 1 (edit `pipeline/make_slides.py` and
   rebuild, or edit the PDF).
-- Slide 6 says the QuickMap / Moon Trek check is planned: do it (task T06) or remove the line.

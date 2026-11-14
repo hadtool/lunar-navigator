@@ -67,8 +67,8 @@ Matplotlib, pytest, uv; Claude Code (see AI use).
 - LOLA average Sun and Earth visibility maps (PGDA product 69) to validate our statistics.
 - JPL Horizons to validate the Sun and Earth directions at two polar sites and at Apollo 11.
 - NAIF SPICE kernels (DE440 planetary ephemeris, lunar orientation, leap seconds) for the positions.
-- LROC QuickMap and Moon Trek for a visual comparison of horizon panoramas _(to be done by the team
-  before submission; delete this line if not done)_.
+- The LROC WAC south-polar mosaic (the imagery LROC QuickMap shows) to check visually that the
+  terrain points defining our horizon peaks land on the real massifs and crater rims.
 
 ## Space agency partner resources
 

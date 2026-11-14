@@ -234,6 +234,18 @@ the disc or more), the observer height and the terrain model. The paper (doi:10.
 opened from our tools (publisher 403, repository refused the connection), so no comparison with our results has
 been made.
 
+## LROC imagery (visual check of horizons, T06)
+
+LROC WAC south-polar summer mosaic, 64 pixels/degree browse GeoTIFF (8 bit):
+https://pds.lroc.im-ldi.com/data/LRO-L-LROC-5-RDR-V1.0/LROLRC_2001/EXTRAS/BROWSE/WAC_ROI/WAC_ROI_SOUTH_SUMMER/WAC_ROI_SOUTH_SUMMER_064P.TIF
+(36967887 bytes, SHA-256 `f368c1d315fe49616dd7f0d52856c1520ed0a1677ee4d1f450ba1c60a13b1330`, retrieved 2026-11-14, stored in `data/raw/lroc_wac/`, not committed). 6076 x 6076
+pixels of 473.8 m, south polar stereographic projection with the same parameters as the LOLA models (lat_0 -90,
+lon_0 0, sphere 1737.4 km). Product description (README of the product): WAC 643 nm images taken between 2010-09-21
+and 2010-10-23, when the sub-solar point was near its southernmost latitude, mosaicked to minimise shadows.
+Reference: Speyerer, E. J., Robinson, M. S., Boyd, A., Wagner, R. V., Henriksen, M. R. (2020), Exploration of the
+lunar south pole with LROC data products, Lunar Surface Science Workshop, abstract 5132. This is the WAC imagery LROC
+QuickMap displays; the QuickMap web interface itself was not used. Used only by `pipeline/check_horizon_wac.py`.
+
 ## Published values used for validation
 
 ### Ephemeris module (T05)
