@@ -287,6 +287,35 @@ The Sun-site distance comes from the ephemeris module, so the irradiance follows
 Earth-Moon system around its orbit: over 2027-2029 the distance at Connecting Ridge is
 0.9807 to 1.0193 au (our calculation), which changes the power by +4.0 % to -3.8 %.
 
+## Precomputed data for the app (T12)
+
+One command rebuilds everything the app reads, from the raw terrain and the SPICE kernels:
+`uv run python pipeline/build.py` (`--skip-horizons` reuses the cached horizons). The app reads
+these files through `lunarnav.store` and needs neither `data/raw/` nor the kernels.
+
+| File in `data/processed/` | Content | Size |
+|---|---|---|
+| `horizons/<site>_h<height>.json` | Terrain horizon, 720 azimuths, for the 15 polar sites and the mast heights of docs/ENGINEERING_INPUTS.md (placeholder 0, 2, 5, 10, 20 m), 75 files | 1.3 MB |
+| `ephemeris/centre_ephemeris_hourly.parquet` | Apparent Sun and Earth vectors from the Moon's centre in the ME frame (light time and aberration, as in `lunarnav.ephemeris`), float64, hourly from 2027-01-01 to 2030-02-01 UTC (27 048 steps; one month beyond 2029 so that a mission landing late in 2029 fits) | 1.9 MB |
+| `metrics/visibility_metrics.json` | Sun, Earth-link and Sun-and-Earth shares, longest night and longest Earth gap per site, height and period (2027-2029 and each year), 300 rows | 54 KB |
+| `manifest.json` | Build command, timings, inputs (heights, link rule, kernels, terrain), software versions, size and SHA-256 of every file | - |
+
+The hourly azimuth and elevation of the Sun and the Earth are not stored per site: the app
+derives them from the stored vectors with `ephemeris.sky_track` (pure numpy, a few
+milliseconds per site), the same code the pipeline uses, so there is one source of truth.
+
+Measured on 2026-11-14 (laptop, 12 CPU threads, one process), two full builds: 94.3 s and
+101.9 s, of which horizons 86.5 s and 94.2 s (loading the 40 m model plus 2.4 to 7.0 s per
+site), ephemeris 0.8 to 0.9 s, metrics 6.9 s; with `--skip-horizons` 9.3 s. Total size of
+`data/processed/` after the build: 3.3 MB (87 files), well inside the 50 MB budget for the
+deployed app; the build stops with an error above the budget. The manifest records the size and
+SHA-256 of the five kernels and of the ten terrain files used (the 40 m model and nine 5 m
+models), so a rebuild can be traced to its inputs. Checks: the rebuilt horizons are byte-for-byte identical to the
+committed ones; the stored ephemeris equals a fresh SPICE run exactly at sampled times
+(`tests/test_store.py`); in a copy of the repository without `data/raw/` the app chain
+(visibility, three years of power, mast trade-off, calendar of 1096 landings) runs in 1.0 s for
+one site and gives the same numbers as T10 and T11.
+
 ## Development tooling (not part of the solution)
 
 | Component | Source | Version | Retrieved (UTC) | Notes |

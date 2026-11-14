@@ -1,0 +1,527 @@
+{
+ "built_utc": "2026-11-14T17:41:12Z",
+ "command": "uv run python pipeline/build.py --skip-horizons",
+ "timing": {
+  "horizons": {
+   "skipped": true
+  },
+  "horizons_s": 0.0,
+  "ephemeris_s": 1.1,
+  "metrics_s": 8.3,
+  "total_s": 9.3
+ },
+ "ephemeris_period_utc": [
+  "2027-01-01T00:00:00.000",
+  "2030-02-01T00:00:00.000"
+ ],
+ "analysis_period_utc": [
+  "2027-01-01T00:00:00.000",
+  "2030-01-01T00:00:00.000"
+ ],
+ "sites": [
+  "connecting_ridge",
+  "shackleton_rim",
+  "peak_near_shackleton",
+  "de_gerlache_rim",
+  "leibnitz_beta_plateau",
+  "malapert_massif",
+  "haworth",
+  "nobile_rim_1",
+  "nobile_rim_2",
+  "peak_near_cabeus_b",
+  "mons_mouton_plateau",
+  "mons_mouton",
+  "de_gerlache_rim_2",
+  "slater_plain",
+  "im2_athena"
+ ],
+ "mast_heights_m": [
+  0.0,
+  2.0,
+  5.0,
+  10.0,
+  20.0
+ ],
+ "placeholder_keys": {
+  "mast": [
+   "mast_heights_m",
+   "mast_carries"
+  ],
+  "comm": [
+   "comm_earth_disk_rule",
+   "comm_elevation_margin_deg"
+  ]
+ },
+ "kernels": [
+  {
+   "name": "naif0012.tls",
+   "bytes": 5257,
+   "sha256": "678e32bdb5a744117a467cd9601cd6b373f0e9bc9bbde1371d5eee39600a039b"
+  },
+  {
+   "name": "pck00011.tpc",
+   "bytes": 131226,
+   "sha256": "3dff7b1dbeceaa01f25467767d3fa25816051c85d162d1edf04acb310ee28bb1"
+  },
+  {
+   "name": "de440s.bsp",
+   "bytes": 32726016,
+   "sha256": "c1c7feeab882263fc493a9d5a5b2ddd71b54826cdf65d8d17a76126b260a49f2"
+  },
+  {
+   "name": "moon_pa_de440_200625.bpc",
+   "bytes": 12863488,
+   "sha256": "60cd55aa401ea2ea97360636f567554bfe4e37bb829f901b4460a455dfaf783f"
+  },
+  {
+   "name": "moon_de440_250416.tf",
+   "bytes": 19478,
+   "sha256": "a47c71e9c9f33796bdafb2c9d69a7ee447b6016ecad80f71cd6f3e479f9cf768"
+  }
+ ],
+ "terrain": "not used (--skip-horizons)",
+ "software": {
+  "python": "3.14.7",
+  "numpy": "2.5.4",
+  "spiceypy": "8.4.0",
+  "pyarrow": "26.0.1"
+ },
+ "files": [
+  {
+   "path": "data/processed/ephemeris/centre_ephemeris_hourly.parquet",
+   "bytes": 1873770,
+   "sha256": "1810cb260c520025da1f36442f4f5b684822efb294583ec7dc29d014d01765fc"
+  },
+  {
+   "path": "data/processed/horizons/connecting_ridge_h0.json",
+   "bytes": 16305,
+   "sha256": "d8c92730aa33799b709844d3d69adbad5df8b0d0a1f7138c8f81c36ddbff09d8"
+  },
+  {
+   "path": "data/processed/horizons/connecting_ridge_h10.json",
+   "bytes": 18791,
+   "sha256": "fc22fb9ed91c7138931e5669baee07400e89f0c6d574775b05bbd7142c572457"
+  },
+  {
+   "path": "data/processed/horizons/connecting_ridge_h2.json",
+   "bytes": 17780,
+   "sha256": "60905d76354a973b8398c55277140729d109ae9ddefdba67632520010cbcfa9c"
+  },
+  {
+   "path": "data/processed/horizons/connecting_ridge_h20.json",
+   "bytes": 19192,
+   "sha256": "1c6f52ecb9727e4bc7877d9db033ec5e9a985193cd3398a96fd4a92d3808e86f"
+  },
+  {
+   "path": "data/processed/horizons/connecting_ridge_h5.json",
+   "bytes": 18166,
+   "sha256": "aa3c8b99e1a035746afafe273f53cb32e157e4d77ab96c4b361bd5b0a57a6fe5"
+  },
+  {
+   "path": "data/processed/horizons/de_gerlache_rim_2_h0.json",
+   "bytes": 15768,
+   "sha256": "65dd0c9d9d7b6477bdb26c485cd4c901484fe8b8c49a22ae9487f5a6dad38d22"
+  },
+  {
+   "path": "data/processed/horizons/de_gerlache_rim_2_h10.json",
+   "bytes": 19174,
+   "sha256": "a91317a886b5b7656cd622fe5ef3782f4b07a833bd8ab1e67e804fda0a8e5b5c"
+  },
+  {
+   "path": "data/processed/horizons/de_gerlache_rim_2_h2.json",
+   "bytes": 17374,
+   "sha256": "ea75c39600579f82c9384ecaeff8b394dcf6d2e0f12ed5705a712095f2935982"
+  },
+  {
+   "path": "data/processed/horizons/de_gerlache_rim_2_h20.json",
+   "bytes": 19210,
+   "sha256": "b16cf6cdd44e7cc7d6d07f82e3a6db5510c4c463c52af4b8f4e37ef5a418d529"
+  },
+  {
+   "path": "data/processed/horizons/de_gerlache_rim_2_h5.json",
+   "bytes": 18809,
+   "sha256": "c241206c7d83a64ae1e66c562316edb291441b2480acfc85e54cd6b026a7cbe2"
+  },
+  {
+   "path": "data/processed/horizons/de_gerlache_rim_h0.json",
+   "bytes": 16469,
+   "sha256": "82726c177df4890a8034ae589e5576b69634ce33045d700f8e26494f94a6629f"
+  },
+  {
+   "path": "data/processed/horizons/de_gerlache_rim_h10.json",
+   "bytes": 18851,
+   "sha256": "a97473fa396b768e21ec9e79fb26b4a050f9d892db5a774d97651a9b69dc70bb"
+  },
+  {
+   "path": "data/processed/horizons/de_gerlache_rim_h2.json",
+   "bytes": 18063,
+   "sha256": "8b1c4c47c97b3dc505cf43ea9fc9d39f955c1dcca2a9fd84e02974ad190321ea"
+  },
+  {
+   "path": "data/processed/horizons/de_gerlache_rim_h20.json",
+   "bytes": 19143,
+   "sha256": "e312fbcc1d8343f7ecc0762e4cb22b7a4d77cee3aa8376c2b99e4256b1c627d7"
+  },
+  {
+   "path": "data/processed/horizons/de_gerlache_rim_h5.json",
+   "bytes": 18512,
+   "sha256": "77bac70fd1ee351672ae0790b8812997b32a62df506b0c03137f74f242199579"
+  },
+  {
+   "path": "data/processed/horizons/haworth_h0.json",
+   "bytes": 16912,
+   "sha256": "116094a3a9acfa4149dfd384a6263d9bd7bc0a0889907cce1a97351cf8e3f553"
+  },
+  {
+   "path": "data/processed/horizons/haworth_h10.json",
+   "bytes": 18612,
+   "sha256": "eae223844e4cc7c2538df2d0688f02958f659eda24530f413f1c013e776eaf7b"
+  },
+  {
+   "path": "data/processed/horizons/haworth_h2.json",
+   "bytes": 18336,
+   "sha256": "bced3a5142cd61c0c1a558c1550e20c937776192c8b8ca1d1e08fc44a73ea32a"
+  },
+  {
+   "path": "data/processed/horizons/haworth_h20.json",
+   "bytes": 18653,
+   "sha256": "a9d0a954c32c06ebe0c88730f457bafe97f01fd3c04cfcbd3106e7945a245eb6"
+  },
+  {
+   "path": "data/processed/horizons/haworth_h5.json",
+   "bytes": 18547,
+   "sha256": "0c292f455abc57dd13ae9efa6db39769dfab4ab94cb16e457f44a2c6fa3c9aa4"
+  },
+  {
+   "path": "data/processed/horizons/im2_athena_h0.json",
+   "bytes": 17803,
+   "sha256": "1c0854158b773d67ca71a9b599f77fa3bb2fa0027edcf5b5a57db3b80900c16a"
+  },
+  {
+   "path": "data/processed/horizons/im2_athena_h10.json",
+   "bytes": 18026,
+   "sha256": "8b2ba2114979b2db7d5b8f98dc06230dae2fc4d9f00d7e8ef8dd92c89136d332"
+  },
+  {
+   "path": "data/processed/horizons/im2_athena_h2.json",
+   "bytes": 17883,
+   "sha256": "cce101f4e2284a50912f1a5d2e6ac122c6dddc8c3c58f2e4c9b60a30ff5d4631"
+  },
+  {
+   "path": "data/processed/horizons/im2_athena_h20.json",
+   "bytes": 18127,
+   "sha256": "50257c3e1db3058656470928d3d11974e9ea54222afd9c1b557a8499113792ad"
+  },
+  {
+   "path": "data/processed/horizons/im2_athena_h5.json",
+   "bytes": 17968,
+   "sha256": "f24318439492cd56bedb9bebd82decfd2fecbecb15853ab5f58b12c5fbe06ff4"
+  },
+  {
+   "path": "data/processed/horizons/leibnitz_beta_plateau_h0.json",
+   "bytes": 17308,
+   "sha256": "b709389bd0a0e53269918ddf3465769782cd38a82381a2d635fbbc4c0e84b1c3"
+  },
+  {
+   "path": "data/processed/horizons/leibnitz_beta_plateau_h10.json",
+   "bytes": 17558,
+   "sha256": "48c6e4e810200ab32feca349fc7b1f160f784ecd24cdf55e264c26ffdfe28a15"
+  },
+  {
+   "path": "data/processed/horizons/leibnitz_beta_plateau_h2.json",
+   "bytes": 17369,
+   "sha256": "3ed6fea4d2b16b727b5b0203697a455dcc163efbd925809e1065b32f964c7a30"
+  },
+  {
+   "path": "data/processed/horizons/leibnitz_beta_plateau_h20.json",
+   "bytes": 17735,
+   "sha256": "4b2f84b96fcc89816c00a495bed49dc2c2c61cb622905553e8c227dd078c5c7e"
+  },
+  {
+   "path": "data/processed/horizons/leibnitz_beta_plateau_h5.json",
+   "bytes": 17419,
+   "sha256": "b0100319ad0b040d241a6f5abca129f9716e9d5193ff4067768a203af8bd7865"
+  },
+  {
+   "path": "data/processed/horizons/malapert_massif_h0.json",
+   "bytes": 15875,
+   "sha256": "4087cf019ad18e5549180812f2fb5a952f657ec53a1d8ce2ae0d25c474d43bf3"
+  },
+  {
+   "path": "data/processed/horizons/malapert_massif_h10.json",
+   "bytes": 18443,
+   "sha256": "981e0556a0a166ee9e048bb4c735a42f258abd2a90e68e3f041d52bbbc8264fc"
+  },
+  {
+   "path": "data/processed/horizons/malapert_massif_h2.json",
+   "bytes": 17110,
+   "sha256": "33f0515158917822b191a1197eb5cf367e9e512a3dfdeb37e6a0942688edac1d"
+  },
+  {
+   "path": "data/processed/horizons/malapert_massif_h20.json",
+   "bytes": 18704,
+   "sha256": "5b03d93983bda9f2e91386a7741f62c4b799a6685d3e380362376ccc348c6e73"
+  },
+  {
+   "path": "data/processed/horizons/malapert_massif_h5.json",
+   "bytes": 17903,
+   "sha256": "bbfddaffe23cc38472368ed2fca00836c47bee14e57a7202b5fe00f0ac8040df"
+  },
+  {
+   "path": "data/processed/horizons/mons_mouton_h0.json",
+   "bytes": 16831,
+   "sha256": "da079922f43b819bcd462adc7d33ac83ea4dc8cc5224f78409383846735be899"
+  },
+  {
+   "path": "data/processed/horizons/mons_mouton_h10.json",
+   "bytes": 18255,
+   "sha256": "fc9670b9c599f0558c5f098338e9a3ec64a0ad2168285831e18ab360772c9228"
+  },
+  {
+   "path": "data/processed/horizons/mons_mouton_h2.json",
+   "bytes": 18022,
+   "sha256": "04492ef31e75b01124911a578d49c7ecc2220335cb35fcdeb6ea2ef20db7265c"
+  },
+  {
+   "path": "data/processed/horizons/mons_mouton_h20.json",
+   "bytes": 18468,
+   "sha256": "bf7a2e6a2a8a9e7ddf00cc753468d4eda83016f03b02c1fc288b960978cf5f2f"
+  },
+  {
+   "path": "data/processed/horizons/mons_mouton_h5.json",
+   "bytes": 18109,
+   "sha256": "90e0b0154e2cfb98c30985a29992f0672587cbef08ab1171bf9dda20db2abb57"
+  },
+  {
+   "path": "data/processed/horizons/mons_mouton_plateau_h0.json",
+   "bytes": 17222,
+   "sha256": "817d2ed2e3907b82450e17683bb9f6ce03ad09bdf6f217e29ecdb221f372d9b7"
+  },
+  {
+   "path": "data/processed/horizons/mons_mouton_plateau_h10.json",
+   "bytes": 17530,
+   "sha256": "0a216b4ea550ff1886bae02ba6220c8f9e0f604c80cb11b85d33e847aff6c793"
+  },
+  {
+   "path": "data/processed/horizons/mons_mouton_plateau_h2.json",
+   "bytes": 17383,
+   "sha256": "1de2439e5bcbbc67e99bf1b2ecdf965019a11c64f09c4e701a0aec9249eee01f"
+  },
+  {
+   "path": "data/processed/horizons/mons_mouton_plateau_h20.json",
+   "bytes": 17687,
+   "sha256": "8813554dc61cbf281786f95be0e7dbbdca9b1c148758c5003fbac3628be014ff"
+  },
+  {
+   "path": "data/processed/horizons/mons_mouton_plateau_h5.json",
+   "bytes": 17434,
+   "sha256": "9a5aad642609d21ba3960f6b26d66d643b27c5f1aada32bd2ae37cfb59d83977"
+  },
+  {
+   "path": "data/processed/horizons/nobile_rim_1_h0.json",
+   "bytes": 16207,
+   "sha256": "e73243faa6eb9fe2687bd04a199450d2d103c1e8ef247a345da92f27ffce9b37"
+  },
+  {
+   "path": "data/processed/horizons/nobile_rim_1_h10.json",
+   "bytes": 18396,
+   "sha256": "e5b5786f4ae446832652d3be8022fa5f7304bb9780641d2fdaa36d16cbf3f338"
+  },
+  {
+   "path": "data/processed/horizons/nobile_rim_1_h2.json",
+   "bytes": 17854,
+   "sha256": "c64f2b72373068a59663ac8db5967e03395969281fa0778fb97cfb4389d9b87b"
+  },
+  {
+   "path": "data/processed/horizons/nobile_rim_1_h20.json",
+   "bytes": 18571,
+   "sha256": "06fa5934dae98378cd701ba4ebc667cfa214ae807bab29221217e795496a1f38"
+  },
+  {
+   "path": "data/processed/horizons/nobile_rim_1_h5.json",
+   "bytes": 18155,
+   "sha256": "663cc0bd1e2ba3d1e2175d789779f575a8c270acecafb199775c9c93a8528a93"
+  },
+  {
+   "path": "data/processed/horizons/nobile_rim_2_h0.json",
+   "bytes": 17306,
+   "sha256": "5c9162242c2d94581d07f9d2cb53baad0f4175b0228dbe57b5bda0fc2c519a93"
+  },
+  {
+   "path": "data/processed/horizons/nobile_rim_2_h10.json",
+   "bytes": 17924,
+   "sha256": "b85337ad70a1a243682fb2991edde6ff90f920b09bce918292fde68a7069012d"
+  },
+  {
+   "path": "data/processed/horizons/nobile_rim_2_h2.json",
+   "bytes": 17759,
+   "sha256": "b8d8b0dacb29f32916d7ed7d984ebc0be219658024594f5faab53ac3abb86721"
+  },
+  {
+   "path": "data/processed/horizons/nobile_rim_2_h20.json",
+   "bytes": 17995,
+   "sha256": "75e2c7dd94be8e42b0230cb793a121de42951e03ae8ef368fc1ca40c6f92d8cf"
+  },
+  {
+   "path": "data/processed/horizons/nobile_rim_2_h5.json",
+   "bytes": 17912,
+   "sha256": "df73428246ee0fd3bde0d80993da7941bd8fe61e56fcd4334f489d12b011841e"
+  },
+  {
+   "path": "data/processed/horizons/peak_near_cabeus_b_h0.json",
+   "bytes": 16943,
+   "sha256": "6a4db2dfce1e3aed8df2f94b2e541633ffd574c8956463e134506b9cd051970e"
+  },
+  {
+   "path": "data/processed/horizons/peak_near_cabeus_b_h10.json",
+   "bytes": 18069,
+   "sha256": "62d2ec961a4ef5aeae47148f8e90238b0b1fe884dcb0db43ad56a105aabf20ac"
+  },
+  {
+   "path": "data/processed/horizons/peak_near_cabeus_b_h2.json",
+   "bytes": 17283,
+   "sha256": "494fce7abc42f6e26608f4c42a1442da1d1524cf73e679797ffb72be86c3d633"
+  },
+  {
+   "path": "data/processed/horizons/peak_near_cabeus_b_h20.json",
+   "bytes": 18236,
+   "sha256": "b1e07a0df527df3cc10c95591a5609e054dc77a960fb3d426209b67b14b55f49"
+  },
+  {
+   "path": "data/processed/horizons/peak_near_cabeus_b_h5.json",
+   "bytes": 17902,
+   "sha256": "6cc500737314cd72ac470957273dbf30090169d41ba49cd47de163e17ac84155"
+  },
+  {
+   "path": "data/processed/horizons/peak_near_shackleton_h0.json",
+   "bytes": 16500,
+   "sha256": "3753915c9db22d761e2862674579ccb007c186b1834b3d3fc48736cf9b88f47c"
+  },
+  {
+   "path": "data/processed/horizons/peak_near_shackleton_h10.json",
+   "bytes": 18773,
+   "sha256": "8ddbb0a5d997a22a19d8785616e955067adb5af6ea592d14cdc71e211dc2e0a4"
+  },
+  {
+   "path": "data/processed/horizons/peak_near_shackleton_h2.json",
+   "bytes": 18072,
+   "sha256": "0f87d84aee0276401ebae23f051276b8572ea36810e0a611a8441485ec347944"
+  },
+  {
+   "path": "data/processed/horizons/peak_near_shackleton_h20.json",
+   "bytes": 19158,
+   "sha256": "9f6e9b6c0559aacdf868b3ee9d92eb770e36ae8635f46e8b23eed1f7d76fd805"
+  },
+  {
+   "path": "data/processed/horizons/peak_near_shackleton_h5.json",
+   "bytes": 18605,
+   "sha256": "223e7eca680e96f32732788e74f46858e15edf46c48608ea81b013ac9449fb77"
+  },
+  {
+   "path": "data/processed/horizons/shackleton_rim_h0.json",
+   "bytes": 17688,
+   "sha256": "4f66e601bfb443ee64f6ed0895794aa8910aa4b477d0537b0ba03dc1ca8f976a"
+  },
+  {
+   "path": "data/processed/horizons/shackleton_rim_h10.json",
+   "bytes": 17990,
+   "sha256": "fb81725816f02f4bb872ba9a7b71eb7aab911f6b91c2211cd1c9d6b470b1152b"
+  },
+  {
+   "path": "data/processed/horizons/shackleton_rim_h2.json",
+   "bytes": 17826,
+   "sha256": "594b42f4a345df10d6189639210de4ac50fd9d9cc5cdf34a6cc7b1d35cc557e3"
+  },
+  {
+   "path": "data/processed/horizons/shackleton_rim_h20.json",
+   "bytes": 18025,
+   "sha256": "6d6b92e152feed2d8c79fc7f804de92c4d109cd18e9ddb2d5df3d9cb49ac3045"
+  },
+  {
+   "path": "data/processed/horizons/shackleton_rim_h5.json",
+   "bytes": 17971,
+   "sha256": "ee0bd21297cd6b3e245d487fa84894c240423096d895f0ab2ddddc93639e8daf"
+  },
+  {
+   "path": "data/processed/horizons/slater_plain_h0.json",
+   "bytes": 17257,
+   "sha256": "19f393e0d233d9bf55465d8975e4f5c80b2835ab1dc4fe76ed0c1daac1a24029"
+  },
+  {
+   "path": "data/processed/horizons/slater_plain_h10.json",
+   "bytes": 18648,
+   "sha256": "078a9a49da44d052a039547d120b476deb6090658e1ff833bfd4342974513d16"
+  },
+  {
+   "path": "data/processed/horizons/slater_plain_h2.json",
+   "bytes": 18199,
+   "sha256": "81e70597a4a076ec1241c2a234759de153c5e6a5e2f4f91c815162ae8c5340c6"
+  },
+  {
+   "path": "data/processed/horizons/slater_plain_h20.json",
+   "bytes": 18648,
+   "sha256": "7a1152f89ecd22416f27ba200fa30b3dc523798f7bcf8e4dc4b55fc13bd274ce"
+  },
+  {
+   "path": "data/processed/horizons/slater_plain_h5.json",
+   "bytes": 18643,
+   "sha256": "64e18a00ea60861830bc0a07091d0dec492af4c815bf7c018d31bedf21ecd449"
+  },
+  {
+   "path": "data/processed/mast/mast_tradeoff_2027-01-01_2028-01-01.csv",
+   "bytes": 2733,
+   "sha256": "59022822586bb830d05bf1a874e832b870f02e8776e4333ca12b633ae95953d0"
+  },
+  {
+   "path": "data/processed/mast/mast_tradeoff_2027-01-01_2028-01-01.json",
+   "bytes": 2484,
+   "sha256": "937d3435f6f96a63dd72dce6a3153ac4be01ddced821417ea973bdfb71878308"
+  },
+  {
+   "path": "data/processed/metrics/visibility_metrics.json",
+   "bytes": 54580,
+   "sha256": "4e66d7d89e480301016881661cd2c7fc0f0255f42274c44637aa092e60bdfe2d"
+  },
+  {
+   "path": "data/processed/validation/comms_windows_connecting_ridge_h2.csv",
+   "bytes": 272,
+   "sha256": "0ce28d97a1381c8b863666411035fadaeda008ec04db70faf862e010115db3b3"
+  },
+  {
+   "path": "data/processed/validation/comms_windows_malapert_massif_h2.csv",
+   "bytes": 272,
+   "sha256": "c28f6b87f4cd7aefcf67c7157fd39ec77a6c59fa851d128866b6c81b6a0a6467"
+  },
+  {
+   "path": "data/processed/validation/illumination_vs_lola.json",
+   "bytes": 13446,
+   "sha256": "1bd3d7240315f68c3c6677ddab70b2754610f0a0e911ee73d9de42770190dd20"
+  },
+  {
+   "path": "data/processed/validation/power_example_connecting_ridge_2027-03_h2.json",
+   "bytes": 1538,
+   "sha256": "c8ccce54d7cd75ad4bad79999568813d48dc9b4b4457e13f1d984e7272b7e45c"
+  },
+  {
+   "path": "data/processed/windows/landing_connecting_ridge_h2_2027-01-01_2029-01-01.csv",
+   "bytes": 95734,
+   "sha256": "cfef050950d250e57046a015d6c3397c750d2ac5fe92bc5bd09583b2943c5137"
+  },
+  {
+   "path": "data/processed/windows/landing_connecting_ridge_h2_2027-01-01_2029-01-01.json",
+   "bytes": 2598,
+   "sha256": "6cbea61110c0523531c93e427e18254e845aaceaa1fe8a46c15b6fab1b33f52c"
+  },
+  {
+   "path": "data/processed/windows/landing_malapert_massif_h2_2027-01-01_2029-01-01.csv",
+   "bytes": 98186,
+   "sha256": "1bf6bc6375829667ab6a5317c6729334ca8aba9ae4779b9c75f454031b378b45"
+  },
+  {
+   "path": "data/processed/windows/landing_malapert_massif_h2_2027-01-01_2029-01-01.json",
+   "bytes": 2596,
+   "sha256": "444f661066dc64dcd685fe72562d7814f84cb27c3337dcc971d249aec9f7e94f"
+  }
+ ],
+ "total_bytes": 3491563
+}
