@@ -1,0 +1,9 @@
+# Runtime dependencies of the deployed app. Streamlit Community Cloud reads this file because it
+# sits next to the entrypoint app/streamlit_app.py. The app reads data/processed only, so the
+# terrain tools (rasterio) and the SPICE kernels are not needed. Versions as in uv.lock.
+streamlit==1.67.0
+plotly==7.1.0
+numpy==2.5.4
+pandas==3.1.1
+pyarrow==26.0.1
+spiceypy==8.4.0
