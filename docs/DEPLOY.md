@@ -35,6 +35,10 @@ Space с SDK Streamlit: в репозиторий Space нужны `requirements
 `app/requirements.txt`) и заголовок README Space с `sdk: streamlit` и `app_file: app/streamlit_app.py`.
 Не делался: основной вариант проще.
 
+## Развёрнуто (2026-11-15)
+
+Приложение: https://lunar-navigator-nasa.streamlit.app/ — открывается в чистом браузере без входа (проверено headless Firefox с новым профилем).
+
 ## После деплоя
 
 - Записать ссылку в README (T16) и в материалы подачи (T17).

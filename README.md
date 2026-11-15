@@ -5,7 +5,7 @@ and how much does a mast help?**
 
 NASA Space Apps Challenge 2026 ·
 [Lunar Landing Site Navigator](https://www.spaceappschallenge.org/2026/challenges/lunar-landing-site-navigator/)
-· **Live app:** _link added after deployment_
+· **Live app:** https://lunar-navigator-nasa.streamlit.app/
 
 ## The problem
 
@@ -89,4 +89,4 @@ Claude Code (Anthropic) wrote most of the code and documents task by task; every
 calculation, a cited source or a listed assumption, and every task was tested and reviewed
 ([tasks/DONE.md](tasks/DONE.md)).
 
-License: MIT proposed for the code, to be confirmed by the team. Data keep their own terms.
+License: [MIT](LICENSE) for the code. Data keep their own terms.

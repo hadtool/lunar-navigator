@@ -75,8 +75,8 @@ Matplotlib, pytest, uv; Claude Code (see AI use).
 
 ## Space agency partner resources
 
-The CSA Moon exploration pages are listed by the challenge as mission context. _If the team used
-them, say how; otherwise write that no number in the tool comes from them._
+The CSA Moon exploration pages are listed by the challenge as mission context; we read them for
+background on lunar exploration, and no number in the tool comes from them.
 
 ## References
 
@@ -87,6 +87,8 @@ them, say how; otherwise write that no number in the tool comes from them._
   landing regions. JGR Planets 131(3), e2025JE009434; dataset doi:10.5281/zenodo.17084058 (CC BY 4.0).
 - Kopp, G., Lean, J. L. (2011). A new, lower value of total solar irradiance. GRL 38, L01706.
 - NASA SP-4029, Apollo by the Numbers (Apollo 11 summary).
+- Wertz, J. R., Larson, W. J. (1999). Space Mission Analysis and Design, 3rd ed. (solar-array sizing).
+- NASA (2024). State-of-the-Art of Small Spacecraft Technology (radio and antenna values).
 - NASA PGDA products 69, 78, 90; JPL Horizons; NAIF SPICE generic kernels. Full list with URLs and
   checksums: docs/SOURCES.md.
 
@@ -101,7 +103,7 @@ tasks/DONE.md of the repository.
 ## Links
 
 - Repository: https://github.com/hadtool/lunar-navigator
-- App: _link after deployment (docs/DEPLOY.md)_
+- App: https://lunar-navigator-nasa.streamlit.app/
 - Demo video (30 s, English subtitles burned in): https://github.com/hadtool/lunar-navigator/blob/main/docs/demo/demo_video.mp4
 - Slides (7, PDF): https://github.com/hadtool/lunar-navigator/blob/main/docs/demo/slides.pdf
 

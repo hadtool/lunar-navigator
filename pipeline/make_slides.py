@@ -84,7 +84,7 @@ def main() -> None:
     fig.text(0.05, 0.38, "A web tool on NASA LOLA terrain and SPICE\nephemerides, checked against JPL Horizons\n"
              "and the published LOLA illumination maps.", fontsize=15, color=SECOND, va="top", linespacing=1.4)
     fig.text(0.05, 0.16, "NASA Space Apps Challenge 2026 · challenge “Lunar Landing Site Navigator”\n"
-             "Team: Hadiyatullo Ibrohimov, Zikrullo Asrorov, Umarkhon Hamdamov · App: [link] · Code: github.com/hadtool/lunar-navigator", fontsize=13, color=SECOND,
+             "Team: Hadiyatullo Ibrohimov, Zikrullo Asrorov, Umarkhon Hamdamov\nApp: lunar-navigator-nasa.streamlit.app · Code: github.com/hadtool/lunar-navigator", fontsize=13, color=SECOND,
              va="top", linespacing=1.5)
     picture(fig, SHOTS / "01_site_connecting_ridge.png", (0.57, 0.24, 0.41, 0.58))
     figures.append(fig)

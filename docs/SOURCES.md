@@ -332,6 +332,16 @@ docs/ENGINEERING_INPUTS.md with the mark [предложено] (not confirmed b
 |---|---|---|---|---|
 | NASA GRC COMPASS team, "Overnight Power & Thermal Solutions for Lunar Landers", Survive the Night Technology Workshop, 2022 (NTRS 20220018215) | https://ntrs.nasa.gov/citations/20220018215 | 11883330 | `da6c1c46bca7c7779f03660ad5453ea2e78c628a9f0fd503843f0065f8446ef3` | "Night-time power reqt's ~ 40W", "EPS losses total ~6W" (night load 46 W); "~20 kWh capacity" Li-ion battery of LG 18650 MJ1 cells; "Use 90% DoD"; "Specific energy of ~200 Whr/kg" |
 | Spectrolab, XTJ Prime space solar cell datasheet (2016) | https://www.spectrolab.com/DataSheets/cells/XTJ_Prime_Data_Sheet_7-28-2016.pdf | 434537 | `a3b08e1042526a5d3e42b7c879942317c303fa390d48372d226b1f4e83d7b737` | 30.7 % efficiency at the beginning of life (AM0, 28 C, production average) |
+| NASA Small Spacecraft Systems Virtual Institute, State-of-the-Art of Small Spacecraft Technology, 2024 edition | https://www.nasa.gov/smallsat-institute/sst-soa/ | 18337707 | `7471ed49b8cce48c0d0da7662e979017a6a6720d9fecb0adc52f120a123adeae` | Table 9-3: IRIS V2.2 transponder, Tx 8400-8500 MHz, 36 dBm (3.98 W), 0.1-10000 kbps; Table 9-2: EnduroSat X-band patch array, 16 dBi, flight heritage (T24) |
+
+Textbook and standard values used in the T24 sizing (`pipeline/size_power_and_link.py`; not
+downloaded, quoted from the reference works):
+
+| Reference | Value taken |
+|---|---|
+| Wertz, J. R., Larson, W. J. (eds.), Space Mission Analysis and Design, 3rd ed., 1999, Sec. 11.4 | Eq. 11-5 (array power from day and night loads with path efficiencies X_d = 0.80, X_e = 0.60 for peak-power tracking); Table 11-35 inherent degradation I_d = 0.77 (nominal) |
+| ITU-R Recommendation P.526 (propagation by diffraction) | Knife-edge diffraction loss of about 6 dB at grazing incidence (v = 0) |
+| CCSDS 130.1-G (TM synchronization and channel coding, summary of concept and rationale) | Rate-1/2, K = 7 convolutional code with Viterbi decoding: Eb/N0 about 4.4 dB for BER 1e-5 |
 
 ## Precomputed data for the app (T12)
 
