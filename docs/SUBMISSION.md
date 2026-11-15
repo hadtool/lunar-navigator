@@ -76,7 +76,7 @@ no engineer has reviewed them.
 **Tools.** Python, NumPy, pandas, PyArrow, rasterio, SpiceyPy (NAIF SPICE), Streamlit, Plotly,
 Matplotlib, pytest, uv; Claude Code (see the SI field).
 
-**Team.** Hadiyatullo Ibrohimov, Zikrullo Asrorov, Umarkhon Hamdamov.
+**Team.** COSMOSMARTES: Hadiyatullo Ibrohimov, Zikrullo Asrorov, Umarkhon Hamdamov.
 
 ## Use of Super Intelligence (SI)
 

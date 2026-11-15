@@ -130,7 +130,7 @@ def main() -> None:
         browser.close()
     pages[0].save(
         PDF, save_all=True, append_images=pages[1:], resolution=144.0,
-        title="Lunar Landing Site Navigator - demo slides", author="Team of the Lunar Landing Site Navigator",
+        title="Lunar Landing Site Navigator - demo slides", author="Team COSMOSMARTES",
         subject="NASA Space Apps Challenge 2026. AI-generated deck: visuals and layout made with Claude (Anthropic); "
                 "numbers computed from NASA data by the project's code.",
         creator="pipeline/export_deck.py")

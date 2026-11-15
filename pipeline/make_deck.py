@@ -45,7 +45,7 @@ FONT = Path("/usr/share/fonts/adwaita-sans-fonts/AdwaitaSans-Regular.ttf")
 APP_URL = "https://lunar-navigator-nasa.streamlit.app/"
 REPO_URL = "https://github.com/hadtool/lunar-navigator"
 #: Team name as registered on the Space Apps site (None: only the members are shown).
-TEAM_NAME: str | None = None
+TEAM_NAME: str | None = "COSMOSMARTES"
 TEAM_MEMBERS = ["Hadiyatullo Ibrohimov", "Zikrullo Asrorov", "Umarkhon Hamdamov"]
 TEAM_PLACE = "Dushanbe, Tajikistan"
 

@@ -256,7 +256,8 @@ html.static #nav .next,html.static .beacon,html.static .flow::before{animation:n
       <h1 class="rv" style="--i:1;margin-top:26px">Lunar Landing<br>Site Navigator</h1>
       <p class="lead rv" style="--i:2;margin-top:34px">Will <em>this</em> lander survive at <em>this</em> lunar south-pole site on <em>these</em> dates, and how much does a mast help?</p>
       <div class="rv" style="--i:3;margin-top:40px;font-size:27px;line-height:1.45">
-        <div><b id="teamline1"></b></div>
+        <div><b class="tname" style="font-size:30px;color:var(--gold);letter-spacing:.02em"></b></div>
+        <div class="tmembers" style="font-weight:650"></div>
         <div style="color:var(--ink2);font-size:23px"><span data-b="team.place"></span> · Challenge: Lunar Landing Site Navigator</div>
       </div>
       <div class="rv" style="--i:4;margin-top:24px;font-size:23px;display:flex;gap:16px;flex-wrap:wrap">
@@ -402,7 +403,7 @@ html.static #nav .next,html.static .beacon,html.static .flow::before{animation:n
       <div class="eyebrow rv" style="--i:0">Touchdown</div>
       <h1 class="rv" style="--i:1;font-size:94px;margin-top:18px">Know before<br>you land.</h1>
       <p class="lead rv" style="--i:2;margin-top:22px;font-size:29px">Pick the site. Pick the dates. See whether your lander survives, and what a mast changes.</p>
-      <div class="rv" style="--i:3;margin-top:20px;font-size:21.5px;line-height:1.5"><b id="teamline7"></b><br><span style="color:var(--ink2);font-size:20px"><span data-b="team.place"></span> · Challenge: Lunar Landing Site Navigator</span></div>
+      <div class="rv" style="--i:3;margin-top:18px;font-size:21.5px;line-height:1.45"><b class="tname" style="font-size:24px;color:var(--gold);letter-spacing:.02em"></b><div class="tmembers" style="font-weight:650"></div><span style="color:var(--ink2);font-size:19.5px"><span data-b="team.place"></span> · Challenge: Lunar Landing Site Navigator</span></div>
     </div>
     <div class="abs card s7card rv" style="--i:4;left:1350px;top:128px;width:460px;padding:20px">
       <img id="qr" alt="QR code of the live app">
@@ -451,8 +452,8 @@ const fmt = {
 const pick = path => path.split(".").reduce((o, k) => (o == null ? o : o[k]), D);
 $$("[data-b]").forEach(el => { const [p, f = "s"] = el.dataset.b.split(":"); el.textContent = fmt[f](pick(p)); });
 $$("[data-href]").forEach(el => { el.href = pick(el.dataset.href); el.target = "_blank"; el.rel = "noopener"; });
-const team = (D.team.name ? "Team " + D.team.name + ": " : "Team: ") + D.team.members.join(" · ");
-$("#teamline1").textContent = team; $("#teamline7").textContent = team;
+$$(".tname").forEach(el => { if (D.team.name) el.textContent = "Team " + D.team.name; else el.parentNode.remove(); });
+$$(".tmembers").forEach(el => { el.textContent = (D.team.name ? "" : "Team: ") + D.team.members.join(" · "); });
 if (D.qr) $("#qr").src = D.qr; else $("#qr").remove();
 D.sites.forEach(s => { const b = document.createElement("i"); b.className = "beacon" + (s.id === S.site ? " main" : "");
   b.style.left = (100 * s.fx) + "%"; b.style.top = (100 * s.fy) + "%"; b.title = s.name; $("#moon").appendChild(b); });

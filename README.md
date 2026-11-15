@@ -83,7 +83,7 @@ temperatures, the lander's own shadow, station schedules, relays, boulders. All 
 
 ## Team, use of AI, license
 
-Team: Hadiyatullo Ibrohimov, Zikrullo Asrorov, Umarkhon Hamdamov.
+Team COSMOSMARTES: Hadiyatullo Ibrohimov, Zikrullo Asrorov, Umarkhon Hamdamov.
 
 **Use of AI (in the Space Apps form: SI).** The team chose the challenge and the idea, wrote the
 task list and rules ([CLAUDE.md](CLAUDE.md)) and decided scope, data and method. Claude Code
