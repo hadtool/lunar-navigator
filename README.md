@@ -33,13 +33,11 @@ models, IM-2) and any dates in 2027-2029:
 - The Earth is often the narrow constraint: at Malapert Massif a mast raises the time with the Earth
   in view from 62.7 % to 89.1 % (2 to 20 m); at Connecting Ridge the Earth sets behind terrain
   135 km away and a mast does not help.
-- With a 20 kWh battery every 14-day mission at these sites survives, but a whole year at Malapert
-  Massif needs 24.1 kWh at 2 m and 14.1 kWh with a 10 m mast; with a 5 kWh battery, missions at
-  Connecting Ridge fail for landings in the southern lunar winter (March to June 2027).
+- With a 20 kWh battery every 14-day mission here survives; a whole year at Malapert Massif needs
+  24.1 kWh at 2 m but 14.1 kWh on a 10 m mast.
 
-Lander values: battery, night load and cell efficiency follow a NASA reference lander (2022) and a
-solar-cell datasheet; panel area and day load are placeholders; our engineer has **not confirmed**
-them yet ([docs/ENGINEERING_INPUTS.md](docs/ENGINEERING_INPUTS.md)); the app marks them.
+Lander values follow a NASA reference lander (2022) and a solar-cell datasheet, or are placeholders;
+our engineer has **not confirmed** them yet ([inputs](docs/ENGINEERING_INPUTS.md)); the app marks them.
 
 ## Try it
 
@@ -51,8 +49,8 @@ uv sync
 uv run streamlit run app/streamlit_app.py
 ```
 
-The app needs no terrain or SPICE kernels: it reads precomputed files in `data/processed/` (3.6 MB). Rebuild from raw data (list in
-[docs/SOURCES.md](docs/SOURCES.md)): `uv run python pipeline/build.py`. Tests: `uv run pytest`.
+The app reads only precomputed files (`data/processed/`, 3.6 MB; no terrain, no SPICE kernels).
+Rebuild: `uv run python pipeline/build.py` (raw data: [docs/SOURCES.md](docs/SOURCES.md)). Tests: `uv run pytest`.
 
 ## NASA data and how we used it
 
@@ -62,18 +60,17 @@ The app needs no terrain or SPICE kernels: it reads precomputed files in `data/p
 | LOLA Sun and Earth visibility maps, PGDA [69](https://pgda.gsfc.nasa.gov/products/69) | Check of our visibility statistics |
 | [JPL Horizons](https://ssd.jpl.nasa.gov/horizons/) | Check of Sun and Earth directions, incl. Apollo 11 |
 | NAIF SPICE kernels (DE440) | Hourly Sun and Earth positions |
-| LROC WAC south-polar mosaic (the imagery of [LROC QuickMap](https://quickmap.lroc.asu.edu/)) | Visual check: horizon peaks land on Malapert Massif, Mons Mouton, de Gerlache Rim, the peak near Shackleton |
+| LROC WAC south-polar mosaic (imagery of [QuickMap](https://quickmap.lroc.asu.edu/)) | Visual check: horizon peaks land on the real massifs |
 | [CSA Moon exploration](https://www.asc-csa.gc.ca/eng/astronomy/moon-exploration/) | Mission context; no number comes from it |
 
 Site points in the Artemis III regions: Wueller et al. (2026), CC BY 4.0.
 
 ## Method and checks
 
-Exact spherical horizon over LOLA heights → apparent Sun and Earth directions (SPICE, the lunar frame
-of the terrain) → visible share of each disc → hourly energy balance → Earth-link windows.
-Directions agree with JPL Horizons to 0.00003°; the Apollo 11 landing Sun elevation is 10.70°
-(Horizons 10.70°); 18.6-year visibility agrees with the LOLA maps within 2.7 points (Sun) and 0.8
-points (Earth) on average. Report and sources of uncertainty: [docs/VALIDATION.md](docs/VALIDATION.md).
+Exact spherical horizon over LOLA heights → Sun and Earth directions (SPICE) → visible share of each
+disc → hourly energy balance → Earth-link windows. Directions agree with JPL Horizons to 0.00003°;
+visibility agrees with the LOLA maps within 2.7 (Sun) and 0.8 (Earth) points on average; midsummer
+sunlit spells agree with Wueller et al. (2026) within 1 day in 32 of 36 cases ([report](docs/VALIDATION.md)).
 
 ## Limits
 
@@ -85,9 +82,9 @@ temperatures, the lander's own shadow, station schedules, relays, boulders. All 
 
 _Team names to be added._ Roles: programmer (data, code, app), engineer (power and link models).
 
-The team wrote the task list and rules ([CLAUDE.md](CLAUDE.md), [tasks/](tasks/)) and made the
-decisions on scope, data and method. Claude Code (Anthropic) wrote most of the code and documents
-task by task: every number comes from a calculation, a cited source or a listed assumption, and
-every task was tested and reviewed before closing ([tasks/DONE.md](tasks/DONE.md)).
+The team wrote the task list and rules ([CLAUDE.md](CLAUDE.md)) and decided scope, data and method.
+Claude Code (Anthropic) wrote most of the code and documents task by task; every number comes from a
+calculation, a cited source or a listed assumption, and every task was tested and reviewed
+([tasks/DONE.md](tasks/DONE.md)).
 
 License: MIT proposed for the code, to be confirmed by the team. Data keep their own terms.

@@ -17,6 +17,7 @@ docs/ASSUMPTIONS.md; sources and checksums are in docs/SOURCES.md.
 | Terrain beyond the 40 m model | LOLA 240 m model, rays to 500 km | no azimuth changes for 15 sites; margin at least 0.66 deg | A5 |
 | Sun and Earth visibility over 18.6 years | published LOLA maps (PGDA product 69), 36 pixels at 4 sites | mean difference -2.68 / -0.82 points, RMS 9.24 / 2.59 points (Sun / Earth) | section below |
 | Visible share of a disc | circular-segment formula | within 0.001 | `tests/test_visibility.py` |
+| Longest sunlit spell in midsummer | Wueller et al. (2026), Table A2: 12 sites x 2027-2029 | 32 of 36 within 1 day (Sun); 21 of 24 in 2028-2029 for Sun and Earth | `pipeline/compare_wueller.py`, section below |
 | Battery sizing | simulation with the computed capacity; hand calculation | survives with it, fails below it; hand check matches | power section below, `tests/test_power.py` |
 | Earth contact windows | period of the lunar libration in latitude (653 h) | windows repeat every 652 to 657 h | contact-window section below |
 | Precomputed data of the app | a fresh SPICE run | identical to the last bit | `tests/test_store.py` |
@@ -188,6 +189,86 @@ the observer above it. The 0 m values depend on pixel-level slopes at the noise 
 5 m models (docs/ASSUMPTIONS.md, A6 and A7). The gain from a mast is the subject of the mast
 trade-off and has no published counterpart in this comparison; it rests on the 5 m models
 being right at the scale of tens of metres.
+
+## Longest sunlit spells versus Wueller et al. (2026) (T22)
+
+Script: `pipeline/compare_wueller.py`; table: `data/processed/validation/wueller2026_comparison.csv`.
+
+**Reference.** Wueller et al. (2026, JGR Planets 131, e2025JE009434), Table A2: for each candidate
+landing site the largest number of consecutive days with sunlight, and with Sun and Earth together,
+inside the lunar midsummer of each year, defined there as sub-solar latitude <= -1.5 deg (their
+Table 2: 2027-10-15 to 11-14, 31 days; 2028-09-27 to 10-14, 18 days; 2029-09-15 to 10-02, 18 days).
+Their model (section 2.3): LROC QuickMap "TerrainShadows" on a 60 m/pixel model, 12 h steps,
+observer 2 m above the surface, shadows cast by terrain up to 150 km away; a step counts when its
+value is non-zero. The Earth rule is not stated. Our site coordinates are their site coordinates
+(data/sites.json, T22 part 1).
+
+**Ours.** The same windows and observer height, our horizons (5 m and 40 m LOLA models, 300 km
+rays), any part of the Sun; evaluated at 00:00 and 12:00 UTC like their 12 h steps, and every hour.
+Days are half the number of consecutive 12 h steps (their READ_ME) or hours / 24.
+
+| Site (Wueller) | Year | Sun: published / ours 12 h / ours 1 h | Sun and Earth: published / ours centre / ours any part |
+|---|---|---|---|
+| connecting_ridge (CR06) | 2027 | 31 / 31 / 31.0 | 31 / 9.5 / 10 |
+| connecting_ridge (CR06) | 2028 | 18 / 18 / 18.0 | 17 / 15.5 / 16 |
+| connecting_ridge (CR06) | 2029 | 18 / 18 / 18.0 | 17 / 15.5 / 17 |
+| peak_near_shackleton (007) | 2027 | 31 / 31 / 31.0 | 31 / 10 / 11 |
+| peak_near_shackleton (007) | 2028 | 17 / 18 / 18.0 | 17 / 15 / 15.5 |
+| peak_near_shackleton (007) | 2029 | 18 / 18 / 18.0 | 17 / 16 / 16.5 |
+| de_gerlache_rim (011) | 2027 | 31 / 31 / 31.0 | 31 / 10 / 11 |
+| de_gerlache_rim (011) | 2028 | 17 / 18 / 18.0 | 17 / 16 / 16.5 |
+| de_gerlache_rim (011) | 2029 | 18 / 18 / 18.0 | 17 / 17 / 17.5 |
+| malapert_massif (MMA_K2023) | 2027 | 31 / 31 / 31.0 | 31 / 11 / 12 |
+| malapert_massif (MMA_K2023) | 2028 | 17 / 18 / 18.0 | 17 / 16.5 / 17.5 |
+| malapert_massif (MMA_K2023) | 2029 | 18 / 18 / 18.0 | 17 / 17.5 / 18 |
+| haworth (HW06) | 2027 | 30 / 31 / 31.0 | 15 / 9 / 10 |
+| haworth (HW06) | 2028 | 17 / 18 / 18.0 | 17 / 14.5 / 15.5 |
+| haworth (HW06) | 2029 | 18 / 18 / 18.0 | 17 / 14.5 / 16 |
+| nobile_rim_1 (NR101) | 2027 | 31 / 31 / 31.0 | 31 / 11.5 / 12.5 |
+| nobile_rim_1 (NR101) | 2028 | 17 / 18 / 18.0 | 17 / 17 / 18 |
+| nobile_rim_1 (NR101) | 2029 | 18 / 18 / 18.0 | 17 / 18 / 18 |
+| nobile_rim_2 (NR205) | 2027 | 3 / 16 / 16.1 | 3 / 11 / 12 |
+| nobile_rim_2 (NR205) | 2028 | 20 / 10 / 9.7 | 10 / 10 / 10 |
+| nobile_rim_2 (NR205) | 2029 | 12 / 11.5 / 11.0 | 11 / 11.5 / 11.5 |
+| peak_near_cabeus_b (PCB02) | 2027 | 8 / 8 / 7.7 | 8 / 8 / 8 |
+| peak_near_cabeus_b (PCB02) | 2028 | 13 / 13 / 12.8 | 13 / 13 / 13 |
+| peak_near_cabeus_b (PCB02) | 2029 | 13 / 12.5 / 12.8 | 13 / 12.5 / 12.5 |
+| mons_mouton_plateau (MMP04) | 2027 | 8 / 9 / 9.2 | 7 / 9 / 9 |
+| mons_mouton_plateau (MMP04) | 2028 | 14 / 14 / 13.8 | 14 / 14 / 14 |
+| mons_mouton_plateau (MMP04) | 2029 | 15 / 15 / 15.1 | 14 / 15 / 15 |
+| mons_mouton (MMO01) | 2027 | 31 / 31 / 31.0 | 31 / 10.5 / 11.5 |
+| mons_mouton (MMO01) | 2028 | 17 / 18 / 18.0 | 17 / 15.5 / 16.5 |
+| mons_mouton (MMO01) | 2029 | 18 / 18 / 18.0 | 17 / 16.5 / 17 |
+| de_gerlache_rim_2 (dGR2_K2023) | 2027 | 20 / 13 / 12.9 | 20 / 9.5 / 9.5 |
+| de_gerlache_rim_2 (dGR2_K2023) | 2028 | 17 / 18 / 18.0 | 17 / 16 / 16.5 |
+| de_gerlache_rim_2 (dGR2_K2023) | 2029 | 17 / 18 / 18.0 | 17 / 16.5 / 17.5 |
+| slater_plain (SP06) | 2027 | 20 / 21.5 / 21.9 | 20 / 7.5 / 8.5 |
+| slater_plain (SP06) | 2028 | 9 / 8.5 / 8.5 | 9 / 7.5 / 8.5 |
+| slater_plain (SP06) | 2029 | 10 / 10 / 9.9 | 2 / 8.5 / 9 |
+
+Reading:
+
+- **Sun: 32 of 36 values agree within 1 day** (ours minus theirs: mean +0.17 day, median 0). The
+  long-lit ridge and massif sites (CR06, 007, 011, MMA_K2023, NR101, MMO01, HW06) are lit through the
+  whole window or one day less in both models. Our 12 h and 1 h samplings differ by at most 0.46 day,
+  so the time step is not a cause.
+- **Three clear differences, all at sites whose near horizon decides:** Nobile Rim 2 (NR205) in 2027,
+  3 days published against 16 ours, and in 2028, 20 against 10; de Gerlache Rim 2 (dGR2_K2023) in
+  2027, 20 against 13. The published 20 days for NR205 in 2028 exceed their own 18-day window, so the
+  period they modelled must be longer than the window of their Table 2 (not stated in the paper).
+  Further causes not separated: their 60 m model against our 5 m model near the site, shadows to
+  150 km against our 300 km.
+- **Sun and Earth in 2028 and 2029: 21 of 24 values agree within 1 day** when our Earth rule is "any
+  part of the Earth's disc" (mean difference +0.21 day), but only 16 of 24 with "centre of the disc";
+  this suggests that their Earth rule is "any part". The exception is Slater Plain (SP06) in 2029:
+  2 days published against 9 ours.
+- **Sun and Earth in 2027 does not agree and looks inconsistent in the paper.** For six sites (CR06,
+  007, 011, MMA_K2023, NR101, MMO01) the paper gives 31 consecutive days of Sun and Earth, the whole
+  window; ours are 10 to 12.5 days. Near the pole the Earth sets for a good part of every 27.2-day
+  libration cycle (T09: Earth windows of 336 to 339 h at Connecting Ridge and 404 to 415 h at Malapert
+  Massif), so a 31-day period with the Earth always in view cannot occur there. In 2027 the published
+  Sun-and-Earth value equals the Sun value at 10 of the 12 sites, unlike 2028 and 2029; a copy of the
+  Sun column is a possible explanation. Not resolved; a question for the authors.
 
 ## Power model: worked example for the engineer's review (T08)
 

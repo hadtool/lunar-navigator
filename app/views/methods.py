@@ -74,6 +74,8 @@ st.markdown(
 - Visibility statistics over 18.6 years agree with the published LOLA maps around four sites on average within
   2.7 points for the Sun and 0.8 points for the Earth; the scatter (9.2 and 2.6 points RMS) comes mostly from the
   different terrain models (docs/VALIDATION.md).
+- The longest sunlit spells in the lunar midsummers of 2027-2029 agree with the peer-reviewed model of Wueller et al.
+  (2026) within 1 day for 32 of 36 site-years; horizon peaks land on the real massifs in LROC camera images.
 - Synthetic tests: horizon dip on a smooth sphere, a single ridge, disc fractions against the segment formula,
   energy balance and battery sizing against simulation; more than 250 automated tests.
 

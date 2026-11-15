@@ -234,6 +234,13 @@ the disc or more), the observer height and the terrain model. The paper (doi:10.
 opened from our tools (publisher 403, repository refused the connection), so no comparison with our results has
 been made.
 
+Update 2026-11-15: the paper was provided by the team (PDF downloaded by the programmer from the
+publisher, stored as `data/raw/papers/wueller2026_jgr_planets.pdf`, 6379927 bytes, SHA-256
+`5c948e494847abf245e6765731f50593f8b7f31e2eb1de127f240685b4db786c`, not committed). Section 2.3 gives
+the method (QuickMap TerrainShadows, 60 m/pixel, 12 h steps, observer 2 m above the surface, shadows
+up to 150 km, a step counts when non-zero), Table 2 the midsummer windows (sub-solar latitude <= -1.5
+deg) and Table A2 the values per site; the comparison is in docs/VALIDATION.md (T22).
+
 ## LROC imagery (visual check of horizons, T06)
 
 LROC WAC south-polar summer mosaic, 64 pixels/degree browse GeoTIFF (8 bit):

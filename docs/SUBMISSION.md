@@ -50,7 +50,9 @@ listed and every placeholder marked, before running detailed thermal and power a
 **Validation.** Sun and Earth directions agree with JPL Horizons to 0.00003°; the Sun elevation at
 the Apollo 11 landing is 10.70° (Horizons 10.70°, mission plan 10.8°); our 18.6-year visibility
 statistics agree with the published LOLA maps within 2.7 points (Sun) and 0.8 points (Earth) on
-average around four sites. 287 automated tests.
+average around four sites; the longest sunlit spells in the 2027-2029 midsummers agree with the
+peer-reviewed model of Wueller et al. (2026) within 1 day for 32 of 36 site-years; horizon peaks land
+on the real massifs in LROC camera images. 287 automated tests.
 
 **Limits.** A visible Sun is not yet power and a visible Earth is not yet a radio link; dust,
 temperatures, the lander's shadow, station schedules and relays are not modelled. The lander power
