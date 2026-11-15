@@ -12,21 +12,23 @@ Rebuild: start the app (`uv run streamlit run app/streamlit_app.py`), take new s
 app changed, then `uv run python pipeline/make_slides.py`. The slide numbers are read from the
 mast trade-off table (`data/processed/mast/`); the other numbers come from docs/VALIDATION.md.
 
-## Requirements as found (to be confirmed by the team)
+## Requirements (checked against the 2026 guide, T26)
 
-Source: the official Project Submission Guide page,
-https://www.spaceappschallenge.org/resources/project-submission-guide/, as quoted by a web search on
-2026-11-14. The page itself could not be opened from our tools (certificate and proxy errors), and it
-may still show the previous year's wording, so **check the 2026 guide before submitting**:
+Source: Project Submission Guide, https://www.spaceappschallenge.org/resources/project-submission-guide/
+(page dated November 13, 2026; saved by the team on 2026-11-15, see docs/SOURCES.md):
 
-- the project demo is either a video of **30 seconds or less** or a slide deck of **at most seven
-  slides, including the title and intro slides**;
-- the slides must show how NASA and space-agency open data and technology make the solution
-  possible (slide 6);
-- videos and slides are not uploaded to the Space Apps site but **linked** from the project page,
-  so they need a public link (for example: the PDF in the public repository or in Google Drive, the
-  video on YouTube);
-- the submission page and all linked materials must be **in English**;
+- the demo is either a slide deck of **up to seven slides, including the title and intro slides**,
+  or a video of **30 seconds or less**; "Projects that exceed these limits will not be eligible for
+  Global Judging";
+- slides must show an image of the project, describe the user experience, include how NASA and
+  space-agency open data and technology make the solution possible, and name the team, its members
+  and the challenge;
+- the demo is **linked**, not uploaded: a public link without password, permission or registration
+  (GitHub is named as an acceptable host);
+- everything is **in English**;
+- content made with AI ("SI" in the guide) may not use NASA logos, flags or mission identifiers;
+  AI-generated images and videos **must carry a visible watermark**; code and data must acknowledge
+  it in text and metadata;
 - no images, video, audio or other likeness of persons under 18.
 
 ## Still to do by the team

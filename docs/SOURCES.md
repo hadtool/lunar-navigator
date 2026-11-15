@@ -13,6 +13,7 @@ exact file name, URL, size, download date (UTC) and how it is used. Large files 
 | LROC Quickmap | https://quickmap.lroc.asu.edu/ | Visual check of terrain, screenshots |
 | Moon Trek | https://trek.nasa.gov/moon/ | 3D terrain view |
 | CSA Moon Exploration | https://www.asc-csa.gc.ca/eng/astronomy/moon-exploration/ | Mission context |
+| Project Submission Guide 2026 (page dated November 13, 2026) | https://www.spaceappschallenge.org/resources/project-submission-guide/ | Rules of the submission (T26). Saved by the team from the browser on 2026-11-15 as `NASA Space Apps Challenge.pdf` in the project root (16 pages, 371071 bytes, SHA-256 `6067c29453a419acf3049df3d9e42be453a05283fa25fb991576c64dbdbed1b9`); not committed |
 
 ## Terrain (LOLA, NASA PGDA)
 
