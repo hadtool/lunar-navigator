@@ -102,7 +102,8 @@ tasks/DONE.md of the repository.
 
 - Repository: https://github.com/hadtool/lunar-navigator
 - App: _link after deployment (docs/DEPLOY.md)_
-- Demo video or slides: _link (task T17)_
+- Demo video (30 s, English subtitles burned in): https://github.com/hadtool/lunar-navigator/blob/main/docs/demo/demo_video.mp4
+- Slides (7, PDF): https://github.com/hadtool/lunar-navigator/blob/main/docs/demo/slides.pdf
 
 ## Team
 

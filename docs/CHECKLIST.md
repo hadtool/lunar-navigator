@@ -23,8 +23,8 @@
 ## 3. Демо (T17)
 
 - [ ] Требования сверены с руководством по подаче 2026 года (docs/demo/README.md).
-- [ ] Видео (не длиннее 30 с, английские субтитры docs/demo/subtitles.srt) или слайды
-      (docs/demo/slides.pdf, 7 штук) доступны по публичной ссылке в приватном окне.
+- [x] Видео docs/demo/demo_video.mp4 (30,0 с, субтитры вшиты) и слайды docs/demo/slides.pdf лежат в
+      публичном репозитории: https://github.com/hadtool/lunar-navigator/blob/main/docs/demo/demo_video.mp4
 - [ ] На слайде 1 вписаны имена и ссылка.
 - [ ] В материалах нет людей младше 18 лет.
 

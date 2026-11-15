@@ -466,3 +466,10 @@
 - Как проверено: `uv run pytest -q` — 287 passed; панель проверена вручную (193,0 Вт × 1,021 = 197,1 Вт против 196,1 Вт модели), бюджет линии — вручную на 406 760 км (18,0 дБ); устаревшие числа искались поиском по документам.
 - Проверка инженера: недоступна (инженер не может)
 
+### T25 · Демо-видео
+- Дата: 2026-11-15
+- Что сделано: видео не обязательно (нужно видео до 30 с **или** до 7 слайдов), но сделано: docs/demo/demo_video.mp4 — 30,0 с, 1920 × 1080, H.264, 0,75 МБ, английские субтитры из subtitles.srt вшиты (ffmpeg + libass). Кадры — свежие скриншоты локального приложения по сценарию video_script.md (Firefox через Marionette): Connecting Ridge → Malapert Massif → Power 2 м «Does not survive» (25 823 Вт·ч) → 10 м «Survives» (14 128 Вт·ч) → Mast trade-off → Landing windows. Скриншоты docs/demo/screenshots/ обновлены под новые значения T24. Ссылки — в README, SUBMISSION, CHECKLIST, docs/demo/README.
+- Попутно: на странице Power убрано устаревшее предупреждение «placeholders / not confirmed by the team's engineer» (app/views/power.py).
+- Как проверено: ffprobe — длительность 30,000 с; кадры на 2, 7, 15, 24 и 28 с просмотрены глазами (субтитры читаются, числа совпадают с таблицей мачты); `uv run pytest -q tests/test_app.py` — 15 passed.
+- Проверка инженера: не нужна
+

@@ -5,6 +5,7 @@
 | `slides.pdf`, `slides/slide_1.png` ... `slide_7.png` | Seven slides, 16:9, English (title included) |
 | `video_script.md` | 30-second video: screen, action and subtitle per second |
 | `subtitles.srt` | English subtitles for the video |
+| `demo_video.mp4` | The 30-second video (1920 x 1080, H.264, subtitles burned in), built from the app screenshots of 2026-11-15 with ffmpeg; no people, no voice |
 | `screenshots/` | Key screens of the app along the demo scenario (local run, 1600 x 914) |
 
 Rebuild: start the app (`uv run streamlit run app/streamlit_app.py`), take new screenshots if the
@@ -30,6 +31,6 @@ may still show the previous year's wording, so **check the 2026 guide before sub
 
 ## Still to do by the team
 
-- Record the video along `video_script.md` and publish it with a public link.
+- Done 2026-11-15: the video `demo_video.mp4` is public in the repository; a YouTube upload is optional.
 - Replace the placeholders `[names]` and `[link]` on slide 1 (edit `pipeline/make_slides.py` and
   rebuild, or edit the PDF).

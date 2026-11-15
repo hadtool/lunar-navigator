@@ -17,9 +17,10 @@ st.title("Power: does the lander survive?")
 st.caption(f"{item['name']} · panel {state.mast_height_m:g} m above the surface · {common.window_label()}")
 if common.power_placeholders():
     st.warning(
-        "The starting values are **not confirmed by the team's engineer**: battery, depth of discharge, specific "
-        "energy and night load follow a NASA reference design of a small lunar lander (2022), the cell efficiency a "
-        "solar-cell datasheet; panel area, day load and efficiencies are placeholders (docs/ASSUMPTIONS.md, A14). "
+        "The starting values are **not reviewed by an engineer**: battery, depth of discharge, specific energy and "
+        "night load follow a NASA reference design of a small lunar lander (2022), the cell efficiency a solar-cell "
+        "datasheet, the losses a textbook (SMAD); the panel area (0.6 m²) is sized for a 100 W day load, and the "
+        "battery efficiencies are estimates (docs/ASSUMPTIONS.md, A14). "
         "Set your own lander below; every verdict is recomputed at once.",
         icon="⚠️",
     )

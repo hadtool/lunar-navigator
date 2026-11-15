@@ -41,6 +41,8 @@ calculation; no engineer has **reviewed** them ([inputs](docs/ENGINEERING_INPUTS
 
 ## Try it
 
+Demo: [30-second video](docs/demo/demo_video.mp4) · [7 slides](docs/demo/slides.pdf).
+
 Three clicks: **Malapert Massif** → **Power** (*does not survive* 2027 with the 20 kWh battery at
 2 m) → mast slider to **10 m** (*survives*; 14.1 kWh needed instead of 25.8).
 
