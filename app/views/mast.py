@@ -85,7 +85,7 @@ st.caption(
     f"Heights from {MIN:g} m; 0 m (an observer on the terrain-model surface, A7) is left out here, while the table of "
     "pipeline/mast_tradeoff.py keeps it. Not modelled: the mass, cost and shadow of the mast itself; compare the "
     "battery mass saved with the "
-    "mass of the mast. With the placeholder load rule (A15) a taller mast can need a larger battery when a thin "
+    "mass of the mast. With the other load rule (A15) a taller mast can need a larger battery when a thin "
     "sliver of the Sun stays visible for many hours (docs/VALIDATION.md, T10)."
 )
 

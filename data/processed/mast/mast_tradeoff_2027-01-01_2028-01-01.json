@@ -15,10 +15,7 @@
  ],
  "mast_carries": "both",
  "placeholder_keys": {
-  "mast": [
-   "mast_heights_m",
-   "mast_carries"
-  ],
+  "mast": [],
   "power": [
    "panel_type",
    "panel_area_m2",
@@ -41,14 +38,14 @@
   ]
  },
  "power_system": {
-  "panel_area_m2": 1.0,
+  "panel_area_m2": 0.6,
   "panel_efficiency": 0.307,
   "battery_capacity_wh": 20000.0,
   "load_day_w": 100.0,
   "load_night_w": 46.0,
   "panel_type": "tracking",
   "panel_fixed_azimuth_rad": 0.0,
-  "panel_losses": 0.0,
+  "panel_losses": 0.23,
   "battery_max_dod": 0.9,
   "battery_charge_efficiency": 0.95,
   "battery_discharge_efficiency": 0.95,
@@ -67,7 +64,7 @@
     "sunlit_pct": 10.0,
     "mean_sun_fraction_pct": 10.0,
     "longest_night_h": 10.0,
-    "required_capacity_wh": 10.0,
+    "required_capacity_wh": 5.0,
     "earth_pct": 20.0,
     "longest_earth_gap_h": null
    },
@@ -91,11 +88,11 @@
  },
  "horizons_computed_now": {},
  "timing": {
-  "ephemeris_s": 0.54,
-  "connecting_ridge_s": 0.36,
-  "malapert_massif_s": 0.34,
-  "haworth_s": 0.33,
-  "total_s": 1.61
+  "ephemeris_s": 0.23,
+  "connecting_ridge_s": 0.18,
+  "malapert_massif_s": 0.16,
+  "haworth_s": 0.16,
+  "total_s": 0.75
  },
  "notes": [
   "0 m is an observer on the terrain-model surface; its horizon is set by pixel-scale slopes (A7).",

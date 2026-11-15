@@ -1,0 +1,45 @@
+{
+  "sun_share_2027_at_2m": {
+    "connecting_ridge": 0.730845981264909,
+    "de_gerlache_rim": 0.6916586964132657,
+    "de_gerlache_rim_2": 0.5883975199227323,
+    "haworth": 0.5593686320085407,
+    "im2_athena": 0.43699483463513666,
+    "leibnitz_beta_plateau": 0.21550708140208003,
+    "malapert_massif": 0.6487404019423261,
+    "mons_mouton": 0.7206475490208477,
+    "mons_mouton_plateau": 0.3006786442676361,
+    "nobile_rim_1": 0.7316668219434234,
+    "nobile_rim_2": 0.5081372996469281,
+    "peak_near_cabeus_b": 0.3437714292393423,
+    "peak_near_shackleton": 0.7348516578780351,
+    "shackleton_rim": 0.08810144295393613,
+    "slater_plain": 0.5606477415593712
+  },
+  "design_sun_share_median": 0.5606477415593712,
+  "max_sun_elevation_deg": 7.9311660734418306,
+  "vertical_panel_cosine_loss": 0.009565446337885364,
+  "array_power_needed_w": 185.07992300732,
+  "array_output_w_per_m2_aphelion": 311.2444233044172,
+  "panel_area_m2": 0.594644945096092,
+  "link": {
+    "wavelength_m": 0.0354783973964497,
+    "tx_power_w": 3.981071705534973,
+    "rx_gain_dbi": 67.35480841899951,
+    "earth_range_m_min_max": [
+      357197961.47102714,
+      406760248.88756627
+    ],
+    "received_ebn0_db_min_max_range": [
+      19.139666210048887,
+      18.011075556194527
+    ],
+    "margin_above_required_db_min_max_range": [
+      11.739666210048886,
+      10.611075556194526
+    ],
+    "knife_edge_grazing_loss_db": 6.0,
+    "fresnel_radius_m_obstacle_at_1km": 5.956374517812803,
+    "fresnel_angle_deg_obstacle_at_1km": 0.3412751210699444
+  }
+}

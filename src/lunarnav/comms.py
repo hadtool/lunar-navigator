@@ -89,7 +89,7 @@ def default_comm_settings(
     if inputs is None:
         inputs = load_engineering_inputs()
     keys = ("comm_earth_disk_rule", "comm_elevation_margin_deg")
-    placeholders = tuple(key for key in keys if key not in inputs)
+    placeholders = tuple(key for key in keys if key not in inputs or inputs[key].provisional)
     rule = _rule_from_text(inputs[keys[0]].raw) if keys[0] in inputs else RULE_CENTRE
     margin_deg = inputs[keys[1]].number() if keys[1] in inputs else 0.0
     return CommSettings(rule, float(np.deg2rad(margin_deg))), placeholders

@@ -20,7 +20,7 @@ Raise panel and antenna to 10 m: it survives.
 
 6
 00:00:21,500 --> 00:00:26,000
-A 10 m mast cuts the battery needed from 24.1 to 14.1 kWh.
+A 10 m mast cuts the battery needed from 25.8 to 14.1 kWh.
 
 7
 00:00:26,000 --> 00:00:30,000

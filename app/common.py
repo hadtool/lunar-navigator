@@ -301,11 +301,11 @@ def sidebar() -> None:
                          key="comm_rule")
             st.slider("Margin above the terrain horizon, deg", 0.0, 10.0, step=0.5, key="comm_margin_deg")
             if _defaults()["comm_placeholders"]:
-                st.caption("Defaults are placeholders (docs/ASSUMPTIONS.md, A12).")
+                st.caption("Defaults are estimates not reviewed by an engineer (docs/ASSUMPTIONS.md, A12).")
         if power_placeholders():
             st.caption(
-                "⚠️ Lander power defaults come from public NASA sources and a solar-cell datasheet where available "
-                "and are placeholders elsewhere; the team's engineer has **not confirmed** them yet (A14). "
+                "⚠️ Lander power defaults come from public NASA sources, a solar-cell datasheet and a textbook sizing "
+                "calculation; they are **not reviewed by an engineer** (A14). "
                 "Survive / fail verdicts illustrate the method."
             )
 
@@ -313,7 +313,7 @@ def sidebar() -> None:
 def power_note() -> None:
     """One line under a power result that says whose numbers these are."""
     if power_placeholders() and power_is_default():
-        st.caption("⚠️ Power system: default values from public sources or placeholders, not confirmed by the team's "
+        st.caption("⚠️ Power system: default values from public sources and a sizing calculation, not reviewed by an "
                    "engineer (docs/ASSUMPTIONS.md, A14). Change them on the Power page.")
     else:
         system = power_system()

@@ -45,7 +45,7 @@ st.markdown("Panel power (S = 1361 W/m², d = Sun distance, θ = angle between t
 st.latex(r"P = S\left(\frac{1\,\mathrm{au}}{d}\right)^{2}\eta\,(1-\ell)\,A\,f_\odot\cos\theta")
 st.markdown("Battery: a surplus charges with efficiency η_c up to the capacity; a deficit is divided by η_d; the lander "
             "survives when the stored energy never falls below (1 − DoD) of the capacity.")
-st.markdown("Optional link budget (only with the engineer's radio parameters):")
+st.markdown("Link budget (X-band direct to Earth; radio values in docs/ENGINEERING_INPUTS.md, A18):")
 st.latex(r"\frac{E_b}{N_0} = P_t + G_t + G_r - 20\log_{10}\frac{4\pi d f}{c} - L - 10\log_{10}(k\,T_s\,R)")
 
 st.header("NASA and other data used")
@@ -87,17 +87,17 @@ the expander **Validation report** at the bottom of this page.
 st.header("Limits: read before using a verdict")
 st.markdown(
     """
-- **Unconfirmed lander values.** Battery, night load and cell efficiency follow a NASA reference lander (2022) and
-  a solar-cell datasheet; panel area, day load, the Earth link rule, the mast heights and the mission length are
-  placeholders (docs/ASSUMPTIONS.md, A12, A14, A19, A23). The team's engineer has not confirmed them yet; the app
-  marks them and verdicts made with them illustrate the method.
+- **Unreviewed lander values.** Battery, night load and cell efficiency follow a NASA reference lander (2022) and
+  a solar-cell datasheet; the panel area is sized with a textbook energy balance (SMAD) for a 100 W day load, and
+  the Earth link rule, radio values, mast heights and mission length are estimates (docs/ASSUMPTIONS.md, A12, A14,
+  A18, A19, A23). No engineer has reviewed them; the app marks them and verdicts made with them illustrate the method.
 - **A visible Sun is not yet power and a visible Earth is not yet a link.** Not modelled: dust, temperatures and
   heaters, the lander's own shadow, ground-station schedules, relay satellites.
 - **Terrain.** Only terrain in the LOLA models blocks the view; boulders and features smaller than the real data
   spacing are absent. Results for an observer at 0 m depend on pixel-scale slopes and are not those of a real lander.
 - **Day-mode rule.** By default the lander uses its day load only while the panel covers it; with the other rule
   (day load whenever any part of the Sun is visible) hours with a thin sliver of Sun can drain the battery
-  (docs/VALIDATION.md, T10 and T11). The choice is still to be confirmed by the engineer (A15).
+  (docs/VALIDATION.md, T10 and T11). The rule is not reviewed by an engineer (A15).
 """
 )
 

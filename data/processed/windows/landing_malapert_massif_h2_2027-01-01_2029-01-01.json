@@ -15,9 +15,7 @@
  "landings": 731,
  "surviving_landings": 731,
  "placeholder_keys": {
-  "mission": [
-   "mission_duration_days"
-  ],
+  "mission": [],
   "power": [
    "panel_type",
    "panel_area_m2",
@@ -40,14 +38,14 @@
   ]
  },
  "power_system": {
-  "panel_area_m2": 1.0,
+  "panel_area_m2": 0.6,
   "panel_efficiency": 0.307,
   "battery_capacity_wh": 20000.0,
   "load_day_w": 100.0,
   "load_night_w": 46.0,
   "panel_type": "tracking",
   "panel_fixed_azimuth_rad": 0.0,
-  "panel_losses": 0.0,
+  "panel_losses": 0.23,
   "battery_max_dod": 0.9,
   "battery_charge_efficiency": 0.95,
   "battery_discharge_efficiency": 0.95,
@@ -55,6 +53,7 @@
   "battery_specific_energy_wh_per_kg": 200.0,
   "day_load_rule": "power_covers_load"
  },
+ "battery_overridden_for_illustration": false,
  "comm": {
   "rule": "centre",
   "margin_deg": 0.0
@@ -113,9 +112,9 @@
   }
  ],
  "timing": {
-  "ephemeris_s": 0.45,
+  "ephemeris_s": 0.46,
   "visibility_s": 0.05,
-  "calendar_s": 0.3,
-  "total_s": 0.81
+  "calendar_s": 0.33,
+  "total_s": 0.84
  }
 }

@@ -38,8 +38,8 @@ exactly. Everything the app needs fits in 3.6 MB; a parameter change is recomput
 second.
 
 **Results (default lander, 2027).** At Connecting Ridge a 10 m mast instead of 2 m raises the
-time with sunlight from 79.1 % to 95.1 % and cuts the battery needed for the year from 22.8 kWh to
-4.9 kWh; the gain levels off at about 10 m at ridge sites, while at Haworth a mast hardly helps. At
+time with sunlight from 79.1 % to 95.1 % and cuts the battery needed for the year from 51.5 kWh to
+5.1 kWh; the gain levels off at about 10 m at ridge sites, while at Haworth a mast hardly helps. At
 Malapert Massif the mast also raises the time with the Earth in view from 62.7 % to 89.1 % (2 to
 20 m). The best landing days keep both the Sun and the Earth in view for a whole 14-day mission.
 
@@ -56,8 +56,8 @@ on the real massifs in LROC camera images. 287 automated tests.
 
 **Limits.** A visible Sun is not yet power and a visible Earth is not yet a radio link; dust,
 temperatures, the lander's shadow, station schedules and relays are not modelled. The lander power
-values follow a NASA reference lander and a solar-cell datasheet or are placeholders; our engineer
-has not confirmed them yet.
+values follow a NASA reference lander, a solar-cell datasheet and a textbook sizing calculation;
+no engineer has reviewed them.
 
 **Tools.** Python, NumPy, pandas, PyArrow, rasterio, SpiceyPy (NAIF SPICE), Streamlit, Plotly,
 Matplotlib, pytest, uv; Claude Code (see AI use).
@@ -100,10 +100,10 @@ tasks/DONE.md of the repository.
 
 ## Links
 
-- Repository: https://github.com/hadtool/lunar-navigator _(private until the team makes it public)_
+- Repository: https://github.com/hadtool/lunar-navigator
 - App: _link after deployment (docs/DEPLOY.md)_
 - Demo video or slides: _link (task T17)_
 
 ## Team
 
-_Names and roles._
+Hadiyatullo Ibrohimov, Zikrullo Asrorov, Umarkhon Hamdamov.

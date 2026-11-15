@@ -28,21 +28,21 @@ models, IM-2) and any dates in 2027-2029:
 ## What it shows (2027, default lander)
 
 - At Connecting Ridge a 10 m mast instead of 2 m raises the time with sunlight from 79.1 % to
-  95.1 % and cuts the battery needed for the year from 22.8 kWh to 4.9 kWh (114 kg to 24 kg). The
+  95.1 % and cuts the battery needed for the year from 51.5 kWh to 5.1 kWh (257 kg to 26 kg). The
   gain levels off at about 10 m there and at Malapert Massif; at Haworth a mast hardly helps.
 - The Earth is often the narrow constraint: at Malapert Massif a mast raises the time with the Earth
   in view from 62.7 % to 89.1 % (2 to 20 m); at Connecting Ridge the Earth sets behind terrain
   135 km away and a mast does not help.
 - With a 20 kWh battery every 14-day mission here survives; a whole year at Malapert Massif needs
-  24.1 kWh at 2 m but 14.1 kWh on a 10 m mast.
+  25.8 kWh at 2 m but 14.1 kWh on a 10 m mast.
 
-Lander values follow a NASA reference lander (2022) and a solar-cell datasheet, or are placeholders;
-our engineer has **not confirmed** them yet ([inputs](docs/ENGINEERING_INPUTS.md)); the app marks them.
+Lander values follow a NASA reference lander (2022), a solar-cell datasheet and a textbook sizing
+calculation; no engineer has **reviewed** them ([inputs](docs/ENGINEERING_INPUTS.md)); the app marks them.
 
 ## Try it
 
 Three clicks: **Malapert Massif** → **Power** (*does not survive* 2027 with the 20 kWh battery at
-2 m) → mast slider to **10 m** (*survives*; 14.1 kWh needed instead of 24.1).
+2 m) → mast slider to **10 m** (*survives*; 14.1 kWh needed instead of 25.8).
 
 ```bash
 uv sync
@@ -80,7 +80,7 @@ temperatures, the lander's own shadow, station schedules, relays, boulders. All 
 
 ## Team, use of AI, license
 
-_Team names to be added._ Roles: programmer (data, code, app), engineer (power and link models).
+Team: Hadiyatullo Ibrohimov, Zikrullo Asrorov, Umarkhon Hamdamov.
 
 The team wrote the task list and rules ([CLAUDE.md](CLAUDE.md)) and decided scope, data and method.
 Claude Code (Anthropic) wrote most of the code and documents task by task; every number comes from a
