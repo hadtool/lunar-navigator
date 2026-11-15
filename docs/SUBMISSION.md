@@ -23,7 +23,10 @@ both were checked against JPL Horizons and the published LOLA illumination maps.
 
 ## Link to Project Demo
 
-Seven slides (PDF): https://github.com/hadtool/lunar-navigator/blob/main/docs/demo/slides.pdf
+https://hadtool.github.io/lunar-navigator/demo/deck/
+
+Seven animated slides (arrows, space or a click move on). If the form allows a note, add the static
+copy of the same seven slides: https://github.com/hadtool/lunar-navigator/blob/main/docs/demo/slides.pdf
 
 ## Link to Final Project
 

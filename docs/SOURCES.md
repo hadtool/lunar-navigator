@@ -373,6 +373,16 @@ committed ones; the stored ephemeris equals a fresh SPICE run exactly at sampled
 (visibility, three years of power, mast trade-off, calendar of 1096 landings) runs in 1.0 s for
 one site and gives the same numbers as T10 and T11.
 
+## Demo deck (T27)
+
+| Item | Source and licence | Used for |
+|---|---|---|
+| Moon picture `docs/demo/deck/img/moon.webp` | `LDEM_80S_40MPP_ADJ.TIF` (LOLA 40 m model, PGDA product 90, see above), shaded with the recipe of the app's map (`pipeline/build_basemap.py`), 1200 x 1200 pixels for 440 x 440 km | The Moon of the slides |
+| Font `docs/demo/deck/fonts/DeckSans.woff` | Subset (Latin, 65 KB) of Adwaita Sans, font version 4.001 (Fedora package adwaita-sans-fonts 50.0) (`/usr/share/fonts/adwaita-sans-fonts/AdwaitaSans-Regular.ttf`; a variant of Inter), SIL Open Font License 1.1; licence text in `fonts/OFL.txt`; cut with fontTools | Text of the deck |
+| QR code `docs/demo/deck/img/qr.svg` | Drawn with segno 1.6.6 (BSD licence) for the link of the app; read back from the rendered slide with OpenCV 4 (`QRCodeDetector`) on 2026-11-15 | Last slide |
+| Flags on the last slide | Drawn by the deck's code from the official proportions: Tajikistan 1:2 with stripes 2:3:2, a crown and seven stars (simplified); United States 10:19, 13 stripes, 50 stars | Closing illustration |
+| Everything else on the slides | Generated with Claude (Anthropic); numbers from the project's result files (`pipeline/make_deck.py`) | - |
+
 ## Development tooling (not part of the solution)
 
 | Component | Source | Version | Retrieved (UTC) | Notes |

@@ -1,0 +1,717 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lunar Landing Site Navigator · demo deck</title>
+<meta name="description" content="Seven-slide demo of the Lunar Landing Site Navigator, NASA Space Apps Challenge 2026.">
+<meta name="generator" content="AI-generated deck: layout, illustrations, animation and code made with Claude (Anthropic); the numbers are computed from NASA data by the project's code (pipeline/make_deck.py)">
+<!--
+  Seven slides (the limit of the Space Apps 2026 Project Submission Guide). Keys: arrows, space, Home, End;
+  R replays the last scene, A plays the deck by itself, F is full screen. ?static=1 shows every slide in its
+  final state without animation (used for the PDF copy, pipeline/export_deck.py).
+  Font: subset of Adwaita Sans, SIL Open Font License 1.1 (see docs/SOURCES.md).
+-->
+<style>
+@font-face{font-family:"Deck Sans";src:url("fonts/DeckSans.woff") format("woff");font-weight:100 900;font-style:normal;font-display:swap}
+:root{--ink:#f1f4ff;--ink2:#bcc6e4;--ink3:#8591b8;--gold:#ffc857;--cyan:#6fe3ff;--blue:#4da3ff;--bad:#ff6b6b;--ok:#4ade80;
+  --panel:rgba(12,17,36,.80);--line:rgba(140,170,255,.24)}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:#03040a;overflow:hidden}
+body{font-family:"Deck Sans","Inter","Segoe UI",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;color:var(--ink);
+  -webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
+a{color:var(--cyan);text-decoration:none}a:hover{text-decoration:underline}
+button{font:inherit;color:inherit}
+#viewport{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;overflow:hidden}
+#stage{position:relative;flex:none;width:1920px;height:1080px;overflow:hidden;transform-origin:center center;cursor:default;
+  background:radial-gradient(1100px 760px at 84% 6%,rgba(78,62,170,.40),transparent 62%),
+    radial-gradient(900px 700px at 6% 98%,rgba(16,92,136,.34),transparent 60%),
+    radial-gradient(800px 560px at 46% 46%,rgba(22,26,66,.55),transparent 70%),#04050c;
+  --mx:2300px;--my:300px;--ms:.5;--mr:-30deg;--mo:0;--ey:700px}
+#stars{position:absolute;left:0;top:0;width:1920px;height:1080px}
+
+/* the Moon: LOLA shaded relief of the south pole, moved and scaled per slide */
+#moon{position:absolute;left:0;top:0;width:800px;height:800px;margin:-400px 0 0 -400px;border-radius:50%;
+  background:#777 url("img/moon.webp") center/cover;opacity:var(--mo);
+  box-shadow:0 0 90px 12px rgba(170,190,255,.22),0 0 280px 70px rgba(120,140,255,.12);
+  transform:translate(var(--mx),var(--my)) scale(var(--ms)) rotate(var(--mr));
+  transition:transform 1.6s cubic-bezier(.62,.02,.2,1),opacity 1.3s ease;will-change:transform}
+#moon::after{content:"";position:absolute;inset:0;border-radius:50%;
+  background:radial-gradient(circle at 30% 26%,rgba(255,255,255,.10),transparent 40%),
+    radial-gradient(circle at 32% 28%,transparent 44%,rgba(3,4,12,.88) 88%),
+    radial-gradient(circle closest-side at 50% 50%,transparent 88%,rgba(3,4,12,.6) 100%)}
+.beacon{position:absolute;width:10px;height:10px;margin:-5px;border-radius:50%;background:var(--cyan);z-index:1;
+  box-shadow:0 0 12px 3px rgba(111,227,255,.8);animation:pulse 2.6s ease-in-out infinite;transition:opacity .8s}
+.beacon.main{background:var(--gold);box-shadow:0 0 16px 5px rgba(255,200,87,.9);width:14px;height:14px;margin:-7px}
+#stage:not([data-slide="1"]) .beacon{opacity:0}
+#earth{position:absolute;left:-760px;top:640px;width:1300px;height:1300px;border-radius:50%;
+  background:radial-gradient(circle at 62% 24%,#3b8be0 0,#1b55a5 26%,#0c2a63 52%,#06102a 72%);
+  box-shadow:0 0 90px 22px rgba(80,160,255,.42),inset 0 0 140px rgba(170,215,255,.22);
+  transform:translateY(var(--ey));transition:transform 1.6s cubic-bezier(.62,.02,.2,1)}
+#stage[data-slide="1"]{--mx:1480px;--my:500px;--ms:1;--mr:0deg;--mo:1;--ey:0px}
+#stage[data-slide="2"]{--mx:1900px;--my:60px;--ms:.5;--mr:-16deg;--mo:.55}
+#stage[data-slide="3"]{--mx:40px;--my:1090px;--ms:1;--mr:12deg;--mo:.42}
+#stage[data-slide="4"]{--mx:1920px;--my:1080px;--ms:1.1;--mr:26deg;--mo:.4}
+#stage[data-slide="5"]{--mx:1930px;--my:500px;--ms:.9;--mr:-8deg;--mo:.38}
+#stage[data-slide="6"]{--mx:1880px;--my:230px;--ms:.8;--mr:18deg;--mo:.45}
+#stage[data-slide="7"]{--mx:960px;--my:1700px;--ms:4.4;--mr:34deg;--mo:0}
+
+/* slides */
+.slide{position:absolute;inset:0;opacity:0;visibility:hidden;transform:translateX(80px);
+  transition:opacity .45s ease,transform .6s ease,visibility 0s .6s}
+.slide.before{transform:translateX(-80px)}
+.slide.active{opacity:1;visibility:visible;transform:none;
+  transition:opacity .7s ease .55s,transform .8s cubic-bezier(.2,.7,.2,1) .55s,visibility 0s}
+.rv{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
+.slide.active .rv{opacity:1;transform:none;transition-delay:calc(.8s + var(--i,0) * .11s)}
+.abs{position:absolute}
+.eyebrow{font-size:21px;letter-spacing:.24em;text-transform:uppercase;color:var(--cyan);font-weight:650}
+h1{font-size:104px;line-height:1.0;font-weight:800;letter-spacing:-.028em}
+h2{font-size:56px;line-height:1.08;font-weight:780;letter-spacing:-.022em;margin-top:18px}
+.lead{font-size:34px;line-height:1.32;color:var(--ink2);font-weight:430}
+em{font-style:normal;color:var(--gold)}
+b,strong{font-weight:700}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:24px 28px;
+  box-shadow:0 22px 60px rgba(0,0,0,.38),inset 0 1px 0 rgba(255,255,255,.06)}
+.small{font-size:19px;line-height:1.4;color:var(--ink3)}
+.pts{list-style:none;margin-top:30px}
+.pts li{position:relative;padding-left:34px;font-size:25.5px;line-height:1.38;color:var(--ink2);margin-top:18px}
+.pts li::before{content:"";position:absolute;left:4px;top:13px;width:12px;height:12px;border-radius:50%;background:var(--gold);
+  box-shadow:0 0 12px rgba(255,200,87,.7)}
+.pts li b{color:var(--ink)}
+.chip{display:inline-block;padding:7px 16px;border-radius:999px;font-size:18px;font-weight:650;letter-spacing:.04em;
+  border:1px solid var(--line);background:rgba(20,28,58,.85);color:var(--ink2);white-space:nowrap}
+.chip.bad{color:#ffd9d9;border-color:rgba(255,107,107,.6);background:rgba(120,24,30,.55)}
+.chip.ok{color:#d8ffe6;border-color:rgba(74,222,128,.55);background:rgba(16,84,48,.55)}
+.chip.gold{color:#fff3d1;border-color:rgba(255,200,87,.55);background:rgba(110,78,10,.5)}
+
+/* frame around app screens */
+.frame{border-radius:18px;overflow:hidden;border:1px solid rgba(160,185,255,.35);background:#0d1226;
+  box-shadow:0 30px 80px rgba(0,0,0,.55),0 0 0 6px rgba(111,227,255,.05)}
+.frame .bar{height:40px;display:flex;align-items:center;gap:9px;padding:0 16px;background:#141a33;font-size:15px;color:var(--ink3)}
+.frame .bar i{width:11px;height:11px;border-radius:50%;background:#39425f}
+.frame .bar span{margin-left:14px;padding:4px 16px;border-radius:8px;background:#0b1024;letter-spacing:.02em}
+.frame .view{position:relative;background:#fff}
+.frame .view img{display:block;width:100%;height:auto}
+.frame .view img.lay{position:absolute;left:0;top:0;opacity:0;transition:opacity .8s ease}
+.frame .view img.lay.on{opacity:1}
+
+/* slide 3 */
+.step{display:flex;gap:18px;align-items:flex-start;margin-top:22px;padding:14px 18px;border-radius:16px;border:1px solid transparent;
+  transition:background .5s,border-color .5s}
+.step .n{flex:none;width:46px;height:46px;border-radius:50%;display:grid;place-items:center;font-size:23px;font-weight:800;
+  background:#141c3c;border:2px solid var(--line);color:var(--ink2);transition:all .5s}
+.step .t{font-size:26px;font-weight:700}.step .d{font-size:21px;color:var(--ink3);margin-top:3px;line-height:1.3}
+.step.on{background:rgba(255,200,87,.09);border-color:rgba(255,200,87,.4)}
+.step.on .n{background:var(--gold);color:#1b1300;border-color:#fff}
+
+/* slide 4 */
+.colh{font-size:19px;letter-spacing:.2em;text-transform:uppercase;font-weight:700;color:var(--gold);margin-bottom:14px}
+.dcard{margin-bottom:14px;padding:18px 22px}
+.dcard .t{font-size:24.5px;font-weight:720}
+.dcard .d{font-size:19.5px;line-height:1.36;color:var(--ink2);margin-top:5px}
+.dcard .d b{color:var(--gold);font-weight:700}
+.flow{position:absolute;top:470px;width:40px;height:26px;overflow:hidden}
+.flow::before{content:"›››››";position:absolute;left:-40px;top:-10px;font-size:34px;letter-spacing:4px;color:var(--cyan);
+  animation:flow 1.4s linear infinite;white-space:nowrap}
+
+/* panorama */
+.pano canvas{display:block;border-radius:18px;border:1px solid var(--line);box-shadow:0 22px 60px rgba(0,0,0,.45)}
+.pano .head{display:flex;align-items:center;gap:12px;height:46px;margin-bottom:10px}
+.pano .clock{font-size:22px;font-weight:700;letter-spacing:.06em;color:var(--ink);margin-right:auto}
+.pano .cap{margin-top:12px}
+.lg{display:inline-flex;align-items:center;gap:8px;margin-right:22px;font-size:18px;color:var(--ink2)}
+.lg i{display:inline-block;width:26px;height:0;border-top:3px solid var(--cyan)}
+
+/* batteries, slide 5 */
+.bat{display:grid;grid-template-columns:186px 1fr 92px;align-items:center;gap:16px;margin-top:16px}
+.bat .who{font-size:23px;font-weight:700}
+.bat .bar{position:relative;height:40px;border-radius:10px;background:#0b1024;border:2px solid rgba(160,185,255,.4);overflow:hidden}
+.bat .bar i{position:absolute;left:0;top:0;bottom:0;width:100%;background:linear-gradient(90deg,#1f9d57,#4ade80);border-radius:6px}
+.bat .bar b{position:absolute;left:10%;top:-2px;bottom:-2px;border-left:2px dashed rgba(255,255,255,.75)}
+.bat.low .bar i{background:linear-gradient(90deg,#b3261e,#ff6b6b)}
+.bat .pc{font-size:27px;font-weight:800;text-align:right}
+.bat .verdict{grid-column:2/4;margin-top:-6px}
+.rows{margin-top:22px;padding:4px 24px}
+.rows .r{display:flex;justify-content:space-between;align-items:baseline;padding:10px 0;border-top:1px solid rgba(140,170,255,.16)}
+.rows .r:first-child{border-top:0}
+.rows .k{font-size:21px;color:var(--ink2);font-weight:600}
+.rows .v{font-size:30px;font-weight:800;white-space:nowrap}
+.rows .v s{text-decoration:none;color:var(--bad)}.rows .v u{text-decoration:none;color:var(--ok)}
+.rows .v small{display:inline-block;width:52px;font-size:19px;font-weight:600;color:var(--ink3)}
+
+/* HUD */
+#hud{position:absolute;left:110px;right:110px;top:42px;display:flex;justify-content:space-between;align-items:center;
+  font-size:17px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink2);font-weight:650;text-shadow:0 1px 8px #000}
+#hud .l{display:flex;align-items:center;gap:14px}
+#track{position:absolute;left:120px;bottom:54px;width:1240px;height:70px}
+#track .line{position:absolute;left:0;right:0;top:20px;border-top:2px dashed rgba(150,178,255,.38)}
+#track .prog{position:absolute;left:0;top:19px;height:4px;border-radius:2px;background:linear-gradient(90deg,var(--blue),var(--gold));
+  transition:width 1.4s cubic-bezier(.62,.02,.2,1)}
+#track button{position:absolute;top:10px;width:22px;height:22px;margin-left:-11px;border-radius:50%;cursor:pointer;
+  border:2px solid rgba(150,178,255,.65);background:#0a0f22;transition:all .6s}
+#track button.done{background:var(--blue);border-color:var(--blue)}
+#track button.cur{background:var(--gold);border-color:#fff;box-shadow:0 0 18px 5px rgba(255,200,87,.6)}
+#track .lab{position:absolute;top:42px;transform:translateX(-50%);font-size:13.5px;letter-spacing:.16em;color:var(--ink2);
+  white-space:nowrap;text-transform:uppercase;font-weight:600;text-shadow:0 1px 6px #000;transition:color .6s}
+#track .lab.cur{color:var(--gold)}
+#track .mini{position:absolute;top:-30px;width:46px;height:46px;margin-left:-23px;transition:left 1.4s cubic-bezier(.62,.02,.2,1);
+  filter:drop-shadow(0 0 8px rgba(255,200,87,.7))}
+#nav{position:absolute;right:110px;bottom:60px;display:flex;align-items:center;gap:14px}
+#nav button{width:58px;height:58px;border-radius:50%;border:1px solid var(--line);background:rgba(12,17,36,.9);font-size:25px;cursor:pointer}
+#nav button.next{background:var(--gold);color:#1b1300;border-color:transparent;font-weight:800;animation:nudge 1.9s ease-in-out infinite}
+#nav .count{font-size:20px;letter-spacing:.14em;color:var(--ink);min-width:70px;text-align:center;font-weight:650;text-shadow:0 1px 6px #000}
+#nav a{font-size:15px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink2);margin-right:8px;text-shadow:0 1px 6px #000}
+#ai{position:absolute;left:0;right:0;bottom:15px;text-align:center;font-size:15.5px;letter-spacing:.07em;color:rgba(226,232,255,.74);
+  text-shadow:0 1px 6px #000}
+#auto{position:absolute;right:110px;top:76px;font-size:14px;letter-spacing:.2em;color:var(--gold);display:none}
+#flyby{position:absolute;left:0;top:0;width:560px;height:160px;margin:-80px 0 0 -280px;pointer-events:none;opacity:0;will-change:transform}
+.rkflame{transform-box:fill-box;transform-origin:100% 50%;animation:flickh .09s linear infinite alternate}
+
+/* closing scene */
+.scene{position:absolute;inset:0}
+.scene svg{position:absolute;inset:0;width:1920px;height:1080px}
+.scene .fb{transform-box:fill-box}
+.lander{transform:translateY(-1150px)}
+.flame{transform-box:fill-box;transform-origin:50% 0}
+.dust,.mastg,.glint,.mlabel,.astro,.foot{opacity:0}
+.foot{fill-opacity:.5}
+.door{transform-box:fill-box;transform-origin:0 50%}
+.pole{transform-box:fill-box;transform-origin:50% 100%;transform:scaleY(0)}
+.cloth{transform-box:fill-box;transform-origin:0 50%;transform:scaleX(0)}
+.mastg{transform-box:fill-box;transform-origin:50% 100%}
+.arm{transform-box:fill-box;transform-origin:50% 14%}
+.go .lander{animation:land 2.9s cubic-bezier(.16,.72,.25,1) .9s both}
+.go .flame{animation:flickv .09s linear infinite alternate,flameoff .5s ease 3.55s forwards}
+.go .dust{animation:dust 1.9s ease-out 3.3s both}
+.go .door{animation:door .6s ease 4.2s both}
+.go .mastg{animation:mastup 1.5s cubic-bezier(.2,.8,.2,1) 4.5s both}
+.go .glint{animation:glint 2.2s ease-in-out 6s infinite}
+.go .mlabel{animation:fadein .8s ease 6s both}
+.go .astro.a{animation:walka 2s linear 4.9s both}.go .astro.a .hop{animation:hop .5s ease-in-out 4.9s 4}
+.go .astro.b{animation:walkb 2s linear 5.5s both}.go .astro.b .hop{animation:hop .5s ease-in-out 5.5s 4}
+.go .foot{animation:fadein .3s ease both}
+.go .pole.tj{animation:poleup .5s ease-out 7.1s both}.go .cloth.tj{animation:unfurl .9s cubic-bezier(.2,.8,.2,1) 7.5s both}
+.go .pole.us{animation:poleup .5s ease-out 7.7s both}.go .cloth.us{animation:unfurl .9s cubic-bezier(.2,.8,.2,1) 8.1s both}
+.go .arm.la{animation:armupl .5s ease-out 8.7s both,wavel .7s ease-in-out 9.2s infinite alternate}
+.go .arm.rb{animation:armupr .5s ease-out 8.9s both,waver .7s ease-in-out 9.4s infinite alternate}
+.s7card{display:flex;gap:22px;align-items:center}
+.s7card img{width:168px;height:168px;border-radius:14px;background:#fff;flex:none}
+
+@keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.9);opacity:.45}}
+@keyframes nudge{0%,100%{transform:translateX(0)}50%{transform:translateX(7px)}}
+@keyframes flow{from{transform:translateX(0)}to{transform:translateX(40px)}}
+@keyframes flickh{from{transform:scaleX(.82)}to{transform:scaleX(1.12)}}
+@keyframes flickv{from{transform:scaleY(.8)}to{transform:scaleY(1.15)}}
+@keyframes flameoff{to{opacity:0}}
+@keyframes land{0%{transform:translateY(-1150px) rotate(2.2deg)}55%{transform:translateY(-250px) rotate(-1.2deg)}100%{transform:translateY(0) rotate(0)}}
+@keyframes dust{0%{opacity:0;transform:scale(.2,.6)}25%{opacity:.75}100%{opacity:0;transform:scale(2.6,1.5)}}
+@keyframes door{to{transform:scaleX(.1)}}
+@keyframes mastup{from{opacity:1;transform:scaleY(0)}to{opacity:1;transform:scaleY(1)}}
+@keyframes glint{0%,100%{opacity:0;transform:scale(.3) rotate(0)}50%{opacity:1;transform:scale(1) rotate(45deg)}}
+@keyframes fadein{from{opacity:0}to{opacity:1}}
+@keyframes hop{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-44px) rotate(-3deg)}}
+@keyframes walka{0%{opacity:0;transform:translateX(0)}8%{opacity:1}100%{opacity:1;transform:translateX(-290px)}}
+@keyframes walkb{0%{opacity:0;transform:translateX(0)}8%{opacity:1}100%{opacity:1;transform:translateX(215px)}}
+@keyframes poleup{to{transform:scaleY(1)}}
+@keyframes unfurl{0%{transform:scaleX(0)}70%{transform:scaleX(1.04) skewY(-1.5deg)}100%{transform:scaleX(1) skewY(0)}}
+@keyframes armupl{to{transform:rotate(150deg)}}
+@keyframes wavel{from{transform:rotate(150deg)}to{transform:rotate(168deg)}}
+@keyframes armupr{to{transform:rotate(-150deg)}}
+@keyframes waver{from{transform:rotate(-150deg)}to{transform:rotate(-168deg)}}
+
+html.static *,html.static *::before,html.static *::after{transition:none!important;animation-duration:.001s!important;
+  animation-delay:0s!important;animation-iteration-count:1!important}
+html.static #nav .next,html.static .beacon,html.static .flow::before{animation:none!important}
+</style>
+</head>
+<body>
+<noscript><p style="padding:40px;font-size:20px">This deck needs JavaScript. Static copy: <a href="../slides.pdf">slides.pdf</a></p></noscript>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <linearGradient id="gTrail" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ffaa46" stop-opacity="0"/><stop offset=".6" stop-color="#ffaa46" stop-opacity=".38"/><stop offset="1" stop-color="#fff3c4" stop-opacity=".95"/></linearGradient>
+  <linearGradient id="gFlameH" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ff7828" stop-opacity="0"/><stop offset=".5" stop-color="#ff9d3c"/><stop offset="1" stop-color="#fff3c4"/></linearGradient>
+  <linearGradient id="gHullH" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".55" stop-color="#dfe4ee"/><stop offset="1" stop-color="#9ba4b7"/></linearGradient>
+  <linearGradient id="gHull" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#f7f9fc"/><stop offset=".3" stop-color="#ffffff"/><stop offset=".72" stop-color="#b9c1d1"/><stop offset="1" stop-color="#737c90"/></linearGradient>
+  <linearGradient id="gFlameV" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff3c4"/><stop offset=".45" stop-color="#ff9d3c"/><stop offset="1" stop-color="#ff7828" stop-opacity="0"/></linearGradient>
+  <radialGradient id="gGlass" cx=".35" cy=".3" r=".9"><stop offset="0" stop-color="#d4f7ff"/><stop offset=".5" stop-color="#4fb8e6"/><stop offset="1" stop-color="#1c5d8f"/></radialGradient>
+  <linearGradient id="gGround" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e3e6ec"/><stop offset=".07" stop-color="#a3a9b5"/><stop offset=".4" stop-color="#4b515d"/><stop offset=".75" stop-color="#1b1e26"/><stop offset="1" stop-color="#0c0e14"/></linearGradient>
+  <linearGradient id="gHills" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6d7482"/><stop offset=".25" stop-color="#343945"/><stop offset="1" stop-color="#1c1f28"/></linearGradient>
+  <radialGradient id="gSun"><stop offset="0" stop-color="#ffffff"/><stop offset=".12" stop-color="#fff1c2"/><stop offset=".3" stop-color="#ffc857" stop-opacity=".55"/><stop offset="1" stop-color="#ffc857" stop-opacity="0"/></radialGradient>
+  <radialGradient id="gEarth" cx=".34" cy=".3" r=".85"><stop offset="0" stop-color="#bfe3ff"/><stop offset=".3" stop-color="#3f8fe2"/><stop offset=".72" stop-color="#123e86"/><stop offset="1" stop-color="#050d24"/></radialGradient>
+  <linearGradient id="gVisor" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff0b8"/><stop offset=".45" stop-color="#e2a93a"/><stop offset="1" stop-color="#7a4d08"/></linearGradient>
+  <linearGradient id="gCloth" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#000" stop-opacity=".2"/><stop offset=".2" stop-color="#fff" stop-opacity=".1"/><stop offset=".42" stop-color="#000" stop-opacity=".13"/><stop offset=".64" stop-color="#fff" stop-opacity=".08"/><stop offset=".86" stop-color="#000" stop-opacity=".15"/><stop offset="1" stop-color="#000" stop-opacity=".04"/></linearGradient>
+  <radialGradient id="gDust"><stop offset="0" stop-color="#e9ecf2" stop-opacity=".9"/><stop offset="1" stop-color="#e9ecf2" stop-opacity="0"/></radialGradient>
+</defs></svg>
+
+<div id="viewport"><div id="stage" data-slide="0">
+  <canvas id="stars" width="1920" height="1080"></canvas>
+  <div id="earth"></div>
+  <div id="moon"></div>
+
+  <!-- 1 · title -->
+  <section class="slide" data-n="1">
+    <div class="abs" style="left:110px;top:150px;width:900px">
+      <div class="eyebrow rv" style="--i:0">NASA Space Apps Challenge 2026</div>
+      <h1 class="rv" style="--i:1;margin-top:26px">Lunar Landing<br>Site Navigator</h1>
+      <p class="lead rv" style="--i:2;margin-top:34px">Will <em>this</em> lander survive at <em>this</em> lunar south-pole site on <em>these</em> dates, and how much does a mast help?</p>
+      <div class="rv" style="--i:3;margin-top:40px;font-size:27px;line-height:1.45">
+        <div><b id="teamline1"></b></div>
+        <div style="color:var(--ink2);font-size:23px"><span data-b="team.place"></span> · Challenge: Lunar Landing Site Navigator</div>
+      </div>
+      <div class="rv" style="--i:4;margin-top:24px;font-size:23px;display:flex;gap:16px;flex-wrap:wrap">
+        <a class="chip gold" data-href="links.app">▶ Live app: lunar-navigator-nasa.streamlit.app</a>
+        <a class="chip" data-href="links.repo">Code: github.com/hadtool/lunar-navigator</a>
+      </div>
+    </div>
+    <div class="abs small rv" style="--i:6;left:1130px;top:908px;width:700px;text-align:center">The Moon on these slides is our data: LOLA terrain of the south pole, 440 km across. Dots: the 15 candidate sites of the tool.</div>
+  </section>
+
+  <!-- 2 · the problem -->
+  <section class="slide" data-n="2">
+    <div class="abs" style="left:110px;top:136px;width:610px">
+      <div class="eyebrow rv" style="--i:0">The problem</div>
+      <h2 class="rv" style="--i:1">At the south pole the Sun and the Earth skim the horizon</h2>
+      <ul class="pts">
+        <li class="rv" style="--i:2">The Sun never climbs higher than <b>2° to 8°</b> at the candidate sites; the Earth swings by about <b>±7°</b>.</li>
+        <li class="rv" style="--i:3">So the <b>terrain</b> around the exact spot, the <b>dates</b> and the <b>height</b> of panel and antenna decide whether a lander has power and a line home.</li>
+        <li class="rv" style="--i:4">Illumination maps say <i>how often</i>. Engineers need: <b>does my lander survive here, then?</b></li>
+      </ul>
+    </div>
+    <div class="abs pano rv" style="--i:2;left:770px;top:140px;width:1040px">
+      <div class="head"><span class="clock" id="p2clock"></span><span class="chip" id="p2sun"></span><span class="chip" id="p2earth"></span></div>
+      <canvas id="pano2" width="2080" height="1180" style="width:1040px;height:590px"></canvas>
+      <div class="cap small"><b style="color:var(--ink2)">Replay of our data, not a drawing:</b> Malapert Massif, panel 2 m above the surface, 8 April to 21 May 2027, hour by hour. Terrain horizon from LOLA, Sun and Earth from SPICE; discs to the vertical scale.</div>
+    </div>
+  </section>
+
+  <!-- 3 · the tool -->
+  <section class="slide" data-n="3">
+    <div class="abs" style="left:110px;top:136px;width:620px">
+      <div class="eyebrow rv" style="--i:0">The tool</div>
+      <h2 class="rv" style="--i:1">Three clicks to an engineering answer</h2>
+      <div style="margin-top:26px">
+        <div class="step rv" style="--i:2" data-step="0"><div class="n">1</div><div><div class="t">Pick a site and dates</div><div class="d">Map, real terrain horizon, paths of the Sun and the Earth</div></div></div>
+        <div class="step rv" style="--i:3" data-step="1"><div class="n">2</div><div><div class="t">Dial in your lander</div><div class="d">Panel, battery, loads: hour-by-hour charge, survives or not</div></div></div>
+        <div class="step rv" style="--i:4" data-step="2"><div class="n">3</div><div><div class="t">Raise the mast</div><div class="d">The same lander on 10 m: the verdict flips</div></div></div>
+      </div>
+      <div class="rv" style="--i:5;margin-top:28px;display:flex;gap:10px;flex-wrap:wrap">
+        <span class="chip">15 sites</span><span class="chip">any dates 2027–2029</span><span class="chip">6 pages</span><span class="chip">answers in about a second</span>
+      </div>
+    </div>
+    <div class="abs frame rv" style="--i:2;left:800px;top:150px;width:1010px">
+      <div class="bar"><i></i><i></i><i></i><span>lunar-navigator-nasa.streamlit.app</span></div>
+      <div class="view" id="shots">
+        <img src="img/shot_site.webp" alt="App: site page with map and horizon panorama">
+        <img class="lay" src="img/shot_power2.webp" alt="App: power page, does not survive at 2 m">
+        <img class="lay" src="img/shot_power10.webp" alt="App: power page, survives on a 10 m mast">
+      </div>
+    </div>
+    <div class="abs small rv" style="--i:4;left:800px;top:728px;width:1010px;text-align:center">Real screens of the app. Also inside: mast trade-off, site comparison, landing calendar with the best days, methods and data.</div>
+  </section>
+
+  <!-- 4 · NASA data -->
+  <section class="slide" data-n="4">
+    <div class="abs" style="left:110px;top:136px;width:1700px">
+      <div class="eyebrow rv" style="--i:0">NASA data make it possible</div>
+      <h2 class="rv" style="--i:1">Real terrain, real ephemerides, checked against NASA references</h2>
+    </div>
+    <div class="abs rv" style="--i:2;left:110px;top:345px;width:530px">
+      <div class="colh">NASA open data</div>
+      <div class="card dcard"><div class="t">LOLA terrain models</div><div class="d">Laser altimetry of LRO, from the NASA PGDA archive: <b>5 m</b> models of the sites (product 78) and <b>40 m</b> for 80–90° S (product 90)</div></div>
+      <div class="card dcard"><div class="t">SPICE kernels (NAIF)</div><div class="d">DE440 ephemeris and lunar orientation: where the Sun and the Earth stand, every hour of 2027–2029</div></div>
+      <div class="card dcard"><div class="t">Space agency partner</div><div class="d">CSA Moon exploration pages: mission context (no number comes from them)</div></div>
+    </div>
+    <div class="flow rv" style="--i:3;left:645px"></div>
+    <div class="abs rv" style="--i:3;left:690px;top:345px;width:530px">
+      <div class="colh">Our pipeline</div>
+      <div class="card dcard"><div class="t">Terrain horizon</div><div class="d"><b>720 azimuths × 5 mast heights × 15 sites</b>, rays of 300 km with exact spherical geometry</div></div>
+      <div class="card dcard"><div class="t">Visibility → power → verdict</div><div class="d">Share of the solar disc above the terrain, hourly battery balance, the smallest battery solved exactly</div></div>
+      <div class="card dcard"><div class="t">Earth link</div><div class="d">Line-of-sight windows and an X-band link budget</div></div>
+    </div>
+    <div class="flow rv" style="--i:4;left:1225px"></div>
+    <div class="abs rv" style="--i:4;left:1270px;top:345px;width:540px">
+      <div class="colh">Independent checks</div>
+      <div class="card dcard"><div class="t">JPL Horizons</div><div class="d">Sun and Earth directions: largest difference <b><span data-b="validation.horizons_max_diff_deg"></span>°</b></div></div>
+      <div class="card dcard"><div class="t">LOLA illumination maps (PGDA 69)</div><div class="d">18.6-year averages: mean difference <b><span data-b="validation.lola_maps_mean_diff_points:minus"></span></b> points (Sun / Earth)</div></div>
+      <div class="card dcard"><div class="t">Wueller et al. 2026, JGR Planets</div><div class="d">Longest sunlit spells: <b><span data-b="validation.wueller_within_one_day"></span></b> within one day</div></div>
+      <div class="card dcard" style="margin-bottom:0"><div class="t">LROC WAC mosaic</div><div class="d">Our horizon peaks land on the real massifs and rims</div></div>
+    </div>
+    <div class="abs small rv" style="--i:6;left:110px;top:886px;width:1160px"><b style="color:var(--ink2)"><span data-b="validation.tests"></span> automated tests</b> · every file with URL and checksum in docs/SOURCES.md · full report in docs/VALIDATION.md</div>
+  </section>
+
+  <!-- 5 · the mast -->
+  <section class="slide" data-n="5">
+    <div class="abs" style="left:110px;top:136px;width:650px">
+      <div class="eyebrow rv" style="--i:0">The engineering answer</div>
+      <h2 class="rv" style="--i:1">A 10 m mast turns failure into survival</h2>
+      <div class="rv small" style="--i:2;margin-top:14px;font-size:21px;color:var(--ink2)">Malapert Massif · the year 2027 · default lander, 20 kWh battery</div>
+      <div class="rv" style="--i:3;margin-top:8px">
+        <div class="bat" id="bat2"><div class="who">Panel at 2 m</div><div class="bar"><i></i><b></b></div><div class="pc"><span>100</span> %</div>
+          <div class="verdict"><span class="chip bad" id="bat2v">does not survive 2027</span></div></div>
+        <div class="bat" id="bat10"><div class="who">On a 10 m mast</div><div class="bar"><i></i><b></b></div><div class="pc"><span>100</span> %</div>
+          <div class="verdict"><span class="chip ok">survives: never below <span data-b="story.h10.min_soc_pct:p1"></span> %</span></div></div>
+      </div>
+      <div class="card rows rv" style="--i:4">
+        <div class="r"><span class="k">Battery needed for the year</span><span class="v"><s data-b="mast.malapert_massif.h2.battery_wh:kwh"></s> → <u data-b="mast.malapert_massif.h10.battery_wh:kwh"></u> <small>kWh</small></span></div>
+        <div class="r"><span class="k">Time with the Sun in view</span><span class="v"><s data-b="mast.malapert_massif.h2.sunlit_pct:p1"></s> → <u data-b="mast.malapert_massif.h10.sunlit_pct:p1"></u> <small>%</small></span></div>
+        <div class="r"><span class="k">Longest night</span><span class="v"><s data-b="mast.malapert_massif.h2.longest_night_h:i"></s> → <u data-b="mast.malapert_massif.h10.longest_night_h:i"></u> <small>h</small></span></div>
+      </div>
+      <div class="rv small" style="--i:5;margin-top:16px">Connecting Ridge: <b style="color:var(--ink2)"><span data-b="mast.connecting_ridge.h2.battery_wh:kwh"></span> → <span data-b="mast.connecting_ridge.h10.battery_wh:kwh"></span> kWh</b>. At Haworth the horizon is 50 km away: sunlight only <span data-b="mast.haworth.h2.sunlit_pct:p1"></span> → <span data-b="mast.haworth.h10.sunlit_pct:p1"></span> %. Lander values from public NASA sources and a sizing calculation, not reviewed by an engineer.</div>
+    </div>
+    <div class="abs pano rv" style="--i:2;left:810px;top:140px;width:1000px">
+      <div class="head"><span class="clock" id="p5clock"></span><span class="chip" id="p5state"></span></div>
+      <canvas id="pano5" width="2000" height="1000" style="width:1000px;height:500px"></canvas>
+      <div class="cap small"><span class="lg"><i style="border-color:#ff9a9a;border-top-style:dashed"></i>horizon at 2 m</span><span class="lg"><i></i>horizon from a 10 m mast</span><span class="lg"><i style="border-top:12px solid rgba(255,107,107,.45)"></i>Sun here: only the mast sees it</span><br>Same replay, same dates; the batteries on the left follow the hourly simulation of the app.</div>
+    </div>
+  </section>
+
+  <!-- 6 · limits and next -->
+  <section class="slide" data-n="6">
+    <div class="abs" style="left:110px;top:136px;width:900px">
+      <div class="eyebrow rv" style="--i:0">Honest limits · what is next</div>
+      <h2 class="rv" style="--i:1">A first-pass filter, not a mission design</h2>
+      <div class="card rv" style="--i:2;margin-top:26px">
+        <div class="colh" style="color:var(--bad)">What it does not know yet</div>
+        <ul class="pts" style="margin-top:0">
+          <li style="margin-top:8px;font-size:23.5px">A visible Sun is not yet power; a visible Earth is not yet a radio link.</li>
+          <li style="margin-top:10px;font-size:23.5px">Not modelled: dust, temperatures and heaters, the lander's own shadow, ground-station schedules, relays, boulders.</li>
+          <li style="margin-top:10px;font-size:23.5px">The default lander comes from public NASA sources and a textbook sizing; no engineer has reviewed it, and the app says so.</li>
+        </ul>
+      </div>
+      <div class="card rv" style="--i:3;margin-top:16px">
+        <div class="colh" style="color:var(--ok)">Next</div>
+        <ul class="pts" style="margin-top:0">
+          <li style="margin-top:8px;font-size:23.5px">Thermal loads and heater power; ground stations and relay satellites.</li>
+          <li style="margin-top:10px;font-size:23.5px">A reviewed lander design in place of the default one.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="abs frame rv" style="--i:3;left:1060px;top:200px;width:750px">
+      <div class="bar"><i></i><i></i><i></i><span>Landing windows</span></div>
+      <div class="view"><img src="img/shot_landing.webp" alt="App: landing calendar"></div>
+    </div>
+    <div class="abs small rv" style="--i:4;left:1060px;top:650px;width:750px;text-align:center">Already in the app: every landing day of 2027 scored for a 14-day mission, the best days framed.</div>
+    <div class="abs rv" style="--i:5;left:1060px;top:740px;width:750px;font-size:27px;line-height:1.36;color:var(--ink)">The goal: any team planning a polar landing tests <em>a site, a date and a lander</em> in seconds, before the detailed analyses.</div>
+  </section>
+
+  <!-- 7 · touchdown -->
+  <section class="slide" data-n="7">
+    <div class="scene" id="scene"></div>
+    <div class="abs" style="left:110px;top:128px;width:820px">
+      <div class="eyebrow rv" style="--i:0">Touchdown</div>
+      <h1 class="rv" style="--i:1;font-size:94px;margin-top:18px">Know before<br>you land.</h1>
+      <p class="lead rv" style="--i:2;margin-top:22px;font-size:29px">Pick the site. Pick the dates. See whether your lander survives, and what a mast changes.</p>
+      <div class="rv" style="--i:3;margin-top:20px;font-size:21.5px;line-height:1.5"><b id="teamline7"></b><br><span style="color:var(--ink2);font-size:20px"><span data-b="team.place"></span> · Challenge: Lunar Landing Site Navigator</span></div>
+    </div>
+    <div class="abs card s7card rv" style="--i:4;left:1350px;top:128px;width:460px;padding:20px">
+      <img id="qr" alt="QR code of the live app">
+      <div><div class="colh" style="margin-bottom:8px">Try it live</div>
+        <div style="font-size:19px;line-height:1.5"><a data-href="links.app">lunar-navigator-nasa<wbr>.streamlit.app</a><br><a data-href="links.repo">github.com/hadtool/<wbr>lunar-navigator</a></div></div>
+    </div>
+    <div class="abs small" style="right:110px;top:920px;font-size:15px;text-align:right;color:rgba(226,232,255,.7)">Closing scene: AI-generated illustration. A dream, not a mission plan.</div>
+  </section>
+
+  <div id="flyby"><svg viewBox="0 0 560 160" width="560" height="160">
+    <path d="M318 80C230 52 110 66 0 80C110 94 230 108 318 80Z" fill="url(#gTrail)"/>
+    <path class="rkflame" d="M300 66C262 68 226 74 196 80C226 86 262 92 300 94Z" fill="url(#gFlameH)"/>
+    <path d="M300 62L288 68V92L300 98Z" fill="#596173"/>
+    <path d="M322 58L290 20L366 54Z" fill="#e5484d"/><path d="M322 102L290 140L366 106Z" fill="#c93a40"/>
+    <path d="M300 56L436 50Q492 52 536 80Q492 108 436 110L300 104Z" fill="url(#gHullH)" stroke="#8b93a5" stroke-width="1.5"/>
+    <path d="M468 53Q506 60 536 80Q506 100 468 107Q478 80 468 53Z" fill="#e5484d"/>
+    <rect x="372" y="53" width="12" height="54" fill="#e5484d"/>
+    <circle cx="430" cy="80" r="15" fill="#22304f"/><circle cx="430" cy="80" r="11" fill="url(#gGlass)"/>
+  </svg></div>
+
+  <div id="hud"><div class="l">
+    <svg viewBox="0 0 48 48" width="40" height="40"><circle cx="24" cy="24" r="22" fill="#0b1230" stroke="#ffc857" stroke-width="2.5"/><circle cx="25" cy="29" r="12" fill="#cfd5e1"/><circle cx="30" cy="26" r="11" fill="#0b1230"/><path d="M17 37V16" stroke="#6fe3ff" stroke-width="2"/><rect x="11" y="10" width="12" height="7" rx="1" fill="#4da3ff" stroke="#ffc857"/><circle cx="35" cy="13" r="1.4" fill="#fff"/><circle cx="39" cy="22" r="1" fill="#fff"/></svg>
+    <span>Lunar Landing Site Navigator</span></div><div>NASA Space Apps Challenge 2026</div></div>
+  <div id="auto">AUTOPLAY · A to stop</div>
+  <div id="track"><div class="line"></div><div class="prog"></div>
+    <svg class="mini" viewBox="0 0 44 44"><path d="M6 19L0 22L6 25Z" fill="#ffc857"/><path d="M16 15L9 8L21 15ZM16 29L9 36L21 29Z" fill="#e5484d"/><path d="M6 22L16 15H28Q38 17 41 22Q38 27 28 29H16Z" fill="#f4f6fb"/><circle cx="29" cy="22" r="3.2" fill="#4fb8e6"/></svg>
+  </div>
+  <div id="nav"><a href="../slides.pdf" title="Static copy of the seven slides">PDF</a><button class="prev" aria-label="Previous slide">←</button><span class="count">1 / 7</span><button class="next" aria-label="Next slide">→</button></div>
+  <div id="ai">AI-generated deck: visuals, illustrations and animation made with Claude (AI) · numbers computed from NASA LOLA and SPICE data by our code</div>
+</div></div>
+
+<script src="data.js"></script>
+<script>
+"use strict";
+const Q = new URLSearchParams(location.search), STATIC = Q.has("static");
+if (STATIC) document.documentElement.classList.add("static");
+const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const D = window.DECK, S = D.story, stage = $("#stage"), slides = $$(".slide"), N = slides.length;
+const LABELS = ["Liftoff", "Problem", "Tool", "NASA data", "Mast", "Limits", "Touchdown"];
+
+/* ---------- numbers from data.js ---------- */
+const fmt = {
+  s: v => String(v), p1: v => (+v).toFixed(1), i: v => Math.round(v).toLocaleString("en-US"),
+  kwh: v => (v / 1000).toFixed(1), minus: v => String(v).replace(/-/g, "−"),
+};
+const pick = path => path.split(".").reduce((o, k) => (o == null ? o : o[k]), D);
+$$("[data-b]").forEach(el => { const [p, f = "s"] = el.dataset.b.split(":"); el.textContent = fmt[f](pick(p)); });
+$$("[data-href]").forEach(el => { el.href = pick(el.dataset.href); el.target = "_blank"; el.rel = "noopener"; });
+const team = (D.team.name ? "Team " + D.team.name + ": " : "Team: ") + D.team.members.join(" · ");
+$("#teamline1").textContent = team; $("#teamline7").textContent = team;
+if (D.qr) $("#qr").src = D.qr; else $("#qr").remove();
+D.sites.forEach(s => { const b = document.createElement("i"); b.className = "beacon" + (s.id === S.site ? " main" : "");
+  b.style.left = (100 * s.fx) + "%"; b.style.top = (100 * s.fy) + "%"; b.title = s.name; $("#moon").appendChild(b); });
+
+/* ---------- starfield ---------- */
+const sc = $("#stars"), sg = sc.getContext("2d"), stars = [];
+for (let i = 0; i < 430; i++) stars.push({ x: Math.random() * 1920, y: Math.random() * 1080, z: .15 + Math.random() * .85,
+  p: Math.random() * 6.28, w: .6 + Math.random() * 1.8, c: Math.random() < .12 ? "255,225,190" : Math.random() < .2 ? "190,215,255" : "255,255,255" });
+let warp = 0, warpDir = 1, meteor = null, nextMeteor = 4;
+function drawStars(t, dt) {
+  sg.clearRect(0, 0, 1920, 1080);
+  warp *= Math.exp(-dt * 2.4);
+  for (const s of stars) {
+    const v = (5 + 2300 * warp) * s.z;
+    s.x -= warpDir * v * dt; if (s.x < -160) s.x += 2080; if (s.x > 2080) s.x -= 2080;
+    const a = (.35 + .65 * s.z) * (.62 + .38 * Math.sin(s.p + t * s.w)), len = Math.min(170, v * .045);
+    if (len > 2.5) { sg.strokeStyle = `rgba(${s.c},${a})`; sg.lineWidth = 1 + s.z; sg.beginPath(); sg.moveTo(s.x, s.y); sg.lineTo(s.x + warpDir * len, s.y); sg.stroke(); }
+    else { sg.fillStyle = `rgba(${s.c},${a})`; sg.beginPath(); sg.arc(s.x, s.y, .5 + 1.25 * s.z, 0, 6.29); sg.fill(); }
+  }
+  if (STATIC) return;
+  nextMeteor -= dt;
+  if (!meteor && nextMeteor < 0) { meteor = { x: 300 + Math.random() * 1300, y: Math.random() * 300, life: 0 }; nextMeteor = 6 + Math.random() * 7; }
+  if (meteor) {
+    meteor.life += dt; const k = meteor.life / .7, x = meteor.x + 420 * k, y = meteor.y + 200 * k;
+    const g = sg.createLinearGradient(x - 150, y - 71, x, y); g.addColorStop(0, "rgba(255,255,255,0)"); g.addColorStop(1, `rgba(255,255,255,${.9 * (1 - k)})`);
+    sg.strokeStyle = g; sg.lineWidth = 2; sg.beginPath(); sg.moveTo(x - 150, y - 71); sg.lineTo(x, y); sg.stroke();
+    if (k >= 1) meteor = null;
+  }
+}
+let lastT = performance.now();
+function loop(now) { const dt = Math.min(.1, (now - lastT) / 1000); lastT = now; drawStars(now / 1000, dt); requestAnimationFrame(loop); }
+if (STATIC) drawStars(0, 0); else requestAnimationFrame(loop);
+
+/* ---------- panorama: real horizon, Sun, Earth and battery, replayed ---------- */
+const T0 = Date.parse(S.t0_utc + ":00:00Z");
+class Pano {
+  constructor(canvas, opt) {
+    this.c = canvas; this.g = canvas.getContext("2d"); this.o = Object.assign({ elMin: -6.6, elMax: 6.6, speed: 66, mast: false }, opt);
+    this.R = canvas.width / parseFloat(canvas.style.width); this.W = canvas.width / this.R; this.H = canvas.height / this.R;
+    this.pl = 58; this.pt = 14; this.pw = this.W - this.pl - 16; this.ph = this.H - this.pt - 44;
+    this.t = this.o.staticHour || 0; this.run = false;
+  }
+  x(az) { const a = ((az + 180) % 360 + 360) % 360 - 180; return this.pl + (a + 180) / 360 * this.pw; }
+  y(el) { return this.pt + (this.o.elMax - el) / (this.o.elMax - this.o.elMin) * this.ph; }
+  hor(key, az) { const h = S[key].horizon_deg, n = h.length; let k = Math.round((((az % 360) + 360) % 360 - S.azimuth0_deg) / S.azimuth_step_deg); return h[((k % n) + n) % n]; }
+  trace(key) { const g = this.g; g.beginPath(); for (let a = -180; a <= 180; a += .5) { const x = this.pl + (a + 180) / 360 * this.pw, y = this.y(this.hor(key, a)); a === -180 ? g.moveTo(x, y) : g.lineTo(x, y); } }
+  ground(key, fill, stroke, width, dash) {
+    const g = this.g; this.trace(key); g.lineTo(this.pl + this.pw, this.pt + this.ph); g.lineTo(this.pl, this.pt + this.ph); g.closePath(); g.fillStyle = fill; g.fill();
+    if (stroke) { this.trace(key); g.setLineDash(dash || []); g.strokeStyle = stroke; g.lineWidth = width; g.stroke(); g.setLineDash([]); }
+  }
+  draw() {
+    const g = this.g, o = this.o, n = S.hours, t = ((this.t % n) + n) % n, i = Math.floor(t), f = t - i, j = Math.min(i + 1, n - 1);
+    const mix = (a, b) => a + (b - a) * f, mixAz = (a, b) => a + ((((b - a) + 540) % 360) - 180) * f;
+    const sunAz = mixAz(S.sun_az[i], S.sun_az[j]), sunEl = mix(S.sun_el[i], S.sun_el[j]);
+    const earthAz = mixAz(S.earth_az[i], S.earth_az[j]), earthEl = mix(S.earth_el[i], S.earth_el[j]);
+    const ppd = this.ph / (o.elMax - o.elMin), { pl, pt, pw, ph } = this;
+    g.setTransform(this.R, 0, 0, this.R, 0, 0); g.clearRect(0, 0, this.W, this.H);
+    const sky = g.createLinearGradient(0, pt, 0, pt + ph); sky.addColorStop(0, "#0c1338"); sky.addColorStop(1, "#070b1e");
+    g.fillStyle = "#080c20"; g.fillRect(0, 0, this.W, this.H); g.fillStyle = sky; g.fillRect(pl, pt, pw, ph);
+    g.font = '600 14px "Deck Sans",system-ui,sans-serif'; g.textBaseline = "middle";
+    for (let e = Math.ceil(o.elMin / 2) * 2; e <= o.elMax; e += 2) {
+      const y = this.y(e); g.strokeStyle = e === 0 ? "rgba(255,255,255,.34)" : "rgba(160,185,255,.10)"; g.lineWidth = 1; g.setLineDash(e === 0 ? [6, 6] : []);
+      g.beginPath(); g.moveTo(pl, y); g.lineTo(pl + pw, y); g.stroke(); g.setLineDash([]);
+      g.fillStyle = "#8591b8"; g.textAlign = "right"; g.fillText((e > 0 ? "+" : e < 0 ? "−" : "") + Math.abs(e) + "°", pl - 8, y);
+    }
+    g.textAlign = "center";
+    [["S", -180], ["W", -90], ["N", 0], ["E", 90], ["S", 180]].forEach(([name, a]) => { const x = pl + (a + 180) / 360 * pw;
+      g.strokeStyle = "rgba(160,185,255,.10)"; g.beginPath(); g.moveTo(x, pt); g.lineTo(x, pt + ph); g.stroke(); g.fillStyle = "#8591b8"; g.fillText(name, x, pt + ph + 16); });
+    g.fillStyle = "#6f7aa0"; g.fillText("direction (azimuth)", pl + pw * .625, pt + ph + 34); g.save(); g.translate(14, pt + ph / 2); g.rotate(-Math.PI / 2); g.fillText("height above the horizontal", 0, 0); g.restore();
+    g.save(); g.beginPath(); g.rect(pl, pt, pw, ph); g.clip();
+    for (let k = 1; k <= 170 && i - k >= 0; k++) {           // path the Sun has just taken
+      const q = i - k, a = (1 - k / 170) * .85, lo = S.h2.sun_fraction[q] > 0, hi = S.h10.sun_fraction[q] > 0;
+      g.fillStyle = lo ? `rgba(255,200,87,${a})` : (o.mast && hi) ? `rgba(111,227,255,${a})` : `rgba(150,160,200,${a * .45})`;
+      g.beginPath(); g.arc(this.x(S.sun_az[q]), this.y(S.sun_el[q]), 2.3, 0, 6.29); g.fill();
+    }
+    const ex = this.x(earthAz), ey = this.y(earthEl), er = S.earth_radius_deg * ppd;
+    const eg = g.createRadialGradient(ex - er * .35, ey - er * .35, er * .1, ex, ey, er); eg.addColorStop(0, "#bfe3ff"); eg.addColorStop(.35, "#3f8fe2"); eg.addColorStop(1, "#0d2f6e");
+    g.fillStyle = eg; g.beginPath(); g.arc(ex, ey, er, 0, 6.29); g.fill();
+    const sx = this.x(sunAz), sy = this.y(sunEl), sr = Math.max(8, S.sun_radius_deg * ppd);
+    const gl = g.createRadialGradient(sx, sy, sr * .5, sx, sy, sr * 8); gl.addColorStop(0, "rgba(255,214,120,.75)"); gl.addColorStop(.3, "rgba(255,190,80,.22)"); gl.addColorStop(1, "rgba(255,190,80,0)");
+    g.fillStyle = gl; g.beginPath(); g.arc(sx, sy, sr * 8, 0, 6.29); g.fill();
+    g.fillStyle = "#fff6d6"; g.beginPath(); g.arc(sx, sy, sr, 0, 6.29); g.fill();
+    const rock = g.createLinearGradient(0, this.y(1.5), 0, pt + ph); rock.addColorStop(0, "#4a5472"); rock.addColorStop(1, "#141a30");
+    if (o.mast) { this.ground("h2", "rgba(255,107,107,.30)", "#ff9a9a", 1.8, [7, 5]); this.ground("h10", rock, "#6fe3ff", 2.2); }
+    else this.ground("h2", rock, "#dfe5f5", 1.8);
+    g.restore();
+    const key = o.mast ? "h10" : "h2", earthUp = earthEl > this.hor(key, earthAz), sunUp = sunEl > this.hor(key, sunAz);
+    g.textAlign = "left"; g.font = '700 15px "Deck Sans",system-ui,sans-serif';
+    if (earthUp && ey - er > pt + 4) { g.fillStyle = "#bcd9ff"; g.fillText("Earth", Math.min(ex + er + 8, pl + pw - 50), ey - er * .55); }
+    if (sunUp && sy > pt + 30) { g.fillStyle = "#ffe2a3"; g.fillText("Sun", Math.min(sx + sr + 10, pl + pw - 40), sy - sr - 14); }
+    const frame = { hour: i, date: new Date(T0 + i * 3600e3).toISOString().slice(0, 13).replace("T", " ") + ":00 UTC",
+      f2: S.h2.sun_fraction[i], f10: S.h10.sun_fraction[i], s2: mix(S.h2.soc[i], S.h2.soc[j]), s10: mix(S.h10.soc[i], S.h10.soc[j]),
+      earth: earthUp };
+    o.onFrame && o.onFrame(frame);
+  }
+  start() {
+    if (STATIC) { this.t = this.o.staticHour; this.o.onLoop && this.o.onLoop(); this.draw(); return; }
+    if (this.run) return; this.run = true; let last = performance.now();
+    const step = now => { if (!this.run) return; const dt = Math.min(.1, (now - last) / 1000); last = now; this.t += dt * this.o.speed;
+      if (this.t >= S.hours - 1) { this.t = 0; this.o.onLoop && this.o.onLoop(); } this.draw(); requestAnimationFrame(step); };
+    requestAnimationFrame(step);
+  }
+  stop() { this.run = false; }
+}
+const setChip = (el, text, cls) => { if (el.textContent !== text) el.textContent = text; el.className = "chip " + cls; };
+const pano2 = new Pano($("#pano2"), { staticHour: S.static_hour_problem, onFrame: f => {
+  $("#p2clock").textContent = f.date;
+  setChip($("#p2sun"), f.f2 > 0 ? `Sun: ${Math.round(100 * f.f2)} % of the disc in view` : "Sun: behind the terrain", f.f2 > 0 ? "gold" : "bad");
+  setChip($("#p2earth"), f.earth ? "Earth: in view" : "Earth: behind the terrain", f.earth ? "ok" : "bad");
+} });
+let failedAt = null;
+function battery(id, soc) {
+  const el = $(id), pc = Math.max(0, Math.round(100 * soc));
+  $(".bar i", el).style.width = Math.max(0, 100 * soc) + "%"; $(".pc span", el).textContent = pc; el.classList.toggle("low", soc < S.min_soc + .1);
+}
+const pano5 = new Pano($("#pano5"), { mast: true, staticHour: S.static_hour_mast,
+  onLoop: () => { failedAt = null; },
+  onFrame: f => {
+    $("#p5clock").textContent = f.date; battery("#bat2", f.s2); battery("#bat10", f.s10);
+    if (STATIC) failedAt = S.h2.first_violation_utc.replace("T", " ") + " UTC";
+    else if (!failedAt && f.s2 < S.min_soc) failedAt = f.date;
+    $("#bat2v").textContent = failedAt ? `does not survive: below ${Math.round(100 * S.min_soc)} % on ${failedAt.slice(0, 10)}` : "charge falling…";
+    const st = f.f2 > 0 ? ["Sun: both panels see it", "gold"] : f.f10 > 0 ? ["Sun: only the 10 m mast sees it", "ok"] : ["Sun: behind the terrain for both", "bad"];
+    setChip($("#p5state"), st[0], st[1]);
+  } });
+
+/* ---------- app screens on slide 3 ---------- */
+const lays = $$("#shots img"), steps = $$(".step"); let shot = 0, shotTimer = null;
+function showShot(k) { shot = k; lays.forEach((im, q) => { if (q) im.classList.toggle("on", q <= k); }); steps.forEach((s, q) => s.classList.toggle("on", q === k)); }
+const carousel = { start() { showShot(STATIC ? 2 : 0); if (!STATIC) shotTimer = setInterval(() => showShot((shot + 1) % 3), 3000); }, stop() { clearInterval(shotTimer); } };
+
+/* ---------- closing scene ---------- */
+function star(cx, cy, r) { const p = []; for (let k = 0; k < 10; k++) { const a = -Math.PI / 2 + k * Math.PI / 5, q = k % 2 ? r * .4 : r; p.push((cx + q * Math.cos(a)).toFixed(2) + "," + (cy + q * Math.sin(a)).toFixed(2)); } return `<polygon points="${p.join(" ")}"/>`; }
+function flagTJ() {   // 1:2, stripes 2:3:2, crown under an arc of seven stars
+  let s = '<rect width="200" height="100" fill="#fff"/><rect width="200" height="28.57" fill="#cc0000"/><rect y="71.43" width="200" height="28.57" fill="#006600"/><g fill="#f8c300">';
+  for (let k = 0; k < 7; k++) { const a = (-160 + k * 140 / 6) * Math.PI / 180; s += star(100 + 17 * Math.cos(a), 60 + 17 * Math.sin(a), 2.8); }
+  return s + '<path d="M90 66H110L109 62.5Q100 60.5 91 62.5Z"/><path d="M100 61Q96.6 55 100 49.5Q103.4 55 100 61Z"/><path d="M94.5 62Q89 57.5 91.2 52Q95.8 55.5 96.4 61.4Z"/><path d="M105.5 62Q111 57.5 108.8 52Q104.2 55.5 103.6 61.4Z"/></g>';
+}
+function flagUS() {   // 10:19, 13 stripes, 50 stars in nine rows
+  let s = '<rect width="190" height="100" fill="#fff"/>'; const h = 100 / 13;
+  for (let k = 0; k < 13; k += 2) s += `<rect y="${(k * h).toFixed(3)}" width="190" height="${h.toFixed(3)}" fill="#b22234"/>`;
+  s += `<rect width="76" height="${(7 * h).toFixed(3)}" fill="#3c3b6e"/><g fill="#fff">`; const dy = 7 * h / 10, dx = 76 / 12;
+  for (let r = 0; r < 9; r++) for (let c = 0; c < (r % 2 ? 5 : 6); c++) s += star(dx * (r % 2 ? 2 * c + 2 : 2 * c + 1), dy * (r + 1), 2.45);
+  return s + "</g>";
+}
+function flag(kind, x, w, vb, inner) {
+  return `<g transform="translate(${x} 852)"><ellipse cx="60" cy="2" rx="92" ry="5" fill="#000" opacity=".3"/>
+    <rect class="pole ${kind}" x="-3.5" y="-240" width="7" height="240" rx="3.5" fill="#e6eaf2"/>
+    <g transform="translate(3 -236)"><g class="cloth ${kind}"><svg x="0" y="0" width="${w}" height="92" viewBox="${vb}" preserveAspectRatio="none">${inner}</svg>
+      <rect width="${w}" height="92" fill="url(#gCloth)"/><rect x="-2" y="-3" width="${w + 4}" height="5" rx="2.5" fill="#e6eaf2"/></g></g></g>`;
+}
+function astro(kind) {  // origin at the feet; shoulder patch = own flag, no agency logos
+  const patch = kind === "tj" ? '<rect x="-27" y="-73" width="10" height="2.2" fill="#cc0000"/><rect x="-27" y="-70.8" width="10" height="3.2" fill="#fff"/><rect x="-27" y="-67.6" width="10" height="2.2" fill="#006600"/>'
+    : '<rect x="-27" y="-73" width="10" height="7.6" fill="#fff"/><rect x="-27" y="-73" width="10" height="1.3" fill="#b22234"/><rect x="-27" y="-70.4" width="10" height="1.3" fill="#b22234"/><rect x="-27" y="-67.8" width="10" height="1.3" fill="#b22234"/><rect x="-27" y="-73" width="4.4" height="4" fill="#3c3b6e"/>';
+  return `<ellipse cx="46" cy="2" rx="58" ry="6" fill="#000" opacity=".3"/>
+   <g class="hop"><rect x="-20" y="-84" width="40" height="50" rx="9" fill="#9aa2b3"/>
+   <rect x="-15" y="-34" width="13" height="30" rx="5" fill="#eef1f6" stroke="#9aa3b5"/><rect x="2" y="-34" width="13" height="30" rx="5" fill="#eef1f6" stroke="#9aa3b5"/>
+   <rect x="-18" y="-8" width="18" height="9" rx="3.5" fill="#687083"/><rect x="0" y="-8" width="18" height="9" rx="3.5" fill="#687083"/>
+   <rect x="-17" y="-78" width="34" height="50" rx="11" fill="#f7f9fc" stroke="#9aa3b5"/>
+   <rect x="-8" y="-62" width="16" height="11" rx="2.5" fill="#39425a"/><circle cx="-3.5" cy="-56.5" r="1.6" fill="#ff6b6b"/><circle cx="3.5" cy="-56.5" r="1.6" fill="#4ade80"/>
+   <circle cx="0" cy="-42" r="4.2" fill="#0b1230" stroke="#ffc857" stroke-width="1.4"/>
+   <g class="arm ${kind === "tj" ? "la" : ""}"><rect x="-28" y="-76" width="11" height="33" rx="5.5" fill="#eef1f6" stroke="#9aa3b5"/></g>${patch}
+   <g class="arm ${kind === "us" ? "rb" : ""}"><rect x="17" y="-76" width="11" height="33" rx="5.5" fill="#eef1f6" stroke="#9aa3b5"/></g>
+   <circle cx="0" cy="-95" r="19" fill="#f7f9fc" stroke="#9aa3b5"/><ellipse cx="2" cy="-95" rx="13.5" ry="12" fill="url(#gVisor)"/>
+   <path d="M-6 -101q5 -6 12 -4" stroke="#fff" stroke-width="2.2" fill="none" opacity=".85" stroke-linecap="round"/></g>`;
+}
+function buildScene() {
+  const feet = (x0, dx, n, delay) => Array.from({ length: n }, (_, k) => `<ellipse class="foot" style="animation-delay:${(delay + .5 * (k + 1)).toFixed(2)}s" cx="${x0 + dx * (k + 1)}" cy="${860 + (k % 2) * 6}" rx="7" ry="2.4" fill="#000"/>`).join("");
+  $("#scene").innerHTML = `<svg viewBox="0 0 1920 1080" aria-label="A lander touches down, two astronauts plant the flags of Tajikistan and the United States">
+  <circle cx="150" cy="746" r="250" fill="url(#gSun)" opacity=".9"/>
+  <path d="M0 800V742C120 700 220 752 330 736S520 690 640 742S900 762 1000 748S1300 702 1420 744S1700 700 1920 730V800Z" fill="url(#gHills)"/>
+  <g transform="translate(1800 470)"><circle r="56" fill="url(#gEarth)"/><path d="M-32 -20q26 -18 54 -6q-22 2 -30 16q-14 2 -24 -10z" fill="#e8f6ff" opacity=".55"/><path d="M-12 22q20 6 40 -8q-8 18 -26 20z" fill="#e8f6ff" opacity=".4"/></g>
+  <path d="M0 794C300 772 520 802 760 792S1300 770 1920 788V1080H0Z" fill="url(#gGround)"/>
+  <g fill="#1a1d25" opacity=".55"><ellipse cx="300" cy="930" rx="150" ry="22"/><ellipse cx="1560" cy="960" rx="190" ry="26"/><ellipse cx="900" cy="1000" rx="120" ry="15"/><ellipse cx="1240" cy="905" rx="70" ry="9"/></g>
+  <g fill="none" stroke="#c9ced8" stroke-width="2" opacity=".35"><path d="M152 928a150 22 0 0 1 296 0"/><path d="M1372 958a190 26 0 0 1 376 0"/><path d="M1171 904a70 9 0 0 1 138 0"/></g>
+  ${feet(1005, -68, 4, 4.9)}${feet(1150, 52, 4, 5.5)}
+  ${flag("tj", 470, 184, "0 0 200 100", flagTJ())}${flag("us", 1470, 175, "0 0 190 100", flagUS())}
+  <ellipse class="dust fb" cx="1075" cy="850" rx="110" ry="26" fill="url(#gDust)" style="transform-origin:50% 50%"/>
+  <g transform="translate(1075 852)"><path d="M-70 -2L250 22L262 32L-50 8Z" fill="#000" opacity=".2"/>
+   <g class="lander"><g transform="scale(.8)">
+    <g class="mastg"><rect x="-3" y="-640" width="6" height="226" fill="#d5dbe7"/><rect x="-60" y="-700" width="120" height="64" rx="5" fill="#1d43a0" stroke="#ffc857" stroke-width="4"/>
+      <path d="M-30 -700v64M0 -700v64M30 -700v64M-60 -668h120" stroke="#6fa8ff" stroke-width="2"/></g>
+    <path class="flame" d="M-24 -46Q0 120 24 -46Z" fill="url(#gFlameV)"/>
+    <path d="M-40 -100L-94 -6M40 -100L94 -6M-28 -84L-70 -40M28 -84L70 -40" stroke="#aeb6c6" stroke-width="9" stroke-linecap="round"/>
+    <rect x="-116" y="-8" width="44" height="10" rx="5" fill="#7b8496"/><rect x="72" y="-8" width="44" height="10" rx="5" fill="#7b8496"/>
+    <path d="M-22 -80L-30 -44H30L22 -80Z" fill="#596173"/>
+    <path d="M-52 -80V-300Q-52 -372 0 -420Q52 -372 52 -300V-80Q0 -66 -52 -80Z" fill="url(#gHull)" stroke="#8b93a5" stroke-width="2"/>
+    <path d="M-42 -338Q-31 -388 0 -420Q31 -388 42 -338Q0 -326 -42 -338Z" fill="#e5484d"/>
+    <path d="M-52 -128Q0 -114 52 -128V-108Q0 -94 -52 -108Z" fill="#e5484d"/>
+    <circle cx="0" cy="-286" r="21" fill="#22304f"/><circle cx="0" cy="-286" r="15" fill="url(#gGlass)"/>
+    <rect x="-20" y="-218" width="40" height="68" rx="9" fill="#0b1020"/><rect class="door" x="-20" y="-218" width="40" height="68" rx="9" fill="#e3e8f1" stroke="#8b93a5" stroke-width="2"/>
+   </g></g></g>
+  <g transform="translate(1075 292)"><path class="glint fb" style="transform-origin:50% 50%" d="M0 -30L6 -6L30 0L6 6L0 30L-6 6L-30 0L-6 -6Z" fill="#fff6d6"/></g>
+  <g class="mlabel" font-family="inherit" font-size="20" font-weight="700" fill="#ffc857"><path d="M1128 306H1150" stroke="#ffc857" stroke-width="2"/><text x="1158" y="302">10 m mast:</text><text x="1158" y="328" font-weight="500" fill="#f1f4ff">panel in sunlight</text></g>
+  <g transform="translate(1005 856) scale(1.22)"><g class="astro a">${astro("tj")}</g></g>
+  <g transform="translate(1150 856) scale(1.22)"><g class="astro b">${astro("us")}</g></g>
+  </svg>`;
+}
+buildScene();
+const scene = { play() { const s = $("#scene"); s.classList.remove("go"); void s.offsetWidth; s.classList.add("go"); }, reset() { $("#scene").classList.remove("go"); } };
+
+/* ---------- navigation, Moon and rocket ---------- */
+const hooks = { 2: { enter: () => pano2.start(), leave: () => pano2.stop() }, 3: { enter: () => carousel.start(), leave: () => carousel.stop() },
+  5: { enter: () => { failedAt = null; pano5.t = 0; pano5.start(); }, leave: () => pano5.stop() }, 7: { enter: () => scene.play(), leave: () => scene.reset() } };
+const track = $("#track");
+LABELS.forEach((name, k) => { const x = 100 * k / (N - 1) + "%";
+  const b = document.createElement("button"); b.style.left = x; b.title = name; b.setAttribute("aria-label", "Slide " + (k + 1) + ": " + name); b.onclick = e => { e.stopPropagation(); go(k + 1); }; track.appendChild(b);
+  const l = document.createElement("div"); l.className = "lab"; l.style.left = x; l.textContent = name; track.appendChild(l); });
+let cur = 0;
+function fly(dir) {
+  if (STATIC) return;
+  warp = 1; warpDir = dir;
+  const m = dir > 0 ? "" : " scaleX(-1)", x = v => (dir > 0 ? v : 1920 - v) + "px";
+  $("#flyby").animate([
+    { transform: `translate(${x(-340)},980px)${m} rotate(-31deg) scale(.9)`, opacity: 1 },
+    { transform: `translate(${x(780)},520px)${m} rotate(-18deg) scale(1.3)`, opacity: 1, offset: .5 },
+    { transform: `translate(${x(2320)},130px)${m} rotate(-9deg) scale(.85)`, opacity: 1 }], { duration: 1400, easing: "cubic-bezier(.4,0,.25,1)" });
+}
+function go(n, first) {
+  n = Math.max(1, Math.min(N, n)); if (n === cur) return;
+  const prev = cur; cur = n;
+  slides.forEach((s, k) => { s.classList.toggle("active", k + 1 === cur); s.classList.toggle("before", k + 1 < cur); });
+  stage.dataset.slide = cur;
+  $$("button", track).forEach((b, k) => { b.classList.toggle("done", k + 1 < cur); b.classList.toggle("cur", k + 1 === cur); });
+  $$(".lab", track).forEach((l, k) => l.classList.toggle("cur", k + 1 === cur));
+  const pos = 100 * (cur - 1) / (N - 1) + "%"; $(".prog", track).style.width = pos; $(".mini", track).style.left = pos;
+  $("#nav .count").textContent = cur + " / " + N; $("#nav .next").style.visibility = cur === N ? "hidden" : "visible";
+  if (prev && hooks[prev]) hooks[prev].leave();
+  if (hooks[cur]) hooks[cur].enter();
+  if (prev || first) fly(n > prev ? 1 : -1);
+  try { history.replaceState(null, "", "#" + cur); } catch (e) { /* file:// in some browsers */ }
+}
+const next = () => (cur === N ? scene.play() : go(cur + 1)), back = () => go(cur - 1);
+$("#nav .next").onclick = e => { e.stopPropagation(); next(); }; $("#nav .prev").onclick = e => { e.stopPropagation(); back(); };
+stage.addEventListener("click", e => { if (!e.target.closest("a,button")) next(); });
+let autoTimer = null;
+function auto() { if (autoTimer) { clearInterval(autoTimer); autoTimer = null; } else autoTimer = setInterval(() => { if (cur < N) go(cur + 1); else { clearInterval(autoTimer); autoTimer = null; $("#auto").style.display = "none"; } }, 11000);
+  $("#auto").style.display = autoTimer ? "block" : "none"; }
+addEventListener("keydown", e => {
+  if (e.metaKey || e.ctrlKey || e.altKey) return;
+  const k = e.key;
+  if (["ArrowRight", "PageDown", " ", "Enter", "ArrowDown"].includes(k)) { e.preventDefault(); next(); }
+  else if (["ArrowLeft", "PageUp", "Backspace", "ArrowUp"].includes(k)) { e.preventDefault(); back(); }
+  else if (k === "Home") go(1); else if (k === "End") go(N);
+  else if (k === "r" || k === "R") { if (cur === N) scene.play(); }
+  else if (k === "a" || k === "A") auto();
+  else if (k === "f" || k === "F") { document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen && document.documentElement.requestFullscreen(); }
+  else if (/^[1-7]$/.test(k)) go(+k);
+});
+let touchX = null;
+addEventListener("touchstart", e => { touchX = e.touches[0].clientX; }, { passive: true });
+addEventListener("touchend", e => { if (touchX == null) return; const dx = e.changedTouches[0].clientX - touchX; touchX = null; if (Math.abs(dx) > 50) (dx < 0 ? next : back)(); }, { passive: true });
+function fit() { stage.style.transform = `scale(${Math.min(innerWidth / 1920, innerHeight / 1080)})`; }
+addEventListener("resize", fit); fit();
+window.__errors = []; addEventListener("error", e => window.__errors.push(String(e.message)));
+const startAt = Math.max(1, Math.min(N, parseInt(location.hash.slice(1) || Q.get("slide") || "1", 10) || 1));
+const begin = () => go(startAt, startAt === 1);
+(document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(() => (STATIC ? begin() : setTimeout(begin, 120)));
+window.__ready = () => cur > 0 && $$("img").every(im => im.complete);
+</script>
+</body>
+</html>
